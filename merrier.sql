@@ -600,7 +600,7 @@ CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
   `comment_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
   `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_commentmeta` (`meta_id`, `comment_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, 'akismet_result', 'false'),
@@ -628,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `wp_comments` (
   `comment_parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `comment_mail_notify` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_comments` (`comment_ID`, `comment_post_ID`, `comment_author`, `comment_author_email`, `comment_author_url`, `comment_author_IP`, `comment_date`, `comment_date_gmt`, `comment_content`, `comment_karma`, `comment_approved`, `comment_agent`, `comment_type`, `comment_parent`, `user_id`, `comment_mail_notify`) VALUES
 (1, 1, '一位WordPress评论者', 'wapuu@wordpress.example', 'https://wordpress.org/', '', '2017-03-13 21:57:02', '2017-03-13 13:57:02', '嗨，这是一条评论。\n要开始审核、编辑及删除评论，请访问仪表盘的“评论”页面。\n评论者头像来自<a href=\"https://gravatar.com\">Gravatar</a>。', 0, '1', '', '', 0, 0, 0),
@@ -650,7 +650,7 @@ CREATE TABLE IF NOT EXISTS `wp_ewwwio_images` (
   `updates` int(5) UNSIGNED DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT '1970-12-31 16:00:00' ON UPDATE CURRENT_TIMESTAMP,
   `trace` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_ewwwio_images` (`id`, `attachment_id`, `gallery`, `resize`, `path`, `converted`, `results`, `image_size`, `orig_size`, `backup`, `level`, `pending`, `updates`, `updated`, `trace`) VALUES
 (1, 230, 'media', 'full', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/QQ20170318-180820@2x.png', '', 'Reduced by 54.3% (72.2&nbsp;KB)', 62301, 136183, '', NULL, 0, 1, '2017-03-18 02:09:51', NULL),
@@ -763,7 +763,7 @@ CREATE TABLE IF NOT EXISTS `wp_links` (
   `link_rel` varchar(255)  NOT NULL DEFAULT '',
   `link_notes` mediumtext  NOT NULL,
   `link_rss` varchar(255)  NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_target`, `link_description`, `link_visible`, `link_owner`, `link_rating`, `link_updated`, `link_rel`, `link_notes`, `link_rss`) VALUES
 (1, 'http://www.w3school.com.cn/', 'W3C官网', '', '_blank', 'w3c的官网，内容比较全，有各种语言的入门教程', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', ''),
@@ -809,7 +809,7 @@ CREATE TABLE IF NOT EXISTS `wp_options` (
   `option_name` varchar(191)  NOT NULL DEFAULT '',
   `option_value` longtext  NOT NULL,
   `autoload` varchar(20)  NOT NULL DEFAULT 'yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
 (1, 'siteurl', 'http://merrier.bug', 'yes'),
@@ -1122,7 +1122,7 @@ CREATE TABLE IF NOT EXISTS `wp_postmeta` (
   `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
   `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, '_wp_page_template', 'default'),
@@ -1573,7 +1573,7 @@ CREATE TABLE IF NOT EXISTS `wp_posts` (
   `post_type` varchar(20)  NOT NULL DEFAULT 'post',
   `post_mime_type` varchar(100)  NOT NULL DEFAULT '',
   `comment_count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2017-03-13 21:57:02', '2017-03-13 13:57:02', '其实有个自己的网站的想法已经很久了，从上大学的时候，网站就开始逐渐兴起，也看到了好多有意思的网站，在惊羡他们的设计和创意的同时，也萌生了一个小冲动：我什么时候有个自己的网站？\r\n\r\n当然，此时的我还是一个完完全全的low货，三年衡中经历除了让我脸皮变厚、性格变坚强之外，似乎一无所长（当然，后来发现，其实衡中给予我的远远不止这些），而且经历了一次高考的失败之后，就对学习这种事情失去了兴趣，然后大学四年就在游戏和睡觉中度过了。\r\n\r\n而经历了一系列波折之后，大学毕业的时候还是选择了考研，当时做这个决定的时候不得不承认是有跟风的嫌疑的，但是更重要的是觉得不考研找不到工作啊！和室友们从9月份开学之后开始复习考研（当时是感觉有点晚了，但是我和我的舍友都是吊炸天的那种，所以也并没有心虚？），最后经历了3个多月“魔鬼”般的复习之后，考了374分，在当时不算高但也不算低了。\r\n\r\n考过研的人应该知道，出分了并不是大学生涯的结束，还得做毕设呢，然后歪打正着的就开始做“龙马部落”（其实就是一个wiki网站），这也是我和前端缘分的开始。\r\n\r\n本科毕设其实蛮水的，稍微应付一下就过了，但是由于我毕设经历的原因，我经导师推荐，被安排到一家创业公司工作（<a href=\"http://www.meezao.com/\" target=\"_blank\">蜜枣网</a>)。\r\n\r\n蜜枣网是2014年创办的（应该是），主要做零售业数据精确营销的，但是公司正式员工是没有前端leader的，所以在进公司实习之后基本上属于自学（在此感谢田博和楠哥两位前辈在我进公司之初的指导），在具备了一些前端基础知识之后，当初的那个小冲动又涌上心头。\r\n\r\n之所以决定要做个人博客，是因为看到了很多大牛的博客，<a href=\"http://www.liaoxuefeng.com/\" target=\"_blank\">廖雪峰</a>，<a href=\"http://www.zhangxinxu.com/\" target=\"_blank\">张鑫旭</a>，<a href=\"http://www.ruanyifeng.com/home.html\" target=\"_blank\">阮一峰</a>，<a href=\"http://www.yanshiba.com/\" target=\"_blank\">燕十八</a>，空闲之余会翻一翻他们的博客，看看当前一些比较新的技术和前端一些代码技巧（最近看张鑫旭看的比较多），感觉个人博客的话在知识积累的方面会更加出色（相比微信公众号？），同时还可以看到其他人的评论，对自己的成长也是个帮助。\r\n\r\n后来决定要做个人博客之后，开始尝试着自己写网站了，大概是这样的：\r\n<img class=\"alignnone wp-image-19\" src=\"http://merrier.com/wp-content/uploads/2017/03/QQ20170314-113922@2x-300x148.png\" alt=\"\" width=\"685\" height=\"338\" />\r\n\r\n其实一开始小算盘打得挺好的，打算搞一个纯前端的展示型博客，用github.io托管，然而当我去看教程的时候才发现便宜没好货（况且还是免费的），如果用github.io，必须根目录下有一个index.html文件，这对于我的目录结构可是一个巨大的挑战啊，所以最终自己写网站的这个念想就中止了。\r\n\r\n然后就打算用现成的模板了，当前最著名的莫属wordpress了，同时我也看到好多同学用wordpress搭了自己的博客，整体上感觉还不错，所以最后决定用wordpress搭了。', 'Merrier的淘宝小屋？', '', 'publish', 'open', 'open', '', 'first_page', '', '', '2017-03-18 10:28:05', '2017-03-18 02:28:05', '', 0, 'http://merrier.com/?p=1', 0, 'post', '', 1),
@@ -1869,14 +1869,14 @@ CREATE TABLE IF NOT EXISTS `wp_termmeta` (
   `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
   `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 CREATE TABLE IF NOT EXISTS `wp_terms` (
   `term_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(200)  NOT NULL DEFAULT '',
   `slug` varchar(200)  NOT NULL DEFAULT '',
   `term_group` bigint(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (1, '其他', 'uncategorized', 0),
@@ -1936,7 +1936,7 @@ CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
   `object_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `term_order` int(11) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1, 9, 0),
@@ -2076,7 +2076,7 @@ CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
   `description` longtext  NOT NULL,
   `parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 0),
@@ -2137,7 +2137,7 @@ CREATE TABLE IF NOT EXISTS `wp_usermeta` (
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
   `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (1, 1, 'nickname', 'merrier'),
@@ -2210,7 +2210,7 @@ CREATE TABLE IF NOT EXISTS `wp_users` (
   `user_activation_key` varchar(255)  NOT NULL DEFAULT '',
   `user_status` int(11) NOT NULL DEFAULT '0',
   `display_name` varchar(250)  NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_520_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'merrier', '$P$B7Z2.rScyvLtp86LEfr8VE4RT7Ad6R.', 'merrier', '953075999@qq.com', '', '2017-03-13 13:57:02', '1489896755:$P$B/Kg5XGuA3UW8.gxedBboVQvJBjKn5/', 0, 'merrier'),
