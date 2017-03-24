@@ -7,26 +7,34 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_authors`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_authors` (
   `name` varchar(80) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `url` varchar(200) DEFAULT NULL,
   `attributes` int(4) NOT NULL DEFAULT '0',
   `guid` varchar(16) DEFAULT NULL,
-  `id` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(10) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `guid` (`guid`),
+  KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_cjtoolbox_authors` (`name`, `email`, `url`, `attributes`, `guid`, `id`) VALUES
 ('Wordpress', NULL, NULL, 1, NULL, 1);
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_backups`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_backups` (
   `name` varchar(50) DEFAULT NULL,
   `type` varchar(20) NOT NULL DEFAULT 'blocks',
   `owner` int(11) NOT NULL,
   `created` datetime NOT NULL,
-  `id` int(11) NOT NULL
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_blocks`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_blocks` (
   `name` varchar(50) DEFAULT NULL,
   `description` varchar(300) DEFAULT NULL,
@@ -43,58 +51,79 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_blocks` (
   `parent` int(11) DEFAULT NULL,
   `flag` int(4) NOT NULL DEFAULT '0',
   `masterFile` int(4) NOT NULL DEFAULT '1',
-  `id` int(11) NOT NULL
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`backupId`),
+  KEY `pinPoint` (`pinPoint`,`state`,`location`,`type`,`parent`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_block_files`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_files` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `blockId` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `type` enum('css','javascript','php','html') DEFAULT NULL,
   `description` varchar(400) DEFAULT NULL,
   `code` text,
   `order` smallint(6) DEFAULT '0',
-  `tag` text
+  `tag` text,
+  PRIMARY KEY (`id`,`blockId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_block_pins`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_pins` (
   `blockId` int(11) NOT NULL,
   `pin` varchar(20) NOT NULL,
   `value` int(11) NOT NULL,
-  `attributes` int(4) NOT NULL DEFAULT '0'
+  `attributes` int(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`blockId`,`pin`,`value`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_block_templates`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_templates` (
   `blockId` int(11) NOT NULL,
-  `templateId` int(11) NOT NULL
+  `templateId` int(11) NOT NULL,
+  PRIMARY KEY (`blockId`,`templateId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_forms`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_forms` (
   `blockId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `name` varchar(100) NOT NULL COMMENT 'Form name/title',
-  `groupType` varchar(20) NOT NULL COMMENT 'parameters gooup type (tab, accordion, etc...)'
+  `groupType` varchar(20) NOT NULL COMMENT 'parameters gooup type (tab, accordion, etc...)',
+  PRIMARY KEY (`blockId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_form_groups`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_groups` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `formId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `name` varchar(100) NOT NULL COMMENT 'group name/title',
-  `description` text COMMENT 'Parameters group description'
+  `description` text COMMENT 'Parameters group description',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Index 3` (`formId`,`name`),
+  KEY `formId` (`formId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_form_group_parameters`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_group_parameters` (
-  `groupId` int(11) NOT NULL,
+  `groupId` int(11) NOT NULL AUTO_INCREMENT,
   `parameterId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `renderer` varchar(30) DEFAULT NULL,
   `description` text,
-  `helpText` varchar(200) DEFAULT NULL
+  `helpText` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`parameterId`),
+  KEY `Index 2` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_form_group_xfields`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_group_xfields` (
   `groupId` int(11) NOT NULL,
-  `text` text
+  `text` text,
+  UNIQUE KEY `groupId` (`groupId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_packages`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_packages` (
   `name` varchar(100) NOT NULL,
   `author` varchar(150) NOT NULL,
@@ -102,41 +131,56 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_packages` (
   `description` text NOT NULL,
   `license` text NOT NULL,
   `readme` text NOT NULL,
-  `id` int(11) NOT NULL
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_package_objects`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_package_objects` (
   `packageId` int(10) UNSIGNED NOT NULL,
   `objectId` int(10) UNSIGNED NOT NULL,
   `objectType` enum('block','template') NOT NULL,
-  `relType` enum('add','link') NOT NULL DEFAULT 'add'
+  `relType` enum('add','link') NOT NULL DEFAULT 'add',
+  PRIMARY KEY (`packageId`,`objectId`,`objectType`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_parameters`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameters` (
-  `id` int(11) UNSIGNED NOT NULL COMMENT 'paramter unique identifier',
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'paramter unique identifier',
   `blockId` int(11) UNSIGNED NOT NULL,
   `parent` int(11) UNSIGNED DEFAULT NULL,
   `name` varchar(60) NOT NULL,
   `type` varchar(20) NOT NULL,
   `defaultValue` text,
   `required` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  `contentParam` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
+  `contentParam` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`parent`,`blockId`),
+  KEY `parent` (`parent`),
+  KEY `blockId` (`blockId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_parameter_typedef`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameter_typedef` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `parameterId` int(11) NOT NULL,
   `text` text NOT NULL,
-  `value` text NOT NULL
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parameterId` (`parameterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_parameter_typeparams`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameter_typeparams` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `parameterId` int(11) NOT NULL,
   `name` text NOT NULL,
-  `value` text NOT NULL
+  `value` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parameterId` (`parameterId`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_templates`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_templates` (
   `name` varchar(80) NOT NULL,
   `queueName` varchar(80) NOT NULL,
@@ -152,8 +196,16 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_templates` (
   `state` enum('published','draft','trash') NOT NULL DEFAULT 'published',
   `attributes` int(4) NOT NULL DEFAULT '0',
   `guid` varchar(16) DEFAULT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`,`type`),
+  UNIQUE KEY `guid` (`guid`),
+  KEY `keywords` (`keywords`),
+  KEY `owner` (`ownerId`),
+  KEY `author` (`authorId`),
+  KEY `type` (`type`),
+  KEY `attributes` (`attributes`)
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_cjtoolbox_templates` (`name`, `queueName`, `description`, `keywords`, `license`, `type`, `email`, `url`, `creationDate`, `ownerId`, `authorId`, `state`, `attributes`, `guid`, `id`) VALUES
 ('Utils', 'utils', NULL, NULL, NULL, 'javascript', NULL, NULL, '2017-03-17 21:58:11', 1, 1, 'published', 1, NULL, 1),
@@ -369,6 +421,7 @@ INSERT INTO `wp_cjtoolbox_templates` (`name`, `queueName`, `description`, `keywo
 ('Colors fresh', 'colors-fresh', NULL, NULL, NULL, 'css', NULL, NULL, '2017-03-17 21:58:12', 1, 1, 'published', 1, NULL, 211),
 ('Open sans', 'open-sans', NULL, NULL, NULL, 'css', NULL, NULL, '2017-03-17 21:58:12', 1, 1, 'published', 1, NULL, 212);
 
+DROP TABLE IF EXISTS `wp_cjtoolbox_template_revisions`;
 CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_template_revisions` (
   `templateId` int(11) NOT NULL,
   `revisionNo` int(11) NOT NULL DEFAULT '0',
@@ -378,8 +431,10 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_template_revisions` (
   `attributes` int(4) UNSIGNED NOT NULL DEFAULT '1',
   `dateCreated` datetime NOT NULL,
   `file` varchar(400) DEFAULT NULL,
-  `id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `templateid-revisionNo` (`revisionNo`,`templateId`)
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_cjtoolbox_template_revisions` (`templateId`, `revisionNo`, `version`, `changeLog`, `state`, `attributes`, `dateCreated`, `file`, `id`) VALUES
 (1, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:11', '/wp-includes/js/utils.min.js', 1),
@@ -595,12 +650,16 @@ INSERT INTO `wp_cjtoolbox_template_revisions` (`templateId`, `revisionNo`, `vers
 (211, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:12', '', 211),
 (212, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:12', '', 212);
 
+DROP TABLE IF EXISTS `wp_commentmeta`;
 CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
+  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `comment_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext ,
+  PRIMARY KEY (`meta_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_commentmeta` (`meta_id`, `comment_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, 'akismet_result', 'false'),
@@ -611,8 +670,9 @@ INSERT INTO `wp_commentmeta` (`meta_id`, `comment_id`, `meta_key`, `meta_value`)
 (6, 1, 'wpdiscuz_votes', '0'),
 (7, 1, 'wpdiscuz_child_ids', '');
 
+DROP TABLE IF EXISTS `wp_comments`;
 CREATE TABLE IF NOT EXISTS `wp_comments` (
-  `comment_ID` bigint(20) UNSIGNED NOT NULL,
+  `comment_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `comment_post_ID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `comment_author` tinytext  NOT NULL,
   `comment_author_email` varchar(100)  NOT NULL DEFAULT '',
@@ -627,15 +687,22 @@ CREATE TABLE IF NOT EXISTS `wp_comments` (
   `comment_type` varchar(20)  NOT NULL DEFAULT '',
   `comment_parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `comment_mail_notify` tinyint(4) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `comment_mail_notify` tinyint(4) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`comment_ID`),
+  KEY `comment_post_ID` (`comment_post_ID`),
+  KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
+  KEY `comment_date_gmt` (`comment_date_gmt`),
+  KEY `comment_parent` (`comment_parent`),
+  KEY `comment_author_email` (`comment_author_email`(10))
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_comments` (`comment_ID`, `comment_post_ID`, `comment_author`, `comment_author_email`, `comment_author_url`, `comment_author_IP`, `comment_date`, `comment_date_gmt`, `comment_content`, `comment_karma`, `comment_approved`, `comment_agent`, `comment_type`, `comment_parent`, `user_id`, `comment_mail_notify`) VALUES
 (1, 1, '一位WordPress评论者', 'wapuu@wordpress.example', 'https://wordpress.org/', '', '2017-03-13 21:57:02', '2017-03-13 13:57:02', '嗨，这是一条评论。\n要开始审核、编辑及删除评论，请访问仪表盘的“评论”页面。\n评论者头像来自<a href=\"https://gravatar.com\">Gravatar</a>。', 0, '1', '', '', 0, 0, 0),
 (2, 204, 'merrier', '953075999@qq.com', '', '127.0.0.1', '2017-03-18 11:25:15', '2017-03-18 03:25:15', '测试', 0, '1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', 0, 1, 1);
 
+DROP TABLE IF EXISTS `wp_ewwwio_images`;
 CREATE TABLE IF NOT EXISTS `wp_ewwwio_images` (
-  `id` int(14) UNSIGNED NOT NULL,
+  `id` int(14) UNSIGNED NOT NULL AUTO_INCREMENT,
   `attachment_id` bigint(20) UNSIGNED DEFAULT NULL,
   `gallery` varchar(10)  DEFAULT NULL,
   `resize` varchar(75)  DEFAULT NULL,
@@ -649,8 +716,11 @@ CREATE TABLE IF NOT EXISTS `wp_ewwwio_images` (
   `pending` tinyint(1) NOT NULL DEFAULT '0',
   `updates` int(5) UNSIGNED DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT '1970-12-31 16:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `trace` blob
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `trace` blob,
+  UNIQUE KEY `id` (`id`),
+  KEY `path_image_size` (`path`(191),`image_size`),
+  KEY `attachment_info` (`gallery`(3),`attachment_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_ewwwio_images` (`id`, `attachment_id`, `gallery`, `resize`, `path`, `converted`, `results`, `image_size`, `orig_size`, `backup`, `level`, `pending`, `updates`, `updated`, `trace`) VALUES
 (1, 230, 'media', 'full', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/QQ20170318-180820@2x.png', '', 'Reduced by 54.3% (72.2&nbsp;KB)', 62301, 136183, '', NULL, 0, 1, '2017-03-18 02:09:51', NULL),
@@ -749,8 +819,9 @@ INSERT INTO `wp_ewwwio_images` (`id`, `attachment_id`, `gallery`, `resize`, `pat
 (94, 297, 'media', 'thumbnail', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/JS入门-150x135.jpg', '', 'Reduced by 5.1% (286.0&nbsp;B)', 5360, 5646, '', NULL, 0, 1, '2017-03-22 05:31:25', NULL),
 (95, 297, 'media', 'post-thumbnail', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/JS入门-220x135.jpg', '', 'Reduced by 4.7% (337.0&nbsp;B)', 6807, 7144, '', NULL, 0, 1, '2017-03-22 05:31:25', NULL);
 
+DROP TABLE IF EXISTS `wp_links`;
 CREATE TABLE IF NOT EXISTS `wp_links` (
-  `link_id` bigint(20) UNSIGNED NOT NULL,
+  `link_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `link_url` varchar(255)  NOT NULL DEFAULT '',
   `link_name` varchar(255)  NOT NULL DEFAULT '',
   `link_image` varchar(255)  NOT NULL DEFAULT '',
@@ -762,8 +833,10 @@ CREATE TABLE IF NOT EXISTS `wp_links` (
   `link_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `link_rel` varchar(255)  NOT NULL DEFAULT '',
   `link_notes` mediumtext  NOT NULL,
-  `link_rss` varchar(255)  NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `link_rss` varchar(255)  NOT NULL DEFAULT '',
+  PRIMARY KEY (`link_id`),
+  KEY `link_visible` (`link_visible`)
+) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_target`, `link_description`, `link_visible`, `link_owner`, `link_rating`, `link_updated`, `link_rel`, `link_notes`, `link_rss`) VALUES
 (1, 'http://www.w3school.com.cn/', 'W3C官网', '', '_blank', 'w3c的官网，内容比较全，有各种语言的入门教程', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', ''),
@@ -804,12 +877,15 @@ INSERT INTO `wp_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_
 (36, 'http://tool.oschina.net/apidocs', '常用API文档索引', '', '_blank', '有好多API文档的索引，包括apache、android、bootstrap等等', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', ''),
 (37, 'https://www.zhihu.com/question/22864602', '知乎推荐插件', '', '_blank', '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', '');
 
+DROP TABLE IF EXISTS `wp_options`;
 CREATE TABLE IF NOT EXISTS `wp_options` (
-  `option_id` bigint(20) UNSIGNED NOT NULL,
+  `option_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `option_name` varchar(191)  NOT NULL DEFAULT '',
   `option_value` longtext  NOT NULL,
-  `autoload` varchar(20)  NOT NULL DEFAULT 'yes'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `autoload` varchar(20)  NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`option_id`),
+  UNIQUE KEY `option_name` (`option_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=1613 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
 (1, 'siteurl', 'http://merrier.bug', 'yes'),
@@ -1117,12 +1193,16 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (1609, 'wordfence_syncingAttackData', '0', 'no'),
 (1610, 'wordfence_lastSyncAttackData', '1490326368', 'no');
 
+DROP TABLE IF EXISTS `wp_postmeta`;
 CREATE TABLE IF NOT EXISTS `wp_postmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
+  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext ,
+  PRIMARY KEY (`meta_id`),
+  KEY `post_id` (`post_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB AUTO_INCREMENT=791 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, '_wp_page_template', 'default'),
@@ -1549,8 +1629,9 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (775, 296, 'views', '0'),
 (776, 296, '_my_custom_css', '');
 
+DROP TABLE IF EXISTS `wp_posts`;
 CREATE TABLE IF NOT EXISTS `wp_posts` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
+  `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `post_date_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1572,8 +1653,13 @@ CREATE TABLE IF NOT EXISTS `wp_posts` (
   `menu_order` int(11) NOT NULL DEFAULT '0',
   `post_type` varchar(20)  NOT NULL DEFAULT 'post',
   `post_mime_type` varchar(100)  NOT NULL DEFAULT '',
-  `comment_count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `comment_count` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `post_name` (`post_name`(191)),
+  KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
+  KEY `post_parent` (`post_parent`),
+  KEY `post_author` (`post_author`)
+) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2017-03-13 21:57:02', '2017-03-13 13:57:02', '其实有个自己的网站的想法已经很久了，从上大学的时候，网站就开始逐渐兴起，也看到了好多有意思的网站，在惊羡他们的设计和创意的同时，也萌生了一个小冲动：我什么时候有个自己的网站？\r\n\r\n当然，此时的我还是一个完完全全的low货，三年衡中经历除了让我脸皮变厚、性格变坚强之外，似乎一无所长（当然，后来发现，其实衡中给予我的远远不止这些），而且经历了一次高考的失败之后，就对学习这种事情失去了兴趣，然后大学四年就在游戏和睡觉中度过了。\r\n\r\n而经历了一系列波折之后，大学毕业的时候还是选择了考研，当时做这个决定的时候不得不承认是有跟风的嫌疑的，但是更重要的是觉得不考研找不到工作啊！和室友们从9月份开学之后开始复习考研（当时是感觉有点晚了，但是我和我的舍友都是吊炸天的那种，所以也并没有心虚？），最后经历了3个多月“魔鬼”般的复习之后，考了374分，在当时不算高但也不算低了。\r\n\r\n考过研的人应该知道，出分了并不是大学生涯的结束，还得做毕设呢，然后歪打正着的就开始做“龙马部落”（其实就是一个wiki网站），这也是我和前端缘分的开始。\r\n\r\n本科毕设其实蛮水的，稍微应付一下就过了，但是由于我毕设经历的原因，我经导师推荐，被安排到一家创业公司工作（<a href=\"http://www.meezao.com/\" target=\"_blank\">蜜枣网</a>)。\r\n\r\n蜜枣网是2014年创办的（应该是），主要做零售业数据精确营销的，但是公司正式员工是没有前端leader的，所以在进公司实习之后基本上属于自学（在此感谢田博和楠哥两位前辈在我进公司之初的指导），在具备了一些前端基础知识之后，当初的那个小冲动又涌上心头。\r\n\r\n之所以决定要做个人博客，是因为看到了很多大牛的博客，<a href=\"http://www.liaoxuefeng.com/\" target=\"_blank\">廖雪峰</a>，<a href=\"http://www.zhangxinxu.com/\" target=\"_blank\">张鑫旭</a>，<a href=\"http://www.ruanyifeng.com/home.html\" target=\"_blank\">阮一峰</a>，<a href=\"http://www.yanshiba.com/\" target=\"_blank\">燕十八</a>，空闲之余会翻一翻他们的博客，看看当前一些比较新的技术和前端一些代码技巧（最近看张鑫旭看的比较多），感觉个人博客的话在知识积累的方面会更加出色（相比微信公众号？），同时还可以看到其他人的评论，对自己的成长也是个帮助。\r\n\r\n后来决定要做个人博客之后，开始尝试着自己写网站了，大概是这样的：\r\n<img class=\"alignnone wp-image-19\" src=\"http://merrier.com/wp-content/uploads/2017/03/QQ20170314-113922@2x-300x148.png\" alt=\"\" width=\"685\" height=\"338\" />\r\n\r\n其实一开始小算盘打得挺好的，打算搞一个纯前端的展示型博客，用github.io托管，然而当我去看教程的时候才发现便宜没好货（况且还是免费的），如果用github.io，必须根目录下有一个index.html文件，这对于我的目录结构可是一个巨大的挑战啊，所以最终自己写网站的这个念想就中止了。\r\n\r\n然后就打算用现成的模板了，当前最著名的莫属wordpress了，同时我也看到好多同学用wordpress搭了自己的博客，整体上感觉还不错，所以最后决定用wordpress搭了。', 'Merrier的淘宝小屋？', '', 'publish', 'open', 'open', '', 'first_page', '', '', '2017-03-18 10:28:05', '2017-03-18 02:28:05', '', 0, 'http://merrier.com/?p=1', 0, 'post', '', 1),
@@ -1864,19 +1950,27 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (303, 1, '2017-03-24 11:09:13', '2017-03-24 03:09:13', '<h1>2017-3-16</h1>\r\n<h2>461-<a href=\"https://leetcode.com/problems/hamming-distance/#/description\" target=\"_blank\">Hamming distance</a></h2>\r\n我的想法：一开始还想怎么取余，后来才发现js里也有取余运算符，就是\"^\"，然后我就想是不是可以将取余之后的数遍历相加，其实结果是正确的，但是有点太死板了\r\n\r\n理想答案：将0用\"\"replace，然后取新字符串的长度；同时学到的是，原来js的toString()方法中的参数是进制，之前一直都不知道我擦。。java解法：<a href=\"http://www.cnblogs.com/grandyang/p/6201215.html\" target=\"_blank\">戳我一下</a>\r\n<h1>2017-3-17</h1>\r\n<h2>476-<a href=\"https://leetcode.com/problems/number-complement/#/description\">Number Complement</a></h2>\r\n我的想法：这道题看上去很简单，主要思路依然是取余操作，以数字5为例，二进制表示为“101”，其结果应该为“101”^“111”，也就是数字和相同位数的“全1”二进制数的取余，然后问题就是如何确定这个位数，我的想法是用Math.ceil(Math.log(num)/Math.log(2))，这样就可以取到位数了，但是取到位数之后还要取2得对数，这怎么求？\r\n\r\n理想答案：其实取位数不需要那么复杂，直接num.toString(2).length就可以了，然后查了一下，js中Math有pow(x,y)方法，可以计算x为底，y为幂的指数，这样就可以了。\r\n<h2>339-Nested List Weight Sum</h2>\r\n加锁了，没钱\r\n<h2>500-<a href=\"https://leetcode.com/problems/keyboard-row/#/description\" target=\"_blank\">Keyboard Row</a></h2>\r\n我的想法：一开始打算设置三个数组，然后再写个方法，对数组中的每个元素遍历执行该方法，但是想想都麻烦啊靠\r\n\r\n理想答案：果不其然，正则表达式万能无敌出人意料和意料之中\r\n<h1>2017-3-21</h1>\r\n<h2>359-Logger Rate Limiter</h2>\r\n加锁了\r\n<h2>412-Fizz Buzz</h2>\r\n其实这道题在日常写代码中经常碰到，就是整除的问题，然而如何更快更简单的得出答案却很难，如果用js的话，我确实没想到什么好的办法\r\n\r\n我的想法：先声明一个空数组，然后对空数组进行循环赋值，对i的值进行判断，当能整除15时就是\"FizzBuzz\"，以此类推，但是需要注意的是数组下标从零开始，某些值可能会需要-1或者+1\r\n\r\n理想答案：没有找到关于js的理想答案，但是看排名第一的java答案，发现其实可以不用\"%\"也可以\r\n\r\n<img class=\"alignnone wp-image-283\" src=\"http://merrier.com/wp-content/uploads/2017/03/QQ20170321-111445@2x-294x300.png\" alt=\"\" width=\"407\" height=\"415\" />\r\n\r\n关于这一经典问题，还有一些扩展问题，可以<a href=\"http://www.cnblogs.com/inday/p/my-object-C-sharp-fizzbuzzwhizz.html\" target=\"_blank\">点击这里</a>查看）\r\n<h2>344-Reverse String</h2>\r\n字符串翻转问题\r\n\r\n我的想法：因为字符串在js中也有一些数组的属性，所以很容易进行遍历赋值\r\n\r\n理想答案：没找到关于js的\r\n<h2>346-Moving Average from Data Stream</h2>\r\n加锁了\r\n<h2>496-Next Greater Element I</h2>\r\n我的想法：就是按照题目所说的进行遍历判断，然而我看提示是stack，但是我仍然没有想到更好的用stack实现的方案，而看过网上的解法之后感觉js好像没有办法实现线性复杂度的解法\r\n\r\n理想答案：使用栈，从后往前遍历nums[i]，每当栈不为空的时候，一直出栈直到遇到比nums[i]大的数字停止。设立一个map&lt;int, int&gt; m，存储nums中每一个元素以及它对应的下一个最大元素构成的映射。如果停止后栈为空就将m[nums[i]]标记为-1，否则就写栈的栈顶元素；最后将findNums中出现的每一个元素对应的map的值放入result数组中返回\r\n<h2>463-Island Perimeter</h2>\r\n我的想法：直接遍历，然后考虑所有情况进行判断加几，应该可以求出来，只不过并没有发现其中的规律\r\n\r\n理想答案：其实规律很好发现，可以将“陆地”加入的过程分解开一步一步看，就会发现其中的规律，可以根据陆地的上面一格和左边一格有没有陆地来进行区分，如果有，就是在加了4条边的基础上再减去两条边，因为有两条边重合了，导致减少了两条边\r\n<h2>266-Palindrome Permutation</h2>\r\n为什么加锁的题这么多\r\n<h2>292-Nim Game</h2>\r\n我承认这是我第一次和理想答案一样，所以就不分开描述了，其实举几个例子就能发现其中的规律了，因为这道题的前提是你先走，而且你和对方都可以走1到3步，所以加入像他说的那样，最后剩4个了然后你先走的话，你肯定不会赢；而迭代之后就是，只要n不是4的倍数，你就可以在行动完之后让剩下的棋子是4的倍数然后让对方先走，这样你就可以保证最后剩下4个棋子的时候让对方先走。所以，只要一开始棋子的个数就是4的倍数的话，你就没有办法赢，因为对方也会采取最优策略。\r\n<h2>485-Max Consecutive Ones</h2>\r\n这个应该是简化版的最长子序列问题吧\r\n\r\n我的想法：有一个存储结果值的变量result（初始值为0），还有一个变量相当于计数器num（初始值为0），对数组进行遍历，遇到1就将计数器加1，遇到0的话先将结果值赋值为Math.max(result,num)；最后需要注意的是返回的仍然是Math.max(result,num)，因为需要考虑输入为单纯的1或0时；\r\n\r\n理想答案：果然java大神多啊，其实思路差不多，只不过可以将其简化一下而已\r\n<h2>293-Flip Game</h2>\r\n锁\r\n<h2>136-Single Number</h2>\r\n重点是线性复杂度，不能有额外内存占用\r\n\r\n我的想法：我的想法过于复杂（复杂度应该是指数级的），看提示是哈希表和二进制，但是二进制我想到的是异或，哈希表就不知道怎么用js实现了\r\n\r\n理想答案：知道答案的我泪流满面，因为<strong>异或运算是可交换的，而且A XOR A = 0</strong>，所以对于实例{2,1,4,5,2,4,1}就会有这样的结果：\r\n<pre><code>(2^1^4^5^2^4^1) =&gt; ((2^2)^(1^1)^(4^4)^(5)) =&gt; (0^0^0^5) =&gt; 5</code></pre>\r\n就把只出现了一次的元素给找出来了，算法复杂度为O(n)，且不需要额外空间\r\n<h2>448-Find All Numbers Disappeared in an Array</h2>\r\n依然是线性复杂度，不能有额外内存占用\r\n\r\n我的想法：用一个全部数字都有的数组进行匹配，如果在完整数组里面有这个数字，就把它移除，最后剩下的就是丢失的数字；然而复杂度太高，而且占用了额外内存\r\n\r\n理想答案：利用nums[nums[i] -1] = -nums[nums[i]-1]，这样可以将出现过的数字所在位置的数字变为负数，最后判断哪个位置是正的，就是从来没出现过的数字，对于实例[2,3,1,3]来说，出现过的数字为1，2，3；所以就需要将数组中索引值为0，1，2的数字变成负的，所以处理后的结果是[-2,-3,-1,3]，再对这个数组进行遍历判断，如果大于零就说明没出现过，所以第四个数字是3（正数），所以就是4没出现过\r\n<h2>520-Detect Capital</h2>\r\n我的想法：一开始觉得正则表达式肯定可以做，但是不会写；看完python的答案后，感觉js的indexOf和toUpperCase()、toLowerCase()应该可以做\r\n\r\n理想答案：java基本上使用正则表达式，python有现成的方法，而js按照我那个思路应该是最佳答案\r\n<h2>104-Maximum Depth of Binary Tree</h2>\r\n我的想法：首先，我都不知道js如何实现一个二叉树，然后感觉这应该是深度优先遍历能解决的问题，所以就去看了答案\r\n\r\n理想答案：用栈缓存最大高度，希望有人能够用js实现以下深度优先遍历\r\n<h2>243-Shortest Word Distance</h2>\r\n锁\r\n<h2>389-Find the Difference</h2>\r\n看到有些答案是用异或做的，而我的想法是遍历短字符串，然后将新字符串中的对应字母替换成空字符，最后返回替换完毕之后的字符串，这个想法是由几天前那个妙用replace()方法的js答案想到的\r\n<h2>371-Sum of Two Integers</h2>\r\n题目最容易读懂，但是基本上一点思路都没有，想到用计算机理解的那样去做，也就是位操作，但是具体怎么做就不知道了；应该是计算机基础没学好，否则应该很容易想出来吧（关于位操作的更多总结，可以查看我的另一篇文章：<a href=\"http://merrier.com/archives/287\">一些位操作的技巧</a>）\r\n<h1>2017-3-22</h1>\r\n<h2>226-Invert Binary Tree</h2>\r\n看见这种二叉树的算法题就头疼，做了几道关于二叉树的题后发现，掌握二叉树的遍历方法之后解类似的问题会变得很简单，而且要逐渐培养自己的递归思维和动态规划思维（从leetcode的tags可以看到，动态规划思维可以解答很多问题）\r\n<h2>258-Add Digits</h2>\r\n我的想法：没找到什么规律，然后看提示是Math，还是没有什么想法\r\n\r\n理想答案：主要思路是对9取余，因为用到了一个很重要的定理，<strong>九余数定理</strong>：一个数N 各位数字的和 对9 取余等于 这个数对 9取余\r\n<h2>492-Construct the Rectangle</h2>\r\n我的想法：一开始打算求根值，然后在根值附近找整数，但是好像对于质数来说根本行不通\r\n\r\n理想答案：我的想法太狭隘了，应该再多想一步，就是从根值开始向下找，直到找到能整除的那个数字\r\n<h2>283-Move Zeroes</h2>\r\n我的想法：遍历数组，如果碰到0，就把这个0从数组中删除，然后再push一个0到尾部，需要注意的是需要有一个变量用来存储有几个不是0的元素被遍历到了，因为这会影响到下一次循环的判断\r\n\r\n理想答案：看了java的1ms答案，他的思路是遍历数组，然后当遍历到一个不是0的值得时候就进行交换，而交换的位置需要进行存储，并且每次碰到不是0的值就将该值加1，因为交换会使0的位置加1\r\n<h2>530-Minimum Absolute Difference in BST</h2>\r\n求最小临近距离，看java的答案是先赋一个int型最大值，然后再用Math.min方法，然而js怎么做就不知道了；关于二叉树算法题的js实现有点麻烦，而且网上的代码有点繁杂并且思路很乱，有时间的话我会总结一篇关于二叉树的各种算法题的js实现和解释的。\r\n<h2>506-Relative Ranks</h2>\r\n我的想法：我最先想到的就是先把整个数组排序，然后进行替换取值，但是难点是如何记住一开始每个数值的位置，可能还需要开辟额外的空间来存储index\r\n\r\n理想答案：看java的答案，好像java有现成的数组排序方法， js可以用array的sort方法，然后用二维数组分别存储数值和index（python更简单，内置方法很适合算法实现），在写js答案的过程中发现js初始化一个二维数组真的好麻烦。\r\n<pre class=\"lang:js decode:true\" title=\"Leetcode-Relative Ranks\">function arraySort(nums){\r\n    var nums_new = [],\r\n        n = nums.length;\r\n    \r\n    for(var a=0;a&lt;n;a++){\r\n        nums_new[a]=[[],[]];\r\n    }\r\n    \r\n    for(var i=0;i&lt;n;i++){\r\n        nums_new[i][0] = nums[i];\r\n        nums_new[i][1] = i;\r\n        \r\n        for(var j=0;j&lt;n-1-i;j++){\r\n            if(nums_new[j][0]&gt;nums_new[j+1][0]){\r\n                var temp = nums_new[j+1];\r\n                nums_new[j+1] = nums_new[j];\r\n                nums_new[j] = temp;\r\n            }\r\n        }\r\n    }\r\n    return nums_new;\r\n}\r\n\r\nvar findRelativeRanks = function(nums) {\r\n    \r\n    var nums_new = arraySort(nums),\r\n        result = new Array(nums.length);\r\n    \r\n    for(var k=0,n=nums_new.length;k&lt;n;k++){\r\n        if(k===0){\r\n            result[nums_new[0][1]] = \"Gold Medal\";\r\n        }else if(k==1){\r\n            result[nums_new[1][1]] = \"Silver Medal\";\r\n        }else if(k==2){\r\n            result[nums_new[2][1]] = \"Bronze Medal\";\r\n        }else{\r\n            result[nums_new[k][1]] = k+1 + \"\";\r\n        }\r\n    }\r\n    return result;\r\n};</pre>\r\n<h2>167-Two Sum II - Input array is sorted</h2>\r\n我的想法：从最右边找到比target得数，然后从这个数的index值开始向左进行数组遍历，看两个数的和与target相比如何，如果相加大于target，就将index值--，再进行遍历\r\n\r\n理想答案：利用二分查找，left=0，right=numbers.length-1；然后分别进行向左和向右的遍历\r\n<h2>455-Assign Cookies</h2>\r\n我的想法：一开始打算遍历小孩数组，然后再判断cookie的size能不能满足小孩的需要；后来感觉还是应该以cookie为第一层遍历，然后满足了某个小孩之后再将小孩的指针+1（这都是在两个数组排好序的前提下，js需要用sort方法）\r\n\r\n理想答案：和我的想法差不多（不知道为什么总是提示Time Limit Exceeded，js代码如下）\r\n<pre class=\"lang:js decode:true\">var findContentChildren = function(g, s) {\r\n    var i=0,m=g.length,n=s.length;\r\n    \r\n    for(var j=0;j&lt;n,i&lt;m;j++){\r\n        if(g[i]&lt;=s[j]){\r\n            i++;\r\n        }\r\n    }\r\n    return i;\r\n};</pre>\r\n<h2>453-Minimum Moves to Equal Array Elements</h2>\r\n我的想法：我承认一开始被这道题骗了，我还在傻呵呵的列式子，后来才感觉不对劲，因为其实可以将这个过程逆过来，因为每次都将n-1项加1，其实就相当于从最终结果开始每次都将1项-1，直到所有项都等于数组中的最小值\r\n\r\n理想答案：好像和我的思路一样，只不过js中求数组中的最小值需要用到一些技巧（Math.min.apply(null,arr)）\r\n<h2>383-Ransom Note</h2>\r\n我的想法：我又想到了replace方法，首先对ransomNote进行遍历，如果ransomNote中的字母在magazine中不存在的话，就直接返回false；如果找到了，就将找到的那个字母替换为\"\"，并赋给magazine（因为replace不会改变原数组），这样的话，如果遍历完毕之后magazine的长度大于等于0（等于0也可以满足，此时ransomNote和magazine长度相同并且所含字母的种类和个数相同），此时就应该返回true\r\n\r\n理想答案：依然没有js实现方案，看其他语言好像和我的思路大同小异\r\n<h2>404-Sum of Left Leaves</h2>\r\n这不知道是我第几道不会做的二叉树题了，思路是有，就是递归嘛，但是就是不会写。看完java的答案后写了一下js的版本（主要是要找到叶子节点）：\r\n<pre class=\"lang:js decode:true \">var sumOfLeftLeaves = function(root) {\r\n    if(root === null) {return 0;}\r\n    var ans = 0;\r\n    if(root.left !== null) {\r\n        if(root.left.left === null &amp;&amp; root.left.right === null) {\r\n            ans += root.left.val;\r\n        }else {\r\n            ans += sumOfLeftLeaves(root.left);\r\n        }\r\n    }\r\n    ans += sumOfLeftLeaves(root.right);\r\n    return ans;\r\n};</pre>\r\n<h2>349-Intersection of Two Arrays</h2>\r\n我的想法：既然找相同的数字，我觉得应该先把两个数组排序吧，然后再双层遍历？感觉用二分查找应该能简化，但是两个数组如何进行二分查找呢？\r\n\r\n理想答案：看别人的答案的话我只看懂了用两个指针的方法，复杂度为O(nlogn)，用哈希表那个方法没看懂什么意思，所以就用js实现一下两个指针的方法吧（果然需要先将两个数组排序，而且重点是删除重复元素）；而且这个题还有个bug就是题目明明说result可以以任何顺序，但是不是升序的答案根本提交不了……\r\n<pre class=\"lang:js decode:true \">var intersection = function(nums1, nums2) {\r\n        var nums1_n = nums1.sort(),\r\n            nums2_n = nums2.sort(),\r\n            i = 0,\r\n            j = 0,\r\n            result = [];\r\n        while (i &lt; nums1.length &amp;&amp; j &lt; nums2.length) {\r\n            if (nums1_n[i] &lt; nums2_n[j]) {\r\n                i++;\r\n            } else if (nums1_n[i] &gt; nums2_n[j]) {\r\n                j++;\r\n            } else {\r\n                if(result.indexOf(nums1_n[i]) == -1){\r\n                    result.push(nums1_n[i]);\r\n                }\r\n                i++;\r\n                j++;\r\n            }\r\n        }\r\n        return result.sort();\r\n};</pre>\r\n<h2>252-Meeting Rooms</h2>\r\n锁\r\n<h2>122-Best Time to Buy and Sell Stock II</h2>\r\n知道了原理之后就很好做了，假如价格数组为[3,1,4,6,2,5,8]，从中可以发现，如果今天的价格比明天的价格便宜，我就今天买然后明天卖掉就可以了，只需要这一个判断就可以，因为不需要在手中呆多过1天1，拿数组中的[2,5,8]举例，你就会发现这个规律\r\n<h2>387-First Unique Character in a String</h2>\r\n我的想法：遍历两次，实在想不出好方法了\r\n\r\n理想答案：看有一个人用java可以实现18ms的速度，用两个指针-&gt;slow来只想当前字符，fast来浏览整个字符串，但是最后还是没看懂；后来看到了用ASCII码记录下出现的字母，然后在进行比较的方法，用js实现如下：\r\n<pre class=\"lang:js decode:true \">/**\r\n * @param {string} s\r\n * @return {number}\r\n */\r\nvar firstUniqChar = function(s) {\r\n    var freq = new Array(26),\r\n        a = \'a\'.charCodeAt();\r\n    for(var i = 0; i &lt; s.length; i ++) {\r\n        if (freq [s[i].charCodeAt() - a] === undefined) {\r\n            freq [s[i].charCodeAt() - a] = 1;\r\n        } else {\r\n            freq [s[i].charCodeAt() - a]++;\r\n        }\r\n    }\r\n    for(var k = 0; k &lt; s.length; k ++){\r\n        if(freq [s[k].charCodeAt() - a] == 1){\r\n            return k;\r\n        }\r\n    }\r\n    return -1;\r\n};</pre>\r\n<h2>171-Excel Sheet Column Number</h2>\r\n我的想法：这道题其实蛮简单的，学过多进制的人很容易就想到了，很类似于多进制转换（比如十六进制转换成十进制），同时结合ASCII码就可以很快得出答案：\r\n<pre class=\"lang:js decode:true \">/**\r\n * @param {string} s\r\n * @return {number}\r\n */\r\nvar titleToNumber = function(s) {\r\n    var result = 0;\r\n    for(var i=0,n=s.length;i&lt;n;i++){\r\n        result += Math.pow(26,n-i-1)*(s[i].charCodeAt() - 64);\r\n    }\r\n    return result;\r\n};</pre>\r\n<h2>256-Paint House</h2>\r\n锁\r\n<h2>504-Base 7</h2>\r\n我的想法：这种多进制的转换道理我都懂，可是如何用式子表达出来就不会了，包括循环的结束条件以及正负号的处理\r\n\r\n理想答案：看完答案的我哭晕在厕所，因为其实js中的toString()方法已经解决了所有关于进制转换的问题；当然，也可以用递归去解，用js实现如下（需要注意在某些地方需要将数字转换成字符串，否则就会是两个数字相加，结果肯定不对，在js里数字转换成字符串最简单的方法就是将数字和\"\"相加）：\r\n<pre class=\"lang:js decode:true\">/**\r\n * @param {number} num\r\n * @return {string}\r\n */\r\nvar convertToBase7 = function(num) {\r\n    return num&gt;=0 ? \"\" + (num&gt;=7 ? convertToBase7(Math.floor(num/7)) + \"\" + num%7 : num) : \'-\'+convertToBase7(-num);\r\n};</pre>\r\n<h2>237-Delete Node in a Linked List</h2>\r\n我的想法：这应该是是我碰到的第一道链表算法题，但是我竟然连题都没弄懂，因为参数只给了一个node，这个node到底是链表本体呢还是要删的那个元素的value呢，反正也是第一道题，我就直接看答案了\r\n\r\n理想答案：因为题目已假设删除的不是尾部的元素，所以只需要将值和next与下一个节点相等就可以了（由于这道题过于简单，就不贴代码了，简单到有人说这道题实在太蠢了）\r\n<h2>100-Same Tree</h2>\r\n我的想法：题目很简短，应该可以递归做，就是假如根节点值相同，就看root.left和root.right是否都相同\r\n\r\n理想答案：需要先判断两个数都为null时应该返回true\r\n<h2>169-Maiority Element</h2>\r\n我的想法：这道题有种似曾相识的感觉，好像曾经做过一道类似的题，应该还是用二维数组来做，一维用来存储数字，另一维用来计数，然后进行按计数值得排序就可以得到\"多单元\"了（看答案还有另一种思路，就是因为该元素出现次数不少于n/2次，所以如果将数组排序，第n/2个元素肯定是该元素了）\r\n\r\n理想答案：有一个人的想法很巧妙，因为题目中规定\"多单元\"是出现不少于n/2次的元素，所以可以先将指针设为num[0]，同时有一个计数变量，然后对数组中剩下的n-1个元素进行遍历，如果该元素和\"多单元\"相同，就将计数器++，否则--；当计数器为0时，证明之前的那些元素都不是\"多单元\"，就将指针指向当前元素，同时将count++，相当于开始新一轮检测=&gt;穆尔投票算法（有一个网友总结了6种c++方法，并进行了解释，有兴趣的同学可以点击题目去瞅瞅）\r\n<h2>242-Valid Anagram</h2>\r\n我的想法：一开始打算将字符串进行排序之后比较，然而不知道怎么更快速的对字符串进行排序\r\n\r\n理想答案：其中一个思路是将字母转换成数字（ASCII码），然后用一个新的数组进行存储s数组的数字，然后在相同的位置减去t数组的数字；当这些都完成后，再对新数组进行遍历，当遇到一个不是0的数字时就说明有一处不同，就直接返回false；最后假如没有不是0的数字就返回true\r\n<h2>409-Longest Palindrome</h2>\r\n我的想法：应该可以先统计某一字母个数为偶数和某一字母个数为奇数的数量，然后偶数字母个数加上是否有奇数字母个数（没有就加0，有就加1）\r\n\r\n理想答案：由于没有js的标准答案，所以只能看其他语言的大概思路，基本上思路和我的想法相同，只不过是简化代码的问题。\r\n<h2>541-Reverse String II</h2>\r\n我的想法：既然交换元素是和k有关，而且移动的步数也和k有关，所以可以进行循环交换，每次移动2k步，然后判断条件就是不能移动出数组\r\n\r\n理想答案：有的思路是再写一个交换元素的函数，其实交换可以在遍历过程中进行，主要是循环结束的判断可能需要画个草图进行确定。\r\n\r\n&nbsp;', '记录下我的Leetcode坑爹之路', '', 'inherit', 'closed', 'closed', '', '190-revision-v1', '', '', '2017-03-24 11:09:13', '2017-03-24 03:09:13', '', 190, 'http://merrier.com/archives/303', 0, 'revision', '', 0),
 (304, 1, '2017-03-24 11:12:54', '2017-03-24 03:12:54', '<h1>写在前面</h1>\r\n因为刷leetcode的时候，发现会经常用到数组，因为JS中没有明确的栈和队列，所以需要用数组进行模拟，在刷算法题的过程中碰到了好多关于数组的计算方法，所以就打算对算法中经常用的数组方法进行总结，可能会对刚开始用JS刷Leetcode的码农有好处，如果你有任何补充，请留言评论或直接给我发邮件。\r\n<h2>1.排序</h2>\r\n我做了两年前端，竟然连js的数组排序方法都不知道，真是惭愧，js数组对象排序有内置方法sort():\r\n<pre class=\"lang:js decode:true\" title=\"排序\">1、简单数组简单排序\r\n    var arrSimple=new Array(1,8,7,6);\r\n    arrSimple.sort();  //[1,6,7,8]\r\n2、简单数组自定义排序\r\n    var arrSimple2=new Array(1,8,7,6);\r\n    arrSimple2.sort(function(a,b){return b-a});  //[8,7,6,1]\r\n    //解释：a,b表示数组中的任意两个元素，若return &gt; 0 b前a后；reutrn &lt; 0 a前b后；a=b时存在浏览器兼容\r\n    //简化一下：a-b输出从小到大排序，b-a输出从大到小排序。</pre>\r\n<h2>2.删除重复的元素只保留一个（两种实现思路）</h2>\r\n<pre class=\"lang:js decode:true \" title=\"删除重复元素只保留一个\">//方法一：遍历要删除的数组arr, 把元素分别放入另一个数组tmp中，在判断该元素在arr中不存在才允许放入tmp中用到两个函数：for ...in 和 indexOf()\r\nvar test = [2,4,4,5,\"a\",\"a\"];\r\nfunction unique1(arr){\r\n    // 遍历arr，把元素分别放入tmp数组(不存在才放)\r\n    var tmp = new Array();\r\n    for(var i in arr){\r\n    //该元素在tmp内部不存在才允许追加\r\n        if(tmp.indexOf(arr[i])==-1){\r\n            tmp.push(arr[i]);\r\n        }\r\n    }\r\n    return tmp;\r\n}\r\nunique1(test);  //[2,4,5,\"a\"]\r\n\r\n//方法二：把目标数组arr的元素值和键的位置调换 自动就把重复的元素给删除掉了，调换后的样子：array(\'qiang\'=&gt;1,\'ming\'=&gt;1,\'tao\'=&gt;1)\r\nfunction unique2(arr){\r\n    var tmp = new Array();\r\n    for(var m in arr){\r\n        tmp[arr[m]]=1;\r\n    }\r\n    //再把键和值的位置再次调换\r\n    var tmparr = new Array();\r\n    for(var n in tmp){\r\n        tmparr.push(n);\r\n    }\r\n    return tmparr;\r\n}\r\nunique2(test);  //[2,4,5,\"a\"]\r\n\r\n//方法三：返回新数组，保证类型不变\r\nfunction unique3(a){\r\n    var hash=[],arr=[];\r\n    for (var i = 0; i &lt; a.length; i++) {\r\n        hash[a[i]]!=null;\r\n        if(!hash[a[i]]){\r\n            arr.push(a[i]);\r\n            hash[a[i]]=true;\r\n        }\r\n    }\r\n    console.log(arr);\r\n}\r\nunique3(test);//[2, 4, 5, \"a\"]</pre>\r\n<h2>3.获取数组中的最大值和最小值</h2>\r\n可以用传统的遍历，也可以用math\r\n<pre class=\"lang:js decode:true  \" title=\"获取数组中的最大值和最小值\">var arr = [54,65,43,21,12,34,45,58,97,24];\r\n\r\n//方法一、字符串拼接法\r\n//利用toString和join把数组转换为字符串，再和Math的max和min方法分别进行拼接，最后执行eval方法\r\nvar maxN = eval(\"Math.max(\" + arr.toString() + \")\");\r\nvar minN = eval(\"Math.min(\" + arr.toString() + \")\");\r\n//或者\r\nvar maxN = eval(\"Math.max(\" + arr.join() + \")\");\r\nvar minN = eval(\"Math.min(\" + arr.join() + \")\");\r\n\r\n//方法二、排序法\r\n//先把数组从小到大排序，数组第一个即为最小值，最后一个即为最大值\r\narr.sort(function(a,b){return a-b;});\r\nvar minN = arr[0];\r\nvar maxN = arr[arr.length-1];\r\n\r\n//方法三、假设法\r\n//假设数组第一个为最大（或最小值），和后边进行比较，若后边的值比最大值大（或比最小值小），则替换最大值（或最小值）\r\nvar maxN = arr[0];\r\nvar minN = arr[0];\r\nfor(var i=1;i&lt;arr.length;i++){\r\n    var cur = arr[i];\r\n    cur&gt;maxN ? maxN=cur : null;\r\n    cur&lt;minN ? minN=cur : null;\r\n}\r\n\r\n//方法四、Math的max和min方法\r\n//使用apply方法使数组可以作为传递的参数\r\nvar maxN = Math.max.apply(null,arr);\r\nvar minN = Math.min.apply(null,arr);\r\n//多维数组可以这样做：\r\nvar a=[1,2,3,[5,6],[1,4,8]];\r\nvar ta=a.join(\",\").split(\",\");//转化为一维数组\r\nvar maxN = Math.max.apply(null,ta);//最大值\r\nvar minN = Math.min.apply(null,ta);//最小值\r\n\r\n//扩展：增加原型方法，同时为了避免其他库也实现了同名的原型方法，可以在生成函数之前进行重名判断\r\nif (typeof Array.prototype[\'max\'] == \'undefined\') {\r\n    Array.prototype.max = function() {\r\n        return Math.max.apply({},this);\r\n    }\r\n}\r\nif (typeof Array.prototype[\'min\'] == \'undefined\') {\r\n    Array.prototype.min = function() {\r\n        return Math.min.apply({},this);\r\n    }\r\n}</pre>\r\n&nbsp;', 'JS中数组方法总结', '', 'inherit', 'closed', 'closed', '', '296-revision-v1', '', '', '2017-03-24 11:12:54', '2017-03-24 03:12:54', '', 296, 'http://merrier.com/archives/304', 0, 'revision', '', 0);
 
+DROP TABLE IF EXISTS `wp_termmeta`;
 CREATE TABLE IF NOT EXISTS `wp_termmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL,
+  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext 
+  `meta_value` longtext ,
+  PRIMARY KEY (`meta_id`),
+  KEY `term_id` (`term_id`),
+  KEY `meta_key` (`meta_key`(191))
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
+DROP TABLE IF EXISTS `wp_terms`;
 CREATE TABLE IF NOT EXISTS `wp_terms` (
-  `term_id` bigint(20) UNSIGNED NOT NULL,
+  `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `name` varchar(200)  NOT NULL DEFAULT '',
   `slug` varchar(200)  NOT NULL DEFAULT '',
-  `term_group` bigint(10) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `term_group` bigint(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_id`),
+  KEY `slug` (`slug`(191)),
+  KEY `name` (`name`(191))
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (1, '其他', 'uncategorized', 0),
@@ -1932,10 +2026,13 @@ INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (54, '计算机基础', '%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%9f%ba%e7%a1%80', 0),
 (55, '数组', '%e6%95%b0%e7%bb%84', 0);
 
+DROP TABLE IF EXISTS `wp_term_relationships`;
 CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
   `object_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `term_order` int(11) NOT NULL DEFAULT '0'
+  `term_order` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`object_id`,`term_taxonomy_id`),
+  KEY `term_taxonomy_id` (`term_taxonomy_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
@@ -2069,14 +2166,18 @@ INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_orde
 (296, 51, 0),
 (296, 55, 0);
 
+DROP TABLE IF EXISTS `wp_term_taxonomy`;
 CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
-  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL,
+  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `taxonomy` varchar(32)  NOT NULL DEFAULT '',
   `description` longtext  NOT NULL,
   `parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `count` bigint(20) NOT NULL DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `count` bigint(20) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`term_taxonomy_id`),
+  UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
+  KEY `taxonomy` (`taxonomy`)
+) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 0),
@@ -2132,12 +2233,16 @@ INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `desc
 (54, 54, 'post_tag', '', 0, 1),
 (55, 55, 'post_tag', '', 0, 2);
 
+DROP TABLE IF EXISTS `wp_usermeta`;
 CREATE TABLE IF NOT EXISTS `wp_usermeta` (
-  `umeta_id` bigint(20) UNSIGNED NOT NULL,
+  `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext 
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext ,
+  PRIMARY KEY (`umeta_id`),
+  KEY `user_id` (`user_id`),
+  KEY `meta_key` (`meta_key`(191))
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (1, 1, 'nickname', 'merrier'),
@@ -2199,8 +2304,9 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 (59, 3, 'wp_capabilities', 'a:1:{s:10:\"subscriber\";b:1;}'),
 (60, 3, 'wp_user_level', '0');
 
+DROP TABLE IF EXISTS `wp_users`;
 CREATE TABLE IF NOT EXISTS `wp_users` (
-  `ID` bigint(20) UNSIGNED NOT NULL,
+  `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `user_login` varchar(60)  NOT NULL DEFAULT '',
   `user_pass` varchar(255)  NOT NULL DEFAULT '',
   `user_nicename` varchar(50)  NOT NULL DEFAULT '',
@@ -2209,57 +2315,81 @@ CREATE TABLE IF NOT EXISTS `wp_users` (
   `user_registered` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_activation_key` varchar(255)  NOT NULL DEFAULT '',
   `user_status` int(11) NOT NULL DEFAULT '0',
-  `display_name` varchar(250)  NOT NULL DEFAULT ''
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+  `display_name` varchar(250)  NOT NULL DEFAULT '',
+  PRIMARY KEY (`ID`),
+  KEY `user_login_key` (`user_login`),
+  KEY `user_nicename` (`user_nicename`),
+  KEY `user_email` (`user_email`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ;
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'merrier', '$P$B7Z2.rScyvLtp86LEfr8VE4RT7Ad6R.', 'merrier', '953075999@qq.com', '', '2017-03-13 13:57:02', '1489896755:$P$B/Kg5XGuA3UW8.gxedBboVQvJBjKn5/', 0, 'merrier'),
 (2, 'zhouyue', '$P$BOMaPOrcMn60rxvMFrRA36UxeFGA0k/', 'zhouyue', 'zyue0119@163.com', '', '2017-03-19 02:31:25', '', 0, 'zhouyue'),
 (3, 'zhouyue', '$P$BNBMNiEoHns5XKPVS13oQiX5..wttM.', 'zhouyue', 'zyue0119@163.com', '', '2017-03-19 02:31:31', '', 0, 'zhouyue');
 
+DROP TABLE IF EXISTS `wp_wc_comments_subscription`;
 CREATE TABLE IF NOT EXISTS `wp_wc_comments_subscription` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
   `subscribtion_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `subscribtion_type` varchar(255) NOT NULL,
   `activation_key` varchar(255) NOT NULL,
   `confirm` tinyint(4) DEFAULT '0',
-  `subscription_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  `subscription_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`),
+  KEY `subscribtion_id` (`subscribtion_id`),
+  KEY `post_id` (`post_id`),
+  KEY `confirm` (`confirm`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wc_comments_subscription` (`id`, `email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`) VALUES
 (1, '953075999@qq.com', 204, 204, 'post', '6c06a9e74019c238bdbaeee473951a95', 1, '2017-03-18 03:24:51'),
 (2, '953075999@qq.com', 219, 219, 'all_comment', 'ae93fa72b198fd2088bc870c09d75ff5', 1, '2017-03-18 08:27:24'),
 (3, '953075999@qq.com', 224, 224, 'post', '5f24b02a068ef72311d0b2184c3ee689', 1, '2017-03-18 08:51:50');
 
+DROP TABLE IF EXISTS `wp_wc_phrases`;
 CREATE TABLE IF NOT EXISTS `wp_wc_phrases` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `phrase_key` varchar(255) NOT NULL,
-  `phrase_value` text NOT NULL
+  `phrase_value` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `phrase_key` (`phrase_key`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wc_users_voted`;
 CREATE TABLE IF NOT EXISTS `wp_wc_users_voted` (
-  `id` int(11) NOT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(255) NOT NULL,
   `comment_id` int(11) NOT NULL,
   `vote_type` int(11) DEFAULT NULL,
-  `is_guest` tinyint(1) DEFAULT '0'
+  `is_guest` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `comment_id` (`comment_id`),
+  KEY `vote_type` (`vote_type`),
+  KEY `is_guest` (`is_guest`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfBadLeechers`;
 CREATE TABLE IF NOT EXISTS `wp_wfBadLeechers` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL
+  `hits` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eMin`,`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `wp_wfBlockedIPLog`;
 CREATE TABLE IF NOT EXISTS `wp_wfBlockedIPLog` (
   `IP` binary(16) NOT NULL,
   `countryCode` varchar(2) NOT NULL,
   `blockCount` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `unixday` int(10) UNSIGNED NOT NULL
+  `unixday` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`IP`,`unixday`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfBlocks`;
 CREATE TABLE IF NOT EXISTS `wp_wfBlocks` (
   `IP` binary(16) NOT NULL,
   `blockedTime` bigint(20) NOT NULL,
@@ -2267,23 +2397,29 @@ CREATE TABLE IF NOT EXISTS `wp_wfBlocks` (
   `lastAttempt` int(10) UNSIGNED DEFAULT '0',
   `blockedHits` int(10) UNSIGNED DEFAULT '0',
   `wfsn` tinyint(3) UNSIGNED DEFAULT '0',
-  `permanent` tinyint(3) UNSIGNED DEFAULT '0'
+  `permanent` tinyint(3) UNSIGNED DEFAULT '0',
+  PRIMARY KEY (`IP`),
+  KEY `k1` (`wfsn`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfBlocksAdv`;
 CREATE TABLE IF NOT EXISTS `wp_wfBlocksAdv` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `blockType` char(2) NOT NULL,
   `blockString` varchar(255) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
   `reason` varchar(255) NOT NULL,
   `totalBlocked` int(10) UNSIGNED DEFAULT '0',
-  `lastBlocked` int(10) UNSIGNED DEFAULT '0'
+  `lastBlocked` int(10) UNSIGNED DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfConfig`;
 CREATE TABLE IF NOT EXISTS `wp_wfConfig` (
   `name` varchar(100) NOT NULL,
   `val` longblob,
-  `autoload` enum('no','yes') NOT NULL DEFAULT 'yes'
+  `autoload` enum('no','yes') NOT NULL DEFAULT 'yes',
+  PRIMARY KEY (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
@@ -2447,20 +2583,24 @@ INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('whitelisted', '', 'yes'),
 ('wp_home_url', 0x687474703a2f2f6d6572726965722e627567, 'yes');
 
+DROP TABLE IF EXISTS `wp_wfCrawlers`;
 CREATE TABLE IF NOT EXISTS `wp_wfCrawlers` (
   `IP` binary(16) NOT NULL,
   `patternSig` binary(16) NOT NULL,
   `status` char(8) NOT NULL,
   `lastUpdate` int(10) UNSIGNED NOT NULL,
-  `PTR` varchar(255) DEFAULT ''
+  `PTR` varchar(255) DEFAULT '',
+  PRIMARY KEY (`IP`,`patternSig`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `wp_wfFileMods`;
 CREATE TABLE IF NOT EXISTS `wp_wfFileMods` (
   `filenameMD5` binary(16) NOT NULL,
   `filename` varchar(1000) NOT NULL,
   `knownFile` tinyint(3) UNSIGNED NOT NULL,
   `oldMD5` binary(16) NOT NULL,
-  `newMD5` binary(16) NOT NULL
+  `newMD5` binary(16) NOT NULL,
+  PRIMARY KEY (`filenameMD5`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfFileMods` (`filenameMD5`, `filename`, `knownFile`, `oldMD5`, `newMD5`) VALUES
@@ -6002,8 +6142,9 @@ INSERT INTO `wp_wfFileMods` (`filenameMD5`, `filename`, `knownFile`, `oldMD5`, `
 (0xffec0e88f393d03be4bafd38bc3e432e, 'wp-content/plugins/baidu-sitemap-generator/1.31/sitemap.html', 1, 0x00000000000000000000000000000000, 0x01deb2e579a0b01cb51b1d18718cd1ae),
 (0xffff3f3f53b86501c697a4fa4a57336b, 'wp-content/plugins/wp-user-avatar/includes/class-wp-user-avatar-admin.php', 1, 0x00000000000000000000000000000000, 0x79f3e39dce1e783e8d39c47d36e2441a);
 
+DROP TABLE IF EXISTS `wp_wfHits`;
 CREATE TABLE IF NOT EXISTS `wp_wfHits` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `attackLogTime` double(17,6) UNSIGNED NOT NULL,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `IP` binary(16) DEFAULT NULL,
@@ -6017,8 +6158,12 @@ CREATE TABLE IF NOT EXISTS `wp_wfHits` (
   `UA` text,
   `action` varchar(64) NOT NULL DEFAULT '',
   `actionDescription` text,
-  `actionData` text
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `actionData` text,
+  PRIMARY KEY (`id`),
+  KEY `k1` (`ctime`),
+  KEY `k2` (`IP`,`ctime`),
+  KEY `attackLogTime` (`attackLogTime`)
+) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
 
 INSERT INTO `wp_wfHits` (`id`, `attackLogTime`, `ctime`, `IP`, `jsRun`, `statusCode`, `isGoogle`, `userID`, `newVisit`, `URL`, `referer`, `UA`, `action`, `actionDescription`, `actionData`) VALUES
 (1, 0.000000, 1489889239.118774, 0x00000000000000000000000000000001, 0, 404, 0, 0, 0, 'http://localhost/merrier/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
@@ -6117,16 +6262,20 @@ INSERT INTO `wp_wfHits` (`id`, `attackLogTime`, `ctime`, `IP`, `jsRun`, `statusC
 (94, 0.000000, 1490326410.381084, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
 (95, 0.000000, 1490326418.029775, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL);
 
+DROP TABLE IF EXISTS `wp_wfHoover`;
 CREATE TABLE IF NOT EXISTS `wp_wfHoover` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `owner` text,
   `host` text,
   `path` text,
-  `hostKey` binary(4) DEFAULT NULL
+  `hostKey` binary(4) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `k2` (`hostKey`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfIssues`;
 CREATE TABLE IF NOT EXISTS `wp_wfIssues` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `time` int(10) UNSIGNED NOT NULL,
   `status` varchar(10) NOT NULL,
   `type` varchar(20) NOT NULL,
@@ -6135,8 +6284,9 @@ CREATE TABLE IF NOT EXISTS `wp_wfIssues` (
   `ignoreC` char(32) NOT NULL,
   `shortMsg` varchar(255) NOT NULL,
   `longMsg` text,
-  `data` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `data` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfIssues` (`id`, `time`, `status`, `type`, `severity`, `ignoreP`, `ignoreC`, `shortMsg`, `longMsg`, `data`) VALUES
 (27, 1490288442, 'new', 'knownfile', 1, '532994254f37ad862bf3f3f8c831046d', '8f0a59e0d7f04ac8169e36f23e42c70c', 'WordPress core file modified: readme.html', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:11:\"readme.html\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}'),
@@ -6144,10 +6294,12 @@ INSERT INTO `wp_wfIssues` (`id`, `time`, `status`, `type`, `severity`, `ignoreP`
 (29, 1490288478, 'new', 'knownfile', 1, 'cfc7e8cc02e9211ae94c20050e439a4e', 'fcd5147ab2315606517847d40b4610c8', 'WordPress core file modified: wp-includes/class-smtp.php', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:26:\"wp-includes/class-smtp.php\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}'),
 (30, 1490288481, 'new', 'knownfile', 1, '686011a450e7c2dc201a6f146ab35d6b', 'cfa9b141dde6d52483089b7b78933e2d', 'WordPress core file modified: wp-includes/formatting.php', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:26:\"wp-includes/formatting.php\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}');
 
+DROP TABLE IF EXISTS `wp_wfKnownFileList`;
 CREATE TABLE IF NOT EXISTS `wp_wfKnownFileList` (
-  `id` int(11) UNSIGNED NOT NULL,
-  `path` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `path` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3527 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfKnownFileList` (`id`, `path`) VALUES
 (1, 'index.php'),
@@ -9681,20 +9833,25 @@ INSERT INTO `wp_wfKnownFileList` (`id`, `path`) VALUES
 (3525, 'wp-trackback.php'),
 (3526, 'xmlrpc.php');
 
+DROP TABLE IF EXISTS `wp_wfLeechers`;
 CREATE TABLE IF NOT EXISTS `wp_wfLeechers` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL
+  `hits` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eMin`,`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `wp_wfLockedOut`;
 CREATE TABLE IF NOT EXISTS `wp_wfLockedOut` (
   `IP` binary(16) NOT NULL,
   `blockedTime` bigint(20) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `lastAttempt` int(10) UNSIGNED DEFAULT '0',
-  `blockedHits` int(10) UNSIGNED DEFAULT '0'
+  `blockedHits` int(10) UNSIGNED DEFAULT '0',
+  PRIMARY KEY (`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfLocs`;
 CREATE TABLE IF NOT EXISTS `wp_wfLocs` (
   `IP` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
@@ -9704,11 +9861,13 @@ CREATE TABLE IF NOT EXISTS `wp_wfLocs` (
   `countryName` varchar(255) DEFAULT '',
   `countryCode` char(2) DEFAULT '',
   `lat` float(10,7) DEFAULT '0.0000000',
-  `lon` float(10,7) DEFAULT '0.0000000'
+  `lon` float(10,7) DEFAULT '0.0000000',
+  PRIMARY KEY (`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfLogins`;
 CREATE TABLE IF NOT EXISTS `wp_wfLogins` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `hitID` int(11) DEFAULT NULL,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `fail` tinyint(3) UNSIGNED NOT NULL,
@@ -9716,8 +9875,11 @@ CREATE TABLE IF NOT EXISTS `wp_wfLogins` (
   `username` varchar(255) NOT NULL,
   `userID` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) DEFAULT NULL,
-  `UA` text
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `UA` text,
+  PRIMARY KEY (`id`),
+  KEY `k1` (`IP`,`fail`),
+  KEY `hitID` (`hitID`)
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfLogins` (`id`, `hitID`, `ctime`, `fail`, `action`, `username`, `userID`, `IP`, `UA`) VALUES
 (1, 8, 1489890439.207793, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
@@ -9757,12 +9919,16 @@ INSERT INTO `wp_wfLogins` (`id`, `hitID`, `ctime`, `fail`, `action`, `username`,
 (35, 89, 1490326257.049978, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
 (36, 93, 1490326386.868491, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36');
 
+DROP TABLE IF EXISTS `wp_wfNet404s`;
 CREATE TABLE IF NOT EXISTS `wp_wfNet404s` (
   `sig` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
-  `URI` varchar(1000) NOT NULL
+  `URI` varchar(1000) NOT NULL,
+  PRIMARY KEY (`sig`),
+  KEY `k1` (`ctime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfNotifications`;
 CREATE TABLE IF NOT EXISTS `wp_wfNotifications` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `new` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
@@ -9770,40 +9936,54 @@ CREATE TABLE IF NOT EXISTS `wp_wfNotifications` (
   `priority` int(11) NOT NULL DEFAULT '1000',
   `ctime` int(10) UNSIGNED NOT NULL,
   `html` text NOT NULL,
-  `links` text NOT NULL
+  `links` text NOT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfNotifications` (`id`, `new`, `category`, `priority`, `ctime`, `html`, `links`) VALUES
 ('site-AEAAAAA', 1, 'wfplugin_scan', 500, 1490288551, '<a href=\"http://merrier.com/wp-admin/admin.php?page=WordfenceScan\">4 issues found in most recent scan</a>', '[]');
 
+DROP TABLE IF EXISTS `wp_wfReverseCache`;
 CREATE TABLE IF NOT EXISTS `wp_wfReverseCache` (
   `IP` binary(16) NOT NULL,
   `host` varchar(255) NOT NULL,
-  `lastUpdate` int(10) UNSIGNED NOT NULL
+  `lastUpdate` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `wp_wfScanners`;
 CREATE TABLE IF NOT EXISTS `wp_wfScanners` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` smallint(5) UNSIGNED NOT NULL
+  `hits` smallint(5) UNSIGNED NOT NULL,
+  PRIMARY KEY (`eMin`,`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `wp_wfSNIPCache`;
 CREATE TABLE IF NOT EXISTS `wp_wfSNIPCache` (
-  `id` int(10) UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   `IP` varchar(45) NOT NULL DEFAULT '',
   `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `body` varchar(255) NOT NULL DEFAULT '',
   `count` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `type` int(10) UNSIGNED NOT NULL DEFAULT '0'
+  `type` int(10) UNSIGNED NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `expiration` (`expiration`),
+  KEY `IP` (`IP`),
+  KEY `type` (`type`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfStatus`;
 CREATE TABLE IF NOT EXISTS `wp_wfStatus` (
-  `id` bigint(20) UNSIGNED NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `level` tinyint(3) UNSIGNED NOT NULL,
   `type` char(5) NOT NULL,
-  `msg` varchar(1000) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+  `msg` varchar(1000) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `k1` (`ctime`),
+  KEY `k2` (`type`)
+) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8;
 
 INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (1, 1489820277.077812, 1, 'info', 'Scheduled Wordfence scan starting at Saturday 18th of March 2017 02:57:57 PM'),
@@ -10819,333 +10999,25 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (1010, 1490288549.358499, 10, 'info', 'SUM_FINAL:Scan complete. You have 4 new issues to fix. See below.'),
 (1011, 1490288551.950355, 2, 'info', 'Wordfence used 29.37MB of memory for scan. Server peak memory usage was: 78.15MB');
 
+DROP TABLE IF EXISTS `wp_wfThrottleLog`;
 CREATE TABLE IF NOT EXISTS `wp_wfThrottleLog` (
   `IP` binary(16) NOT NULL,
   `startTime` int(10) UNSIGNED NOT NULL,
   `endTime` int(10) UNSIGNED NOT NULL,
   `timesThrottled` int(10) UNSIGNED NOT NULL,
-  `lastReason` varchar(255) NOT NULL
+  `lastReason` varchar(255) NOT NULL,
+  PRIMARY KEY (`IP`),
+  KEY `k2` (`endTime`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `wp_wfVulnScanners`;
 CREATE TABLE IF NOT EXISTS `wp_wfVulnScanners` (
   `IP` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL
+  `hits` int(10) UNSIGNED NOT NULL,
+  PRIMARY KEY (`IP`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
-
-ALTER TABLE `wp_cjtoolbox_authors`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `guid` (`guid`),
-  ADD KEY `name` (`name`);
-
-ALTER TABLE `wp_cjtoolbox_backups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`);
-
-ALTER TABLE `wp_cjtoolbox_blocks`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`,`backupId`),
-  ADD KEY `pinPoint` (`pinPoint`,`state`,`location`,`type`,`parent`);
-
-ALTER TABLE `wp_cjtoolbox_block_files`
-  ADD PRIMARY KEY (`id`,`blockId`);
-
-ALTER TABLE `wp_cjtoolbox_block_pins`
-  ADD PRIMARY KEY (`blockId`,`pin`,`value`);
-
-ALTER TABLE `wp_cjtoolbox_block_templates`
-  ADD PRIMARY KEY (`blockId`,`templateId`);
-
-ALTER TABLE `wp_cjtoolbox_forms`
-  ADD PRIMARY KEY (`blockId`);
-
-ALTER TABLE `wp_cjtoolbox_form_groups`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `Index 3` (`formId`,`name`),
-  ADD KEY `formId` (`formId`);
-
-ALTER TABLE `wp_cjtoolbox_form_group_parameters`
-  ADD PRIMARY KEY (`parameterId`),
-  ADD KEY `Index 2` (`groupId`);
-
-ALTER TABLE `wp_cjtoolbox_form_group_xfields`
-  ADD UNIQUE KEY `groupId` (`groupId`);
-
-ALTER TABLE `wp_cjtoolbox_packages`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `wp_cjtoolbox_package_objects`
-  ADD PRIMARY KEY (`packageId`,`objectId`,`objectType`);
-
-ALTER TABLE `wp_cjtoolbox_parameters`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`,`parent`,`blockId`),
-  ADD KEY `parent` (`parent`),
-  ADD KEY `blockId` (`blockId`);
-
-ALTER TABLE `wp_cjtoolbox_parameter_typedef`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `parameterId` (`parameterId`);
-
-ALTER TABLE `wp_cjtoolbox_parameter_typeparams`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `parameterId` (`parameterId`);
-
-ALTER TABLE `wp_cjtoolbox_templates`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `name` (`name`,`type`),
-  ADD UNIQUE KEY `guid` (`guid`),
-  ADD KEY `keywords` (`keywords`),
-  ADD KEY `owner` (`ownerId`),
-  ADD KEY `author` (`authorId`),
-  ADD KEY `type` (`type`),
-  ADD KEY `attributes` (`attributes`);
-
-ALTER TABLE `wp_cjtoolbox_template_revisions`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `templateid-revisionNo` (`revisionNo`,`templateId`);
-
-ALTER TABLE `wp_commentmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `comment_id` (`comment_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
-ALTER TABLE `wp_comments`
-  ADD PRIMARY KEY (`comment_ID`),
-  ADD KEY `comment_post_ID` (`comment_post_ID`),
-  ADD KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
-  ADD KEY `comment_date_gmt` (`comment_date_gmt`),
-  ADD KEY `comment_parent` (`comment_parent`),
-  ADD KEY `comment_author_email` (`comment_author_email`(10));
-
-ALTER TABLE `wp_ewwwio_images`
-  ADD UNIQUE KEY `id` (`id`),
-  ADD KEY `path_image_size` (`path`(191),`image_size`),
-  ADD KEY `attachment_info` (`gallery`(3),`attachment_id`);
-
-ALTER TABLE `wp_links`
-  ADD PRIMARY KEY (`link_id`),
-  ADD KEY `link_visible` (`link_visible`);
-
-ALTER TABLE `wp_options`
-  ADD PRIMARY KEY (`option_id`),
-  ADD UNIQUE KEY `option_name` (`option_name`);
-
-ALTER TABLE `wp_postmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `post_id` (`post_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
-ALTER TABLE `wp_posts`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `post_name` (`post_name`(191)),
-  ADD KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
-  ADD KEY `post_parent` (`post_parent`),
-  ADD KEY `post_author` (`post_author`);
-
-ALTER TABLE `wp_termmeta`
-  ADD PRIMARY KEY (`meta_id`),
-  ADD KEY `term_id` (`term_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
-ALTER TABLE `wp_terms`
-  ADD PRIMARY KEY (`term_id`),
-  ADD KEY `slug` (`slug`(191)),
-  ADD KEY `name` (`name`(191));
-
-ALTER TABLE `wp_term_relationships`
-  ADD PRIMARY KEY (`object_id`,`term_taxonomy_id`),
-  ADD KEY `term_taxonomy_id` (`term_taxonomy_id`);
-
-ALTER TABLE `wp_term_taxonomy`
-  ADD PRIMARY KEY (`term_taxonomy_id`),
-  ADD UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
-  ADD KEY `taxonomy` (`taxonomy`);
-
-ALTER TABLE `wp_usermeta`
-  ADD PRIMARY KEY (`umeta_id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `meta_key` (`meta_key`(191));
-
-ALTER TABLE `wp_users`
-  ADD PRIMARY KEY (`ID`),
-  ADD KEY `user_login_key` (`user_login`),
-  ADD KEY `user_nicename` (`user_nicename`),
-  ADD KEY `user_email` (`user_email`);
-
-ALTER TABLE `wp_wc_comments_subscription`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`),
-  ADD KEY `subscribtion_id` (`subscribtion_id`),
-  ADD KEY `post_id` (`post_id`),
-  ADD KEY `confirm` (`confirm`);
-
-ALTER TABLE `wp_wc_phrases`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `phrase_key` (`phrase_key`);
-
-ALTER TABLE `wp_wc_users_voted`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `user_id` (`user_id`),
-  ADD KEY `comment_id` (`comment_id`),
-  ADD KEY `vote_type` (`vote_type`),
-  ADD KEY `is_guest` (`is_guest`);
-
-ALTER TABLE `wp_wfBadLeechers`
-  ADD PRIMARY KEY (`eMin`,`IP`);
-
-ALTER TABLE `wp_wfBlockedIPLog`
-  ADD PRIMARY KEY (`IP`,`unixday`);
-
-ALTER TABLE `wp_wfBlocks`
-  ADD PRIMARY KEY (`IP`),
-  ADD KEY `k1` (`wfsn`);
-
-ALTER TABLE `wp_wfBlocksAdv`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `wp_wfConfig`
-  ADD PRIMARY KEY (`name`);
-
-ALTER TABLE `wp_wfCrawlers`
-  ADD PRIMARY KEY (`IP`,`patternSig`);
-
-ALTER TABLE `wp_wfFileMods`
-  ADD PRIMARY KEY (`filenameMD5`);
-
-ALTER TABLE `wp_wfHits`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `k1` (`ctime`),
-  ADD KEY `k2` (`IP`,`ctime`),
-  ADD KEY `attackLogTime` (`attackLogTime`);
-
-ALTER TABLE `wp_wfHoover`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `k2` (`hostKey`);
-
-ALTER TABLE `wp_wfIssues`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `wp_wfKnownFileList`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `wp_wfLeechers`
-  ADD PRIMARY KEY (`eMin`,`IP`);
-
-ALTER TABLE `wp_wfLockedOut`
-  ADD PRIMARY KEY (`IP`);
-
-ALTER TABLE `wp_wfLocs`
-  ADD PRIMARY KEY (`IP`);
-
-ALTER TABLE `wp_wfLogins`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `k1` (`IP`,`fail`),
-  ADD KEY `hitID` (`hitID`);
-
-ALTER TABLE `wp_wfNet404s`
-  ADD PRIMARY KEY (`sig`),
-  ADD KEY `k1` (`ctime`);
-
-ALTER TABLE `wp_wfNotifications`
-  ADD PRIMARY KEY (`id`);
-
-ALTER TABLE `wp_wfReverseCache`
-  ADD PRIMARY KEY (`IP`);
-
-ALTER TABLE `wp_wfScanners`
-  ADD PRIMARY KEY (`eMin`,`IP`);
-
-ALTER TABLE `wp_wfSNIPCache`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `expiration` (`expiration`),
-  ADD KEY `IP` (`IP`),
-  ADD KEY `type` (`type`);
-
-ALTER TABLE `wp_wfStatus`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `k1` (`ctime`),
-  ADD KEY `k2` (`type`);
-
-ALTER TABLE `wp_wfThrottleLog`
-  ADD PRIMARY KEY (`IP`),
-  ADD KEY `k2` (`endTime`);
-
-ALTER TABLE `wp_wfVulnScanners`
-  ADD PRIMARY KEY (`IP`);
-
-
-ALTER TABLE `wp_cjtoolbox_authors`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-ALTER TABLE `wp_cjtoolbox_backups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_blocks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_block_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_form_groups`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_form_group_parameters`
-  MODIFY `groupId` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_packages`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_parameters`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'paramter unique identifier';
-ALTER TABLE `wp_cjtoolbox_parameter_typedef`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_parameter_typeparams`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_cjtoolbox_templates`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
-ALTER TABLE `wp_cjtoolbox_template_revisions`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
-ALTER TABLE `wp_commentmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-ALTER TABLE `wp_comments`
-  MODIFY `comment_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
-ALTER TABLE `wp_ewwwio_images`
-  MODIFY `id` int(14) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
-ALTER TABLE `wp_links`
-  MODIFY `link_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
-ALTER TABLE `wp_options`
-  MODIFY `option_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1613;
-ALTER TABLE `wp_postmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=791;
-ALTER TABLE `wp_posts`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
-ALTER TABLE `wp_termmeta`
-  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_terms`
-  MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
-ALTER TABLE `wp_term_taxonomy`
-  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
-ALTER TABLE `wp_usermeta`
-  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
-ALTER TABLE `wp_users`
-  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-ALTER TABLE `wp_wc_comments_subscription`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-ALTER TABLE `wp_wc_phrases`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_wc_users_voted`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_wfBlocksAdv`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_wfHits`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
-ALTER TABLE `wp_wfHoover`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_wfIssues`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
-ALTER TABLE `wp_wfKnownFileList`
-  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3527;
-ALTER TABLE `wp_wfLogins`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
-ALTER TABLE `wp_wfSNIPCache`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
-ALTER TABLE `wp_wfStatus`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1012;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
