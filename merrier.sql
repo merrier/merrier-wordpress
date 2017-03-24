@@ -1,41 +1,71 @@
+-- phpMyAdmin SQL Dump
+-- version 4.6.5.2
+-- https://www.phpmyadmin.net/
+--
+-- Host: 127.0.0.1
+-- Generation Time: 2017-03-24 04:13:42
+-- 服务器版本： 5.7.17
+-- PHP Version: 5.6.28
+
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
+
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
 /*!40101 SET NAMES utf8 */;
 
+--
+-- Database: `merrier`
+--
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_authors`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_authors`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_authors` (
+CREATE TABLE `wp_cjtoolbox_authors` (
   `name` varchar(80) NOT NULL,
   `email` varchar(100) DEFAULT NULL,
   `url` varchar(200) DEFAULT NULL,
   `attributes` int(4) NOT NULL DEFAULT '0',
   `guid` varchar(16) DEFAULT NULL,
-  `id` int(10) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `guid` (`guid`),
-  KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `id` int(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_cjtoolbox_authors`
+--
 
 INSERT INTO `wp_cjtoolbox_authors` (`name`, `email`, `url`, `attributes`, `guid`, `id`) VALUES
 ('Wordpress', NULL, NULL, 1, NULL, 1);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_backups`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_backups`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_backups` (
+CREATE TABLE `wp_cjtoolbox_backups` (
   `name` varchar(50) DEFAULT NULL,
   `type` varchar(20) NOT NULL DEFAULT 'blocks',
   `owner` int(11) NOT NULL,
   `created` datetime NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`)
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_blocks`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_blocks`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_blocks` (
+CREATE TABLE `wp_cjtoolbox_blocks` (
   `name` varchar(50) DEFAULT NULL,
   `description` varchar(300) DEFAULT NULL,
   `owner` int(11) NOT NULL,
@@ -51,137 +81,192 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_blocks` (
   `parent` int(11) DEFAULT NULL,
   `flag` int(4) NOT NULL DEFAULT '0',
   `masterFile` int(4) NOT NULL DEFAULT '1',
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`backupId`),
-  KEY `pinPoint` (`pinPoint`,`state`,`location`,`type`,`parent`)
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_block_files`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_block_files`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_files` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_cjtoolbox_block_files` (
+  `id` int(11) NOT NULL,
   `blockId` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `type` enum('css','javascript','php','html') DEFAULT NULL,
   `description` varchar(400) DEFAULT NULL,
   `code` text,
   `order` smallint(6) DEFAULT '0',
-  `tag` text,
-  PRIMARY KEY (`id`,`blockId`)
+  `tag` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_block_pins`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_block_pins`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_pins` (
+CREATE TABLE `wp_cjtoolbox_block_pins` (
   `blockId` int(11) NOT NULL,
   `pin` varchar(20) NOT NULL,
   `value` int(11) NOT NULL,
-  `attributes` int(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`blockId`,`pin`,`value`)
+  `attributes` int(4) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_block_templates`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_block_templates`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_block_templates` (
+CREATE TABLE `wp_cjtoolbox_block_templates` (
   `blockId` int(11) NOT NULL,
-  `templateId` int(11) NOT NULL,
-  PRIMARY KEY (`blockId`,`templateId`)
+  `templateId` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_forms`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_forms`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_forms` (
+CREATE TABLE `wp_cjtoolbox_forms` (
   `blockId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `name` varchar(100) NOT NULL COMMENT 'Form name/title',
-  `groupType` varchar(20) NOT NULL COMMENT 'parameters gooup type (tab, accordion, etc...)',
-  PRIMARY KEY (`blockId`)
+  `groupType` varchar(20) NOT NULL COMMENT 'parameters gooup type (tab, accordion, etc...)'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_form_groups`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_form_groups`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_groups` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_cjtoolbox_form_groups` (
+  `id` int(11) NOT NULL,
   `formId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `name` varchar(100) NOT NULL COMMENT 'group name/title',
-  `description` text COMMENT 'Parameters group description',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Index 3` (`formId`,`name`),
-  KEY `formId` (`formId`)
+  `description` text COMMENT 'Parameters group description'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_form_group_parameters`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_form_group_parameters`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_group_parameters` (
-  `groupId` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_cjtoolbox_form_group_parameters` (
+  `groupId` int(11) NOT NULL,
   `parameterId` int(11) NOT NULL COMMENT 'block to be associated with the form',
   `renderer` varchar(30) DEFAULT NULL,
   `description` text,
-  `helpText` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`parameterId`),
-  KEY `Index 2` (`groupId`)
+  `helpText` varchar(200) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_form_group_xfields`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_form_group_xfields`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_form_group_xfields` (
+CREATE TABLE `wp_cjtoolbox_form_group_xfields` (
   `groupId` int(11) NOT NULL,
-  `text` text,
-  UNIQUE KEY `groupId` (`groupId`)
+  `text` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_packages`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_packages`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_packages` (
+CREATE TABLE `wp_cjtoolbox_packages` (
   `name` varchar(100) NOT NULL,
   `author` varchar(150) NOT NULL,
   `webSite` varchar(300) NOT NULL,
   `description` text NOT NULL,
   `license` text NOT NULL,
   `readme` text NOT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`)
+  `id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_package_objects`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_package_objects`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_package_objects` (
+CREATE TABLE `wp_cjtoolbox_package_objects` (
   `packageId` int(10) UNSIGNED NOT NULL,
   `objectId` int(10) UNSIGNED NOT NULL,
   `objectType` enum('block','template') NOT NULL,
-  `relType` enum('add','link') NOT NULL DEFAULT 'add',
-  PRIMARY KEY (`packageId`,`objectId`,`objectType`)
+  `relType` enum('add','link') NOT NULL DEFAULT 'add'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_parameters`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_parameters`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameters` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'paramter unique identifier',
+CREATE TABLE `wp_cjtoolbox_parameters` (
+  `id` int(11) UNSIGNED NOT NULL COMMENT 'paramter unique identifier',
   `blockId` int(11) UNSIGNED NOT NULL,
   `parent` int(11) UNSIGNED DEFAULT NULL,
   `name` varchar(60) NOT NULL,
   `type` varchar(20) NOT NULL,
   `defaultValue` text,
   `required` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  `contentParam` tinyint(1) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`parent`,`blockId`),
-  KEY `parent` (`parent`),
-  KEY `blockId` (`blockId`)
+  `contentParam` tinyint(1) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_parameter_typedef`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_parameter_typedef`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameter_typedef` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_cjtoolbox_parameter_typedef` (
+  `id` int(11) NOT NULL,
   `parameterId` int(11) NOT NULL,
   `text` text NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parameterId` (`parameterId`)
+  `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_parameter_typeparams`
+--
 
 DROP TABLE IF EXISTS `wp_cjtoolbox_parameter_typeparams`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_parameter_typeparams` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_cjtoolbox_parameter_typeparams` (
+  `id` int(11) NOT NULL,
   `parameterId` int(11) NOT NULL,
   `name` text NOT NULL,
-  `value` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parameterId` (`parameterId`)
+  `value` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_templates`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_templates`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_templates` (
+CREATE TABLE `wp_cjtoolbox_templates` (
   `name` varchar(80) NOT NULL,
   `queueName` varchar(80) NOT NULL,
   `description` text,
@@ -196,16 +281,12 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_templates` (
   `state` enum('published','draft','trash') NOT NULL DEFAULT 'published',
   `attributes` int(4) NOT NULL DEFAULT '0',
   `guid` varchar(16) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`,`type`),
-  UNIQUE KEY `guid` (`guid`),
-  KEY `keywords` (`keywords`),
-  KEY `owner` (`ownerId`),
-  KEY `author` (`authorId`),
-  KEY `type` (`type`),
-  KEY `attributes` (`attributes`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_cjtoolbox_templates`
+--
 
 INSERT INTO `wp_cjtoolbox_templates` (`name`, `queueName`, `description`, `keywords`, `license`, `type`, `email`, `url`, `creationDate`, `ownerId`, `authorId`, `state`, `attributes`, `guid`, `id`) VALUES
 ('Utils', 'utils', NULL, NULL, NULL, 'javascript', NULL, NULL, '2017-03-17 21:58:11', 1, 1, 'published', 1, NULL, 1),
@@ -421,8 +502,14 @@ INSERT INTO `wp_cjtoolbox_templates` (`name`, `queueName`, `description`, `keywo
 ('Colors fresh', 'colors-fresh', NULL, NULL, NULL, 'css', NULL, NULL, '2017-03-17 21:58:12', 1, 1, 'published', 1, NULL, 211),
 ('Open sans', 'open-sans', NULL, NULL, NULL, 'css', NULL, NULL, '2017-03-17 21:58:12', 1, 1, 'published', 1, NULL, 212);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_cjtoolbox_template_revisions`
+--
+
 DROP TABLE IF EXISTS `wp_cjtoolbox_template_revisions`;
-CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_template_revisions` (
+CREATE TABLE `wp_cjtoolbox_template_revisions` (
   `templateId` int(11) NOT NULL,
   `revisionNo` int(11) NOT NULL DEFAULT '0',
   `version` varchar(15) DEFAULT NULL,
@@ -431,10 +518,12 @@ CREATE TABLE IF NOT EXISTS `wp_cjtoolbox_template_revisions` (
   `attributes` int(4) UNSIGNED NOT NULL DEFAULT '1',
   `dateCreated` datetime NOT NULL,
   `file` varchar(400) DEFAULT NULL,
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `templateid-revisionNo` (`revisionNo`,`templateId`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
+  `id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_cjtoolbox_template_revisions`
+--
 
 INSERT INTO `wp_cjtoolbox_template_revisions` (`templateId`, `revisionNo`, `version`, `changeLog`, `state`, `attributes`, `dateCreated`, `file`, `id`) VALUES
 (1, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:11', '/wp-includes/js/utils.min.js', 1),
@@ -650,16 +739,23 @@ INSERT INTO `wp_cjtoolbox_template_revisions` (`templateId`, `revisionNo`, `vers
 (211, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:12', '', 211),
 (212, 1, '', 'Cached by CJT installer!', 'release', 1, '2017-03-17 21:58:12', '', 212);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_commentmeta`
+--
+
 DROP TABLE IF EXISTS `wp_commentmeta`;
-CREATE TABLE IF NOT EXISTS `wp_commentmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_commentmeta` (
+  `meta_id` bigint(20) UNSIGNED NOT NULL,
   `comment_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext ,
-  PRIMARY KEY (`meta_id`),
-  KEY `comment_id` (`comment_id`),
-  KEY `meta_key` (`meta_key`(191))
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_commentmeta`
+--
 
 INSERT INTO `wp_commentmeta` (`meta_id`, `comment_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, 'akismet_result', 'false'),
@@ -670,9 +766,15 @@ INSERT INTO `wp_commentmeta` (`meta_id`, `comment_id`, `meta_key`, `meta_value`)
 (6, 1, 'wpdiscuz_votes', '0'),
 (7, 1, 'wpdiscuz_child_ids', '');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_comments`
+--
+
 DROP TABLE IF EXISTS `wp_comments`;
-CREATE TABLE IF NOT EXISTS `wp_comments` (
-  `comment_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_comments` (
+  `comment_ID` bigint(20) UNSIGNED NOT NULL,
   `comment_post_ID` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `comment_author` tinytext  NOT NULL,
   `comment_author_email` varchar(100)  NOT NULL DEFAULT '',
@@ -687,22 +789,26 @@ CREATE TABLE IF NOT EXISTS `wp_comments` (
   `comment_type` varchar(20)  NOT NULL DEFAULT '',
   `comment_parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `comment_mail_notify` tinyint(4) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`comment_ID`),
-  KEY `comment_post_ID` (`comment_post_ID`),
-  KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
-  KEY `comment_date_gmt` (`comment_date_gmt`),
-  KEY `comment_parent` (`comment_parent`),
-  KEY `comment_author_email` (`comment_author_email`(10))
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 ;
+  `comment_mail_notify` tinyint(4) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_comments`
+--
 
 INSERT INTO `wp_comments` (`comment_ID`, `comment_post_ID`, `comment_author`, `comment_author_email`, `comment_author_url`, `comment_author_IP`, `comment_date`, `comment_date_gmt`, `comment_content`, `comment_karma`, `comment_approved`, `comment_agent`, `comment_type`, `comment_parent`, `user_id`, `comment_mail_notify`) VALUES
 (1, 1, '一位WordPress评论者', 'wapuu@wordpress.example', 'https://wordpress.org/', '', '2017-03-13 21:57:02', '2017-03-13 13:57:02', '嗨，这是一条评论。\n要开始审核、编辑及删除评论，请访问仪表盘的“评论”页面。\n评论者头像来自<a href=\"https://gravatar.com\">Gravatar</a>。', 0, '1', '', '', 0, 0, 0),
 (2, 204, 'merrier', '953075999@qq.com', '', '127.0.0.1', '2017-03-18 11:25:15', '2017-03-18 03:25:15', '测试', 0, '1', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', 0, 1, 1);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_ewwwio_images`
+--
+
 DROP TABLE IF EXISTS `wp_ewwwio_images`;
-CREATE TABLE IF NOT EXISTS `wp_ewwwio_images` (
-  `id` int(14) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_ewwwio_images` (
+  `id` int(14) UNSIGNED NOT NULL,
   `attachment_id` bigint(20) UNSIGNED DEFAULT NULL,
   `gallery` varchar(10)  DEFAULT NULL,
   `resize` varchar(75)  DEFAULT NULL,
@@ -716,11 +822,12 @@ CREATE TABLE IF NOT EXISTS `wp_ewwwio_images` (
   `pending` tinyint(1) NOT NULL DEFAULT '0',
   `updates` int(5) UNSIGNED DEFAULT NULL,
   `updated` timestamp NOT NULL DEFAULT '1970-12-31 16:00:00' ON UPDATE CURRENT_TIMESTAMP,
-  `trace` blob,
-  UNIQUE KEY `id` (`id`),
-  KEY `path_image_size` (`path`(191),`image_size`),
-  KEY `attachment_info` (`gallery`(3),`attachment_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=utf8 ;
+  `trace` blob
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_ewwwio_images`
+--
 
 INSERT INTO `wp_ewwwio_images` (`id`, `attachment_id`, `gallery`, `resize`, `path`, `converted`, `results`, `image_size`, `orig_size`, `backup`, `level`, `pending`, `updates`, `updated`, `trace`) VALUES
 (1, 230, 'media', 'full', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/QQ20170318-180820@2x.png', '', 'Reduced by 54.3% (72.2&nbsp;KB)', 62301, 136183, '', NULL, 0, 1, '2017-03-18 02:09:51', NULL),
@@ -819,9 +926,15 @@ INSERT INTO `wp_ewwwio_images` (`id`, `attachment_id`, `gallery`, `resize`, `pat
 (94, 297, 'media', 'thumbnail', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/JS入门-150x135.jpg', '', 'Reduced by 5.1% (286.0&nbsp;B)', 5360, 5646, '', NULL, 0, 1, '2017-03-22 05:31:25', NULL),
 (95, 297, 'media', 'post-thumbnail', '/Users/Merrier/Documents/workspace/merrier/wp-content/uploads/2017/03/JS入门-220x135.jpg', '', 'Reduced by 4.7% (337.0&nbsp;B)', 6807, 7144, '', NULL, 0, 1, '2017-03-22 05:31:25', NULL);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_links`
+--
+
 DROP TABLE IF EXISTS `wp_links`;
-CREATE TABLE IF NOT EXISTS `wp_links` (
-  `link_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_links` (
+  `link_id` bigint(20) UNSIGNED NOT NULL,
   `link_url` varchar(255)  NOT NULL DEFAULT '',
   `link_name` varchar(255)  NOT NULL DEFAULT '',
   `link_image` varchar(255)  NOT NULL DEFAULT '',
@@ -833,10 +946,12 @@ CREATE TABLE IF NOT EXISTS `wp_links` (
   `link_updated` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `link_rel` varchar(255)  NOT NULL DEFAULT '',
   `link_notes` mediumtext  NOT NULL,
-  `link_rss` varchar(255)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`link_id`),
-  KEY `link_visible` (`link_visible`)
-) ENGINE=InnoDB AUTO_INCREMENT=38 DEFAULT CHARSET=utf8 ;
+  `link_rss` varchar(255)  NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_links`
+--
 
 INSERT INTO `wp_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_target`, `link_description`, `link_visible`, `link_owner`, `link_rating`, `link_updated`, `link_rel`, `link_notes`, `link_rss`) VALUES
 (1, 'http://www.w3school.com.cn/', 'W3C官网', '', '_blank', 'w3c的官网，内容比较全，有各种语言的入门教程', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', ''),
@@ -877,19 +992,27 @@ INSERT INTO `wp_links` (`link_id`, `link_url`, `link_name`, `link_image`, `link_
 (36, 'http://tool.oschina.net/apidocs', '常用API文档索引', '', '_blank', '有好多API文档的索引，包括apache、android、bootstrap等等', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', ''),
 (37, 'https://www.zhihu.com/question/22864602', '知乎推荐插件', '', '_blank', '', 'Y', 1, 0, '0000-00-00 00:00:00', '', '', '');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_options`
+--
+
 DROP TABLE IF EXISTS `wp_options`;
-CREATE TABLE IF NOT EXISTS `wp_options` (
-  `option_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_options` (
+  `option_id` bigint(20) UNSIGNED NOT NULL,
   `option_name` varchar(191)  NOT NULL DEFAULT '',
   `option_value` longtext  NOT NULL,
-  `autoload` varchar(20)  NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`option_id`),
-  UNIQUE KEY `option_name` (`option_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=1613 DEFAULT CHARSET=utf8 ;
+  `autoload` varchar(20)  NOT NULL DEFAULT 'yes'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_options`
+--
 
 INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
-(1, 'siteurl', 'http://merrier.bug', 'yes'),
-(2, 'home', 'http://merrier.bug', 'yes'),
+(1, 'siteurl', 'http://merrier.online', 'yes'),
+(2, 'home', 'http://merrier.online', 'yes'),
 (3, 'blogname', 'Merrier的淘宝小屋', 'yes'),
 (4, 'blogdescription', '叩首问路，码梦为生', 'yes'),
 (5, 'users_can_register', '1', 'yes'),
@@ -992,7 +1115,7 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (102, 'widget_calendar', 'a:2:{i:2;a:1:{s:5:\"title\";s:0:\"\";}s:12:\"_multiwidget\";i:1;}', 'yes'),
 (103, 'widget_tag_cloud', 'a:2:{i:2;a:2:{s:5:\"title\";s:0:\"\";s:8:\"taxonomy\";s:8:\"post_tag\";}s:12:\"_multiwidget\";i:1;}', 'yes'),
 (104, 'widget_nav_menu', 'a:1:{s:12:\"_multiwidget\";i:1;}', 'yes'),
-(105, 'cron', 'a:17:{i:1490326668;a:1:{s:27:\"wordfence_processAttackData\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490326986;a:2:{s:20:\"wordfence_daily_cron\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}s:21:\"wordfence_hourly_cron\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1490327608;a:1:{s:17:\"hyper_cache_clean\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1490332798;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490363033;a:1:{s:27:\"do_baidu_sitemap_auto_daily\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490363823;a:3:{s:16:\"wp_version_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:17:\"wp_update_plugins\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_update_themes\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}}i:1490363842;a:1:{s:19:\"wp_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490364901;a:1:{s:30:\"wp_scheduled_auto_draft_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490412315;a:1:{s:24:\"akismet_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490418023;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490506607;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490593173;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490601600;a:1:{s:31:\"wordfence_email_activity_report\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490679873;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490764923;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490850843;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}s:7:\"version\";i:2;}', 'yes'),
+(105, 'cron', 'a:17:{i:1490330586;a:1:{s:21:\"wordfence_hourly_cron\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1490331208;a:1:{s:17:\"hyper_cache_clean\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:6:\"hourly\";s:4:\"args\";a:0:{}s:8:\"interval\";i:3600;}}}i:1490332798;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490363033;a:1:{s:27:\"do_baidu_sitemap_auto_daily\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490363823;a:3:{s:16:\"wp_version_check\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:17:\"wp_update_plugins\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}s:16:\"wp_update_themes\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:10:\"twicedaily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:43200;}}}i:1490363842;a:1:{s:19:\"wp_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490364901;a:1:{s:30:\"wp_scheduled_auto_draft_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490412315;a:1:{s:24:\"akismet_scheduled_delete\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490413386;a:1:{s:20:\"wordfence_daily_cron\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:3:{s:8:\"schedule\";s:5:\"daily\";s:4:\"args\";a:0:{}s:8:\"interval\";i:86400;}}}i:1490418023;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490506607;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490593173;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490601600;a:1:{s:31:\"wordfence_email_activity_report\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490679873;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490764923;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}i:1490850843;a:1:{s:30:\"wordfence_start_scheduled_scan\";a:1:{s:32:\"40cd750bba9870f18aada2478b24840a\";a:2:{s:8:\"schedule\";b:0;s:4:\"args\";a:0:{}}}}s:7:\"version\";i:2;}', 'yes'),
 (106, 'theme_mods_twentyseventeen', 'a:2:{s:18:\"custom_css_post_id\";i:-1;s:16:\"sidebars_widgets\";a:2:{s:4:\"time\";i:1489414364;s:4:\"data\";a:4:{s:19:\"wp_inactive_widgets\";a:0:{}s:9:\"sidebar-1\";a:6:{i:0;s:8:\"search-2\";i:1;s:14:\"recent-posts-2\";i:2;s:17:\"recent-comments-2\";i:3;s:10:\"archives-2\";i:4;s:12:\"categories-2\";i:5;s:6:\"meta-2\";}s:9:\"sidebar-2\";a:0:{}s:9:\"sidebar-3\";a:0:{}}}}', 'yes'),
 (120, 'can_compress_scripts', '1', 'no'),
 (141, '_site_transient_timeout_wporg_theme_feature_list', '1489424365', 'no'),
@@ -1069,8 +1192,8 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (412, 'sharing-options', 'a:1:{s:6:\"global\";a:5:{s:12:\"button_style\";s:9:\"icon-text\";s:13:\"sharing_label\";s:18:\"共享此文章：\";s:10:\"open_links\";s:4:\"same\";s:4:\"show\";a:0:{}s:6:\"custom\";a:0:{}}}', 'yes'),
 (413, 'stats_options', 'a:7:{s:9:\"admin_bar\";b:1;s:5:\"roles\";a:1:{i:0;s:13:\"administrator\";}s:11:\"count_roles\";a:0:{}s:7:\"blog_id\";b:0;s:12:\"do_not_track\";b:1;s:10:\"hide_smile\";b:1;s:7:\"version\";s:1:\"9\";}', 'yes'),
 (422, 'theme_mods_twentyfifteen', 'a:3:{i:0;b:0;s:18:\"nav_menu_locations\";a:2:{s:3:\"nav\";i:2;s:7:\"topmenu\";i:17;}s:16:\"sidebars_widgets\";a:2:{s:4:\"time\";i:1490326295;s:4:\"data\";a:2:{s:19:\"wp_inactive_widgets\";a:5:{i:0;s:8:\"search-2\";i:1;s:17:\"recent-comments-2\";i:2;s:6:\"meta-2\";i:3;s:12:\"categories-2\";i:4;s:14:\"recent-posts-2\";}s:9:\"sidebar-1\";a:3:{i:0;s:14:\"recent-posts-3\";i:1;s:11:\"tag_cloud-2\";i:2;s:10:\"calendar-2\";}}}}', 'yes'),
-(476, '_site_transient_update_core', 'O:8:\"stdClass\":4:{s:7:\"updates\";a:2:{i:0;O:8:\"stdClass\":10:{s:8:\"response\";s:6:\"latest\";s:8:\"download\";s:65:\"https://downloads.wordpress.org/release/zh_CN/wordpress-4.7.3.zip\";s:6:\"locale\";s:5:\"zh_CN\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:65:\"https://downloads.wordpress.org/release/zh_CN/wordpress-4.7.3.zip\";s:10:\"no_content\";b:0;s:11:\"new_bundled\";b:0;s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.7.3\";s:7:\"version\";s:5:\"4.7.3\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";}i:1;O:8:\"stdClass\":10:{s:8:\"response\";s:6:\"latest\";s:8:\"download\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.7.3.zip\";s:6:\"locale\";s:5:\"en_US\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.7.3.zip\";s:10:\"no_content\";s:70:\"https://downloads.wordpress.org/release/wordpress-4.7.3-no-content.zip\";s:11:\"new_bundled\";s:71:\"https://downloads.wordpress.org/release/wordpress-4.7.3-new-bundled.zip\";s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.7.3\";s:7:\"version\";s:5:\"4.7.3\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";}}s:12:\"last_checked\";i:1490326205;s:15:\"version_checked\";s:5:\"4.7.3\";s:12:\"translations\";a:0:{}}', 'no'),
-(478, '_site_transient_update_themes', 'O:8:\"stdClass\":4:{s:12:\"last_checked\";i:1490325646;s:7:\"checked\";a:4:{s:3:\"dux\";s:3:\"1.8\";s:13:\"twentyfifteen\";s:3:\"1.7\";s:15:\"twentyseventeen\";s:3:\"1.1\";s:13:\"twentysixteen\";s:3:\"1.3\";}s:8:\"response\";a:0:{}s:12:\"translations\";a:0:{}}', 'no'),
+(476, '_site_transient_update_core', 'O:8:\"stdClass\":4:{s:7:\"updates\";a:2:{i:0;O:8:\"stdClass\":10:{s:8:\"response\";s:6:\"latest\";s:8:\"download\";s:65:\"https://downloads.wordpress.org/release/zh_CN/wordpress-4.7.3.zip\";s:6:\"locale\";s:5:\"zh_CN\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:65:\"https://downloads.wordpress.org/release/zh_CN/wordpress-4.7.3.zip\";s:10:\"no_content\";b:0;s:11:\"new_bundled\";b:0;s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.7.3\";s:7:\"version\";s:5:\"4.7.3\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";}i:1;O:8:\"stdClass\":10:{s:8:\"response\";s:6:\"latest\";s:8:\"download\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.7.3.zip\";s:6:\"locale\";s:5:\"en_US\";s:8:\"packages\";O:8:\"stdClass\":5:{s:4:\"full\";s:59:\"https://downloads.wordpress.org/release/wordpress-4.7.3.zip\";s:10:\"no_content\";s:70:\"https://downloads.wordpress.org/release/wordpress-4.7.3-no-content.zip\";s:11:\"new_bundled\";s:71:\"https://downloads.wordpress.org/release/wordpress-4.7.3-new-bundled.zip\";s:7:\"partial\";b:0;s:8:\"rollback\";b:0;}s:7:\"current\";s:5:\"4.7.3\";s:7:\"version\";s:5:\"4.7.3\";s:11:\"php_version\";s:5:\"5.2.4\";s:13:\"mysql_version\";s:3:\"5.0\";s:11:\"new_bundled\";s:3:\"4.7\";s:15:\"partial_version\";s:0:\"\";}}s:12:\"last_checked\";i:1490328734;s:15:\"version_checked\";s:5:\"4.7.3\";s:12:\"translations\";a:0:{}}', 'no'),
+(478, '_site_transient_update_themes', 'O:8:\"stdClass\":4:{s:12:\"last_checked\";i:1490328738;s:7:\"checked\";a:4:{s:3:\"dux\";s:3:\"1.8\";s:13:\"twentyfifteen\";s:3:\"1.7\";s:15:\"twentyseventeen\";s:3:\"1.1\";s:13:\"twentysixteen\";s:3:\"1.3\";}s:8:\"response\";a:0:{}s:12:\"translations\";a:0:{}}', 'no'),
 (479, 'tablepress_plugin_options', '{\"plugin_options_db_version\":34,\"table_scheme_db_version\":3,\"prev_tablepress_version\":\"0\",\"tablepress_version\":\"1.8\",\"first_activation\":1489611734,\"message_plugin_update\":false,\"message_donation_nag\":true,\"use_custom_css\":true,\"use_custom_css_file\":true,\"custom_css\":\"\",\"custom_css_minified\":\"\",\"custom_css_version\":0}', 'yes'),
 (480, 'tablepress_tables', '{\"last_id\":2,\"table_post\":{\"1\":164,\"2\":171}}', 'yes'),
 (621, '_transient_timeout_jetpack_idc_allowed', '1489631356', 'no'),
@@ -1160,13 +1283,8 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (1369, 'category_children', 'a:1:{i:3;a:3:{i:0;i:45;i:1;i:47;i:2;i:51;}}', 'yes'),
 (1445, '_transient_timeout_plugin_slugs', '1490412612', 'no'),
 (1446, '_transient_plugin_slugs', 'a:18:{i:0;s:29:\"a3-lazy-load/a3-lazy-load.php\";i:1;s:19:\"akismet/akismet.php\";i:2;s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";i:3;s:31:\"wpdiscuz/class.WpdiscuzCore.php\";i:4;s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";i:5;s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";i:6;s:29:\"easy-wp-smtp/easy-wp-smtp.php\";i:7;s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";i:8;s:9:\"hello.php\";i:9;s:22:\"hyper-cache/plugin.php\";i:10;s:41:\"quotmarks-replacer/quotmarks-replacer.php\";i:11;s:33:\"seo-image/seo-friendly-images.php\";i:12;s:25:\"tablepress/tablepress.php\";i:13;s:23:\"wordfence/wordfence.php\";i:14;s:29:\"wp-mail-smtp/wp_mail_smtp.php\";i:15;s:29:\"wp-postviews/wp-postviews.php\";i:16;s:35:\"wp-fastest-cache/wpFastestCache.php\";i:17;s:33:\"wp-user-avatar/wp-user-avatar.php\";}', 'no'),
-(1568, '_site_transient_update_plugins', 'O:8:\"stdClass\":5:{s:12:\"last_checked\";i:1490326210;s:7:\"checked\";a:18:{s:29:\"a3-lazy-load/a3-lazy-load.php\";s:5:\"1.7.1\";s:19:\"akismet/akismet.php\";s:3:\"3.3\";s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";s:5:\"1.6.5\";s:31:\"wpdiscuz/class.WpdiscuzCore.php\";s:5:\"4.0.6\";s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";s:5:\"2.8.4\";s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";s:3:\"2.3\";s:29:\"easy-wp-smtp/easy-wp-smtp.php\";s:5:\"1.2.4\";s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";s:5:\"3.2.7\";s:9:\"hello.php\";s:3:\"1.6\";s:22:\"hyper-cache/plugin.php\";s:5:\"3.2.6\";s:41:\"quotmarks-replacer/quotmarks-replacer.php\";s:6:\"2.6.18\";s:33:\"seo-image/seo-friendly-images.php\";s:5:\"3.0.5\";s:25:\"tablepress/tablepress.php\";s:3:\"1.8\";s:23:\"wordfence/wordfence.php\";s:5:\"6.3.4\";s:29:\"wp-mail-smtp/wp_mail_smtp.php\";s:6:\"0.10.1\";s:29:\"wp-postviews/wp-postviews.php\";s:4:\"1.74\";s:35:\"wp-fastest-cache/wpFastestCache.php\";s:7:\"0.8.6.7\";s:33:\"wp-user-avatar/wp-user-avatar.php\";s:5:\"2.0.8\";}s:8:\"response\";a:1:{s:23:\"wordfence/wordfence.php\";O:8:\"stdClass\":8:{s:2:\"id\";s:5:\"25305\";s:4:\"slug\";s:9:\"wordfence\";s:6:\"plugin\";s:23:\"wordfence/wordfence.php\";s:11:\"new_version\";s:5:\"6.3.5\";s:3:\"url\";s:40:\"https://wordpress.org/plugins/wordfence/\";s:7:\"package\";s:58:\"https://downloads.wordpress.org/plugin/wordfence.6.3.5.zip\";s:6:\"tested\";s:5:\"4.7.3\";s:13:\"compatibility\";O:8:\"stdClass\":1:{s:6:\"scalar\";O:8:\"stdClass\":1:{s:6:\"scalar\";b:0;}}}}s:12:\"translations\";a:0:{}s:9:\"no_update\";a:17:{s:29:\"a3-lazy-load/a3-lazy-load.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:5:\"56211\";s:4:\"slug\";s:12:\"a3-lazy-load\";s:6:\"plugin\";s:29:\"a3-lazy-load/a3-lazy-load.php\";s:11:\"new_version\";s:5:\"1.7.1\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/a3-lazy-load/\";s:7:\"package\";s:55:\"https://downloads.wordpress.org/plugin/a3-lazy-load.zip\";s:14:\"upgrade_notice\";s:84:\"Maintenance Update. 2 Tweaks for full compatibility with WordPress major version 4.5\";}s:19:\"akismet/akismet.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:2:\"15\";s:4:\"slug\";s:7:\"akismet\";s:6:\"plugin\";s:19:\"akismet/akismet.php\";s:11:\"new_version\";s:3:\"3.3\";s:3:\"url\";s:38:\"https://wordpress.org/plugins/akismet/\";s:7:\"package\";s:54:\"https://downloads.wordpress.org/plugin/akismet.3.3.zip\";}s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"9653\";s:4:\"slug\";s:23:\"baidu-sitemap-generator\";s:6:\"plugin\";s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";s:11:\"new_version\";s:5:\"1.6.5\";s:3:\"url\";s:54:\"https://wordpress.org/plugins/baidu-sitemap-generator/\";s:7:\"package\";s:66:\"https://downloads.wordpress.org/plugin/baidu-sitemap-generator.zip\";}s:31:\"wpdiscuz/class.WpdiscuzCore.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"55672\";s:4:\"slug\";s:8:\"wpdiscuz\";s:6:\"plugin\";s:31:\"wpdiscuz/class.WpdiscuzCore.php\";s:11:\"new_version\";s:5:\"4.0.6\";s:3:\"url\";s:39:\"https://wordpress.org/plugins/wpdiscuz/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/wpdiscuz.4.0.6.zip\";}s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"24611\";s:4:\"slug\";s:25:\"crayon-syntax-highlighter\";s:6:\"plugin\";s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";s:11:\"new_version\";s:5:\"2.8.4\";s:3:\"url\";s:56:\"https://wordpress.org/plugins/crayon-syntax-highlighter/\";s:7:\"package\";s:68:\"https://downloads.wordpress.org/plugin/crayon-syntax-highlighter.zip\";}s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"21157\";s:4:\"slug\";s:21:\"db-cache-reloaded-fix\";s:6:\"plugin\";s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";s:11:\"new_version\";s:3:\"2.3\";s:3:\"url\";s:52:\"https://wordpress.org/plugins/db-cache-reloaded-fix/\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/plugin/db-cache-reloaded-fix.zip\";}s:29:\"easy-wp-smtp/easy-wp-smtp.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"40147\";s:4:\"slug\";s:12:\"easy-wp-smtp\";s:6:\"plugin\";s:29:\"easy-wp-smtp/easy-wp-smtp.php\";s:11:\"new_version\";s:5:\"1.2.4\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/easy-wp-smtp/\";s:7:\"package\";s:55:\"https://downloads.wordpress.org/plugin/easy-wp-smtp.zip\";}s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"32121\";s:4:\"slug\";s:20:\"ewww-image-optimizer\";s:6:\"plugin\";s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";s:11:\"new_version\";s:5:\"3.2.7\";s:3:\"url\";s:51:\"https://wordpress.org/plugins/ewww-image-optimizer/\";s:7:\"package\";s:69:\"https://downloads.wordpress.org/plugin/ewww-image-optimizer.3.2.7.zip\";}s:9:\"hello.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"3564\";s:4:\"slug\";s:11:\"hello-dolly\";s:6:\"plugin\";s:9:\"hello.php\";s:11:\"new_version\";s:3:\"1.6\";s:3:\"url\";s:42:\"https://wordpress.org/plugins/hello-dolly/\";s:7:\"package\";s:58:\"https://downloads.wordpress.org/plugin/hello-dolly.1.6.zip\";}s:22:\"hyper-cache/plugin.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"2993\";s:4:\"slug\";s:11:\"hyper-cache\";s:6:\"plugin\";s:22:\"hyper-cache/plugin.php\";s:11:\"new_version\";s:5:\"3.2.6\";s:3:\"url\";s:42:\"https://wordpress.org/plugins/hyper-cache/\";s:7:\"package\";s:54:\"https://downloads.wordpress.org/plugin/hyper-cache.zip\";}s:41:\"quotmarks-replacer/quotmarks-replacer.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:4:\"8602\";s:4:\"slug\";s:18:\"quotmarks-replacer\";s:6:\"plugin\";s:41:\"quotmarks-replacer/quotmarks-replacer.php\";s:11:\"new_version\";s:6:\"2.6.18\";s:3:\"url\";s:49:\"https://wordpress.org/plugins/quotmarks-replacer/\";s:7:\"package\";s:68:\"https://downloads.wordpress.org/plugin/quotmarks-replacer.2.6.18.zip\";s:14:\"upgrade_notice\";s:109:\"Compatibility check for 4.6 and 4.7, nothing new, just bump version to tell everyone this plugin still works.\";}s:33:\"seo-image/seo-friendly-images.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"2572\";s:4:\"slug\";s:9:\"seo-image\";s:6:\"plugin\";s:33:\"seo-image/seo-friendly-images.php\";s:11:\"new_version\";s:5:\"3.0.5\";s:3:\"url\";s:40:\"https://wordpress.org/plugins/seo-image/\";s:7:\"package\";s:52:\"https://downloads.wordpress.org/plugin/seo-image.zip\";}s:25:\"tablepress/tablepress.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:5:\"32125\";s:4:\"slug\";s:10:\"tablepress\";s:6:\"plugin\";s:25:\"tablepress/tablepress.php\";s:11:\"new_version\";s:3:\"1.8\";s:3:\"url\";s:41:\"https://wordpress.org/plugins/tablepress/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/tablepress.1.8.zip\";s:14:\"upgrade_notice\";s:92:\"This update is a stability, maintenance, and compatibility release. Updating is recommended.\";}s:29:\"wp-mail-smtp/wp_mail_smtp.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:3:\"951\";s:4:\"slug\";s:12:\"wp-mail-smtp\";s:6:\"plugin\";s:29:\"wp-mail-smtp/wp_mail_smtp.php\";s:11:\"new_version\";s:6:\"0.10.1\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/wp-mail-smtp/\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/plugin/wp-mail-smtp.0.10.1.zip\";s:14:\"upgrade_notice\";s:47:\"Addition of Pepipost and cleanup of admin page.\";}s:29:\"wp-postviews/wp-postviews.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:3:\"370\";s:4:\"slug\";s:12:\"wp-postviews\";s:6:\"plugin\";s:29:\"wp-postviews/wp-postviews.php\";s:11:\"new_version\";s:4:\"1.74\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/wp-postviews/\";s:7:\"package\";s:60:\"https://downloads.wordpress.org/plugin/wp-postviews.1.74.zip\";}s:35:\"wp-fastest-cache/wpFastestCache.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"42995\";s:4:\"slug\";s:16:\"wp-fastest-cache\";s:6:\"plugin\";s:35:\"wp-fastest-cache/wpFastestCache.php\";s:11:\"new_version\";s:7:\"0.8.6.7\";s:3:\"url\";s:47:\"https://wordpress.org/plugins/wp-fastest-cache/\";s:7:\"package\";s:67:\"https://downloads.wordpress.org/plugin/wp-fastest-cache.0.8.6.7.zip\";}s:33:\"wp-user-avatar/wp-user-avatar.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"37680\";s:4:\"slug\";s:14:\"wp-user-avatar\";s:6:\"plugin\";s:33:\"wp-user-avatar/wp-user-avatar.php\";s:11:\"new_version\";s:5:\"2.0.8\";s:3:\"url\";s:45:\"https://wordpress.org/plugins/wp-user-avatar/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/wp-user-avatar.zip\";}}}', 'no'),
 (1570, '_transient_timeout_a3_lz_google_api_key_status', '1490410254', 'no'),
 (1571, '_transient_a3_lz_google_api_key_status', 'invalid', 'no'),
-(1574, '_transient_timeout_ewww_image_optimizer_images_reoptimized', '1490328555', 'no'),
-(1575, '_transient_ewww_image_optimizer_images_reoptimized', 'zero', 'no'),
-(1578, '_site_transient_timeout_theme_roots', '1490327444', 'no'),
-(1579, '_site_transient_theme_roots', 'a:4:{s:3:\"dux\";s:7:\"/themes\";s:13:\"twentyfifteen\";s:7:\"/themes\";s:15:\"twentyseventeen\";s:7:\"/themes\";s:13:\"twentysixteen\";s:7:\"/themes\";}', 'no'),
 (1580, '_transient_timeout_feed_7d1d7866a17d17cf5f79e1f075b87a31', '1490368897', 'no');
 INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
 (1581, '_transient_feed_7d1d7866a17d17cf5f79e1f075b87a31', 'a:4:{s:5:\"child\";a:1:{s:0:\"\";a:1:{s:3:\"rss\";a:1:{i:0;a:6:{s:4:\"data\";s:3:\"\n\n\n\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:7:\"version\";s:3:\"2.0\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:1:{s:0:\"\";a:1:{s:7:\"channel\";a:1:{i:0;a:6:{s:4:\"data\";s:49:\"\n	\n	\n	\n	\n	\n	\n	\n	\n	\n	\n		\n		\n		\n		\n		\n		\n		\n		\n		\n	\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:3:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:18:\"China 简体中文\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:24:\"https://cn.wordpress.org\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:41:\"官方 WordPress China 简体中文站点\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:13:\"lastBuildDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Thu, 08 Dec 2016 05:10:05 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"language\";a:1:{i:0;a:5:{s:4:\"data\";s:5:\"zh-CN\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:9:\"generator\";a:1:{i:0;a:5:{s:4:\"data\";s:40:\"https://wordpress.org/?v=4.8-alpha-40314\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"item\";a:10:{i:0;a:6:{s:4:\"data\";s:45:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n\n\n\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:8:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:26:\"WordPress 4.7“Vaughan”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:44:\"https://cn.wordpress.org/2016/12/08/vaughan/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:53:\"https://cn.wordpress.org/2016/12/08/vaughan/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Thu, 08 Dec 2016 05:09:23 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:32:\"https://cn.wordpress.org/?p=1040\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:131:\"WordPress 4.7简体中文版现已开放下载，或在您的WordPress仪表盘中升级。我们将此版本命名为“ [&#8230;]\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:9:\"enclosure\";a:3:{i:0;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:64:\"https://wordpress.org/news/files/2016/12/starter-content.mp4?_=1\";s:6:\"length\";s:7:\"3736020\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:1;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:63:\"https://wordpress.org/news/files/2016/12/edit-shortcuts.mp4?_=2\";s:6:\"length\";s:7:\"1127483\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:2;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:62:\"https://wordpress.org/news/files/2016/12/video-headers.mp4?_=3\";s:6:\"length\";s:7:\"1549803\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:41940:\"<div style=\"width: 692px\">\n<p>WordPress 4.7简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Vaughan”，以纪念爵士歌手莎拉·沃恩。4.7的全新功能让您以您的想法来建立您的网站。</p>\n<div id=\"v-AHz0Ca46-1\" class=\"video-player\"><video id=\"v-AHz0Ca46-1-video\" width=\"692\" height=\"388\" poster=\"https://videos.files.wordpress.com/AHz0Ca46/wp4-7-vaughan-r8-mastered_scruberthumbnail_0.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/AHz0Ca46/wp4-7-vaughan-r8-mastered_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/AHz0Ca46/wp4-7-vaughan-r8-mastered_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"Introducing WordPress 4.7\" src=\"https://videos.files.wordpress.com/AHz0Ca46/wp4-7-vaughan-r8-mastered_scruberthumbnail_0.jpg\" width=\"692\" height=\"388\" /></div><p>Introducing WordPress 4.7</p></video></div>\n<hr />\n<h2 style=\"text-align: center\">“二〇一七”介绍</h2>\n<p>一个全新默认主题可让您的网站通过引人入胜的特色图片和影音页头生动呈现。</p>\n<p><img class=\"alignnone wp-image-4618 size-large\" src=\"https://i2.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-Twenty-Seventeen-1.jpg?resize=632%2C356&amp;ssl=1\" width=\"632\" height=\"356\" /></p>\n<p>“二〇一七”专注于商业网站，提供了一个可自定义各部分的首页。使用挂件、导航、社交菜单、标志、自定颜色等来个性化。我们的2017年默认主题能支持更多语言、任何设备及广泛的用户群。</p>\n<hr />\n<h2 style=\"text-align: center\">您的网站，您说了算</h2>\n<p>WordPress 4.7为外观编辑加入新功能，帮助您完成主题的初始设置，在一个不间断的工作流程中对所有修改进行非破坏性的实时预览。</p>\n<h3>主题起始内容</h3>\n<p><div style=\"width: 632px;\" class=\"wp-video\"><!--[if lt IE 9]><script>document.createElement(\'video\');</script><![endif]-->\n<video class=\"wp-video-shortcode\" id=\"video-1040-1\" width=\"632\" height=\"345\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4?_=1\" /><source type=\"\" src=\"https://wordpress.org/news/files/2016/12/starter-content.mp4?_=1\" /><a href=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4\">https://cn.wordpress.org/files/2016/12/starter-content.mp4</a></video></div>为了帮助您建立一个坚实的基础，当您自定新网站时，个别主题将显示起始内容。这可以将商业信息放置在最佳位置，以提供带有社交网络链接的示例菜单、美丽图案的静态首页。</p>\n<div style=\"float:left;width:48%;margin:0\">\n<h3>编辑快捷方式</h3>\n<p><div style=\"width: 632px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-1040-2\" width=\"632\" height=\"345\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4?_=2\" /><source type=\"\" src=\"https://wordpress.org/news/files/2016/12/edit-shortcuts.mp4?_=2\" /><a href=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4\">https://cn.wordpress.org/files/2016/12/starter-content.mp4</a></video></div>当实时预览时，可视化图标会显示在您网站能够自定义的部分。点击快捷方式直接进行编辑，与起始内容相互配合，自定义您的网站将会比以往来得更快。\n</p></div>\n<div style=\"float:right;width:48%;margin:0\">\n<h3>视频页头</h3>\n<p><div style=\"width: 632px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-1040-3\" width=\"632\" height=\"345\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4?_=3\" /><source type=\"\" src=\"https://wordpress.org/news/files/2016/12/video-headers.mp4?_=3\" /><a href=\"https://cn.wordpress.org/files/2016/12/starter-content.mp4\">https://cn.wordpress.org/files/2016/12/starter-content.mp4</a></video></div>有时候您想使用视频作为移动题图来展示您的作品，试试看“二〇一七”。需要一些视频灵感吗？试试看搜索提供下载、使用视频的网站。\n</p></div>\n<div style=\"clear: both\"></div>\n<div style=\"float:left;width:48%;margin:0\">\n<h3>更平滑的菜单建立</h3>\n<p><img class=\"wp-image-4606 size-medium alignright\" src=\"https://i1.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-Nav.jpg?resize=300%2C158&amp;ssl=1\" width=\"300\" height=\"158\" /></p>\n<p>网站的许多菜单包含链接指向您的网站其他页面，但当您还没有任何页面时该怎么办？现在，您可以在建立菜单时新增页面，而不必离开定制器并放弃修改。一旦您发布了自定选项，您就可以准备好在新的页面加入内容。\n</p></div>\n<div style=\"float:right;width:48%;margin:0\">\n<h3>自定义CSS</h3>\n<p><img class=\"wp-image-4607 size-medium alignright\" src=\"https://i1.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-CSS.jpg?resize=300%2C158&amp;ssl=1\" width=\"300\" height=\"158\" /></p>\n<p>有时候您只需要一些视觉上的微调就能使您的网站更臻完美。WordPress 4.7允许您加入自定义CSS并能立即在网站看到变化。实时预览加快您的工作速度，且无须反复刷新网页。\n</p></div>\n<div style=\"clear: both\"></div>\n<hr />\n<div style=\"float:left;width:48%;margin:0\">\n<h3>PDF缩略图预览</h3>\n<p><img class=\"wp-image-4609 size-medium alignright\" src=\"https://i1.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-PDF.jpg?resize=300%2C158&amp;ssl=1\" width=\"300\" height=\"158\" /></p>\n<p>在WordPress 4.7管理您的文件集变得更容易。上传PDF文件将会产生缩略图，因此您可以在所有文件中更轻易区分他们。\n</p></div>\n<div style=\"float:right;width:48%;margin:0\">\n<h3>让仪表盘使用您的语言</h3>\n<p><img class=\"wp-image-4608 size-medium alignright\" src=\"https://i2.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-Language.jpg?resize=300%2C158&amp;ssl=1\" width=\"300\" height=\"158\" /></p>\n<p>只是因为您的网站在单一语言设定下，但这不代表每一位协助管理网站的伙伴都使用该语言。新增更多语言至您的网站，让用户可以在他的个人资料页面选择不同语言。\n</p></div>\n<div style=\"clear: both\"></div>\n<hr />\n<h2>向您介绍REST API内容节点</h2>\n<p>WordPress 4.7为文章、评论、自定义字段、用户、元数据和设置带来了REST API节点。</p>\n<p><img class=\"size-large wp-image-4600 alignnone\" src=\"https://i2.wp.com/wordpress.org/news/files/2016/12/4.7-%E2%80%94-API.jpg?resize=632%2C205&amp;ssl=1\" alt=\"\" width=\"632\" height=\"205\" /></p>\n<p>内容节点让您的WordPress拥有机器可读的额外访问资源，具备清晰、标准导向接口，为网站与插件、主题和App开创一条平稳的前进之路。准备好开始开发了吗？<a href=\"https://developer.wordpress.org/rest-api/reference/\">查看REST API参考。</a></p>\n<hr />\n<h2>更多开发者的快乐<img src=\"https://s.w.org/images/core/emoji/2.2.1/72x72/1f60a.png\" alt=\"😊\" class=\"wp-smiley\" style=\"height: 1em; max-height: 1em;\" /></h2>\n<h3><a href=\"https://make.wordpress.org/core/2016/11/03/post-type-templates-in-4-7/\">文章类型模板</a></h3>\n<p>通过开启所有文章类型的页面模板功能，主题开发者可以有更弹性的WordPress模板结构。</p>\n<h3>更多主题API功能</h3>\n<p>WordPress 4.7为主题开发者带来<a href=\"https://make.wordpress.org/core/2016/09/09/new-functions-hooks-and-behaviour-for-theme-developers-in-wordpress-4-7/\">新函数、钩子和行为</a>。</p>\n<h3><a href=\"https://make.wordpress.org/core/2016/10/04/custom-bulk-actions/\">自定义批处理</a></h3>\n<p>批处理现在除了编辑和删除外加入更多功能。</p>\n<h3><a href=\"https://make.wordpress.org/core/2016/09/08/wp_hook-next-generation-actions-and-filters/\"><code>WP_Hook</code></a></h3>\n<p>依靠动作和过滤器的代码已被大幅调整与改写，同时修正了一些错误。</p>\n<h3>设置注册API</h3>\n<p>register_setting()<a href=\"https://make.wordpress.org/core/2016/10/26/registering-your-settings-in-wordpress-4-7/\">已经强化</a>，加入包含类型、描述及REST API能见度管理。</p>\n<h3><a href=\"https://make.wordpress.org/core/2016/10/12/customize-changesets-technical-design-decisions/\">自定义变更集</a></h3>\n<p>自定义变更集让定制器中的修改持久化，就像自动保存草稿一样。他们也让像起始内容一样的新功能成为可能。</p>\n<hr />\n<h2>开发团队</h2>\n<p>此次发布由<a href=\"https://helen.blog/\">Helen Hou-Sandí</a>领头，由<a href=\"https://profiles.wordpress.org/jbpaul17\">Jeff Paul</a>和<a href=\"http://aaron.jorb.in/\">Aaron Jorbin</a>担任发布代表，并得到了以下个人的帮助。这次发布包含了482人的贡献，创下新高，其中205人更是第一次贡献。在您喜欢的音乐服务中听听莎拉·沃恩，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/abrightclearweb\">abrightclearweb</a>、<a href=\"https://profiles.wordpress.org/ibachal\">Achal Jain</a>、<a href=\"https://profiles.wordpress.org/achbed\">achbed</a>、<a href=\"https://profiles.wordpress.org/acmethemes\">Acme Themes</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/adammacias\">adammacias</a>、<a href=\"https://profiles.wordpress.org/mrahmadawais\">Ahmad Awais</a>、<a href=\"https://profiles.wordpress.org/ahmadawais\">ahmadawais</a>、<a href=\"https://profiles.wordpress.org/airesvsg\">airesvsg</a>、<a href=\"https://profiles.wordpress.org/ajoah\">ajoah</a>、<a href=\"https://profiles.wordpress.org/akibjorklund\">Aki Björklund</a>、<a href=\"https://profiles.wordpress.org/akshayvinchurkar\">AkshayVinchurkar</a>、<a href=\"https://profiles.wordpress.org/xknown\">Alex Concha</a>、<a href=\"https://profiles.wordpress.org/xavortm\">Alex Dimitrov</a>、<a href=\"https://profiles.wordpress.org/ironpaperweight\">Alex Hon</a>、<a href=\"https://profiles.wordpress.org/alex27\">alex27</a>、<a href=\"https://profiles.wordpress.org/allancole\">allancole</a>、<a href=\"https://profiles.wordpress.org/arush\">Amanda Rush</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/andrewp-2\">Andreas Panag</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/rarst\">Andrey &#8220;Rarst&#8221; Savchenko</a>、<a href=\"https://profiles.wordpress.org/andizer\">Andy Meerwaldt</a>、<a href=\"https://profiles.wordpress.org/kelderic\">Andy Mercer</a>、<a href=\"https://profiles.wordpress.org/andy\">Andy Skelton</a>、<a href=\"https://profiles.wordpress.org/aniketpant\">Aniket Pant</a>、<a href=\"https://profiles.wordpress.org/anilbasnet\">Anil Basnet</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/ahortin\">Anthony Hortin</a>、<a href=\"https://profiles.wordpress.org/antisilent\">antisilent</a>、<a href=\"https://profiles.wordpress.org/atimmer\">Anton Timmermans</a>、<a href=\"https://profiles.wordpress.org/zuige\">Antti Kuosmanen</a>、<a href=\"https://profiles.wordpress.org/apokalyptik\">apokalyptik</a>、<a href=\"https://profiles.wordpress.org/artoliukkonen\">artoliukkonen</a>、<a href=\"https://profiles.wordpress.org/ideag\">Arunas Liuiza</a>、<a href=\"https://profiles.wordpress.org/attitude\">attitude</a>、<a href=\"https://profiles.wordpress.org/backermann\">backermann</a>、<a href=\"https://profiles.wordpress.org/b-07\">Bappi</a>、<a href=\"https://profiles.wordpress.org/bcole808\">Ben Cole</a>、<a href=\"https://profiles.wordpress.org/kau-boy\">Bernhard Kau</a>、<a href=\"https://profiles.wordpress.org/binarymoon\">BinaryMoon</a>、<a href=\"https://profiles.wordpress.org/birgire\">Birgir Erlendsson (birgire)</a>、<a href=\"https://profiles.wordpress.org/bjornw\">BjornW</a>、<a href=\"https://profiles.wordpress.org/bobbingwide\">bobbingwide</a>、<a href=\"https://profiles.wordpress.org/boblinthorst\">boblinthorst</a>、<a href=\"https://profiles.wordpress.org/boboudreau\">boboudreau</a>、<a href=\"https://profiles.wordpress.org/gitlost\">bonger</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/bradyvercher\">Brady Vercher</a>、<a href=\"https://profiles.wordpress.org/brainstormforce\">Brainstorm Force</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/brianhogg\">Brian Hogg</a>、<a href=\"https://profiles.wordpress.org/krogsgard\">Brian Krogsgard</a>、<a href=\"https://profiles.wordpress.org/bronsonquick\">Bronson Quick</a>、<a href=\"https://profiles.wordpress.org/sixhours\">Caroline Moore</a>、<a href=\"https://profiles.wordpress.org/caseypatrickdriscoll\">Casey Driscoll</a>、<a href=\"https://profiles.wordpress.org/caspie\">Caspie</a>、<a href=\"https://profiles.wordpress.org/chaos-engine\">Chaos Engine</a>、<a href=\"https://profiles.wordpress.org/cheeserolls\">cheeserolls</a>、<a href=\"https://profiles.wordpress.org/chesio\">chesio</a>、<a href=\"https://profiles.wordpress.org/ketuchetan\">chetansatasiya</a>、<a href=\"https://profiles.wordpress.org/choongsavvii\">choong</a>、<a href=\"https://profiles.wordpress.org/chouby\">Chouby</a>、<a href=\"https://profiles.wordpress.org/chredd\">chredd</a>、<a href=\"https://profiles.wordpress.org/chrisjean\">Chris Jean</a>、<a href=\"https://profiles.wordpress.org/cmmarslender\">Chris Marslender</a>、<a href=\"https://profiles.wordpress.org/chris_d2d\">Chris Smith</a>、<a href=\"https://profiles.wordpress.org/chrisvanpatten\">Chris Van Patten</a>、<a href=\"https://profiles.wordpress.org/chriswiegman\">Chris Wiegman</a>、<a href=\"https://profiles.wordpress.org/chriscct7\">chriscct7</a>、<a href=\"https://profiles.wordpress.org/chriseverson\">chriseverson</a>、<a href=\"https://profiles.wordpress.org/cwpnolen\">Christian Nolen</a>、<a href=\"https://profiles.wordpress.org/needle\">Christian Wach</a>、<a href=\"https://profiles.wordpress.org/christophherr\">Christoph Herr</a>、<a href=\"https://profiles.wordpress.org/clarionwpdeveloper\">Clarion Technologies</a>、<a href=\"https://profiles.wordpress.org/claudiosanches\">Claudio Sanches</a>、<a href=\"https://profiles.wordpress.org/claudiosmweb\">Claudio Sanches</a>、<a href=\"https://profiles.wordpress.org/claudiolabarbera\">ClaudioLaBarbera</a>、<a href=\"https://profiles.wordpress.org/codemovementpk\">codemovement.pk</a>、<a href=\"https://profiles.wordpress.org/coderkevin\">coderkevin</a>、<a href=\"https://profiles.wordpress.org/codfish\">codfish</a>、<a href=\"https://profiles.wordpress.org/coreymcollins\">coreymcollins</a>、<a href=\"https://profiles.wordpress.org/curdin\">Curdin Krummenacher</a>、<a href=\"https://profiles.wordpress.org/cgrymala\">Curtiss Grymala</a>、<a href=\"https://profiles.wordpress.org/cdog\">Cătălin Dogaru</a>、<a href=\"https://profiles.wordpress.org/danhgilmore\">danhgilmore</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber </a>、<a href=\"https://profiles.wordpress.org/danielkanchev\">Daniel Kanchev</a>、<a href=\"https://profiles.wordpress.org/mte90\">Daniele Scasciafratte</a>、<a href=\"https://profiles.wordpress.org/danielpietrasik\">danielpietrasik</a>、<a href=\"https://profiles.wordpress.org/dllh\">Daryl L. L. Houston (dllh)</a>、<a href=\"https://profiles.wordpress.org/davepullig\">Dave Pullig</a>、<a href=\"https://profiles.wordpress.org/goto10\">Dave Romsey (goto10)</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/turtlepod\">David Chandra Purnama</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/dglingren\">David Lingren</a>、<a href=\"https://profiles.wordpress.org/davidmosterd\">David Mosterd</a>、<a href=\"https://profiles.wordpress.org/dshanske\">David Shanske</a>、<a href=\"https://profiles.wordpress.org/davidbhayes\">davidbhayes</a>、<a href=\"https://profiles.wordpress.org/folletto\">Davide &#8216;Folletto&#8217; Casali</a>、<a href=\"https://profiles.wordpress.org/deeptiboddapati\">deeptiboddapati</a>、<a href=\"https://profiles.wordpress.org/delphinus\">delphinus</a>、<a href=\"https://profiles.wordpress.org/deltafactory\">deltafactory</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/valendesigns\">Derek Herman</a>、<a href=\"https://profiles.wordpress.org/pcfreak30\">Derrick Hammer</a>、<a href=\"https://profiles.wordpress.org/derrickkoo\">Derrick Koo</a>、<a href=\"https://profiles.wordpress.org/dimchik\">dimchik</a>、<a href=\"https://profiles.wordpress.org/dineshc\">dineshc</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/dipeshkakadiya\">dipeshkakadiya</a>、<a href=\"https://profiles.wordpress.org/dmsnell\">dmsnell</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/dotancohen\">Dotan Cohen</a>、<a href=\"https://profiles.wordpress.org/dougwollison\">Doug Wollison</a>、<a href=\"https://profiles.wordpress.org/doughamlin\">doughamlin</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/duncanjbrown\">duncanjbrown</a>、<a href=\"https://profiles.wordpress.org/dungengronovius\">dungengronovius</a>、<a href=\"https://profiles.wordpress.org/dylanauty\">DylanAuty</a>、<a href=\"https://profiles.wordpress.org/hurtige\">Eddie Hurtig</a>、<a href=\"https://profiles.wordpress.org/oso96_2000\">Eduardo Reveles</a>、<a href=\"https://profiles.wordpress.org/chopinbach\">Edwin Cromley</a>、<a href=\"https://profiles.wordpress.org/electricfeet\">ElectricFeet</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/iseulde\">Ella Iseulde Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/elyobo\">elyobo</a>、<a href=\"https://profiles.wordpress.org/enodekciw\">enodekciw</a>、<a href=\"https://profiles.wordpress.org/enshrined\">enshrined</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/pushred\">Eric Lanehart</a>、<a href=\"https://profiles.wordpress.org/eherman24\">Evan Herman</a>、<a href=\"https://profiles.wordpress.org/flixos90\">Felix Arntz</a>、<a href=\"https://profiles.wordpress.org/fencer04\">Fencer04</a>、<a href=\"https://profiles.wordpress.org/florianbrinkmann\">Florian Brinkmann</a>、<a href=\"https://profiles.wordpress.org/mista-flo\">Florian TIAR</a>、<a href=\"https://profiles.wordpress.org/foliovision\">FolioVision</a>、<a href=\"https://profiles.wordpress.org/fomenkoandrey\">fomenkoandrey</a>、<a href=\"https://profiles.wordpress.org/frank-klein\">Frank Klein</a>、<a href=\"https://profiles.wordpress.org/fjarrett\">Frankie Jarrett</a>、<a href=\"https://profiles.wordpress.org/frankiet\">frankiet</a>、<a href=\"https://profiles.wordpress.org/akeif\">Fred</a>、<a href=\"https://profiles.wordpress.org/frozzare\">Fredrik Forsmo</a>、<a href=\"https://profiles.wordpress.org/fuscata\">fuscata</a>、<a href=\"https://profiles.wordpress.org/gma992\">Gabriel Maldonado</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/geekysoft\">Geeky Software</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/goranseric\">Goran Šerić</a>、<a href=\"https://profiles.wordpress.org/grahamarmfield\">Graham Armfield</a>、<a href=\"https://profiles.wordpress.org/grantderepas\">Grant Derepas</a>、<a href=\"https://profiles.wordpress.org/greatislander\">greatislander</a>、<a href=\"https://profiles.wordpress.org/tivnet\">Gregory Karpinsky (@tivnet)</a>、<a href=\"https://profiles.wordpress.org/hardeepasrani\">Hardeep Asrani</a>、<a href=\"https://profiles.wordpress.org/henrywright\">Henry Wright</a>、<a href=\"https://profiles.wordpress.org/hiddenpearls\">hiddenpearls</a>、<a href=\"https://profiles.wordpress.org/hnle\">Hinaloe</a>、<a href=\"https://profiles.wordpress.org/hugobaeta\">Hugo Baeta</a>、<a href=\"https://profiles.wordpress.org/polevaultweb\">Iain Poulson</a>、<a href=\"https://profiles.wordpress.org/iamjolly\">iamjolly</a>、<a href=\"https://profiles.wordpress.org/iandunn\">Ian Dunn</a>、<a href=\"https://profiles.wordpress.org/ianedington\">ian.edington</a>、<a href=\"https://profiles.wordpress.org/idealien\">idealien</a>、<a href=\"https://profiles.wordpress.org/igmoweb\">Ignacio Cruz Moreno</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/imnok\">Imnok</a>、<a href=\"https://profiles.wordpress.org/implenton\">implenton</a>、<a href=\"https://profiles.wordpress.org/ionutst\">Ionut Stanciu</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/krstarica\">Ivan</a>、<a href=\"https://profiles.wordpress.org/ivdimova\">ivdimova</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jakept\">Jacob Peattie</a>、<a href=\"https://profiles.wordpress.org/whyisjake\">Jake Spurlock</a>、<a href=\"https://profiles.wordpress.org/jnylen0\">James Nylen</a>、<a href=\"https://profiles.wordpress.org/jamesacero\">jamesacero</a>、<a href=\"https://profiles.wordpress.org/japh\">Japh</a>、<a href=\"https://profiles.wordpress.org/jaredcobb\">Jared Cobb</a>、<a href=\"https://profiles.wordpress.org/jayarjo\">jayarjo</a>、<a href=\"https://profiles.wordpress.org/jdolan\">jdolan</a>、<a href=\"https://profiles.wordpress.org/jdoubleu\">jdoubleu</a>、<a href=\"https://profiles.wordpress.org/cheffheid\">Jeffrey de Wit</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jpry\">Jeremy Pry</a>、<a href=\"https://profiles.wordpress.org/jimt\">jimt</a>、<a href=\"https://profiles.wordpress.org/jipmoors\">Jip Moors</a>、<a href=\"https://profiles.wordpress.org/jmusal\">jmusal</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/joelcj91\">Joel James</a>、<a href=\"https://profiles.wordpress.org/johanmynhardt\">johanmynhardt</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/zyphonic\">John Dittmar</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/johnpbloch\">John P. Bloch</a>、<a href=\"https://profiles.wordpress.org/johnregan3\">John Regan</a>、<a href=\"https://profiles.wordpress.org/johnpgreen\">johnpgreen</a>、<a href=\"https://profiles.wordpress.org/kenshino\">Jon (Kenshino)</a>、<a href=\"https://profiles.wordpress.org/jonathanbardo\">Jonathan Bardo</a>、<a href=\"https://profiles.wordpress.org/jbrinley\">Jonathan Brinley</a>、<a href=\"https://profiles.wordpress.org/daggerhart\">Jonathan Daggerhart</a>、<a href=\"https://profiles.wordpress.org/desrosj\">Jonathan Desrosiers</a>、<a href=\"https://profiles.wordpress.org/spacedmonkey\">Jonny Harris</a>、<a href=\"https://profiles.wordpress.org/jonnyauk\">jonnyauk</a>、<a href=\"https://profiles.wordpress.org/jordesign\">jordesign</a>、<a href=\"https://profiles.wordpress.org/jorritschippers\">JorritSchippers</a>、<a href=\"https://profiles.wordpress.org/joefusco\">Joseph Fusco</a>、<a href=\"https://profiles.wordpress.org/jjeaton\">Josh Eaton</a>、<a href=\"https://profiles.wordpress.org/shelob9\">Josh Pollock</a>、<a href=\"https://profiles.wordpress.org/joshcummingsdesign\">joshcummingsdesign</a>、<a href=\"https://profiles.wordpress.org/joshkadis\">joshkadis</a>、<a href=\"https://profiles.wordpress.org/joyously\">Joy</a>、<a href=\"https://profiles.wordpress.org/jrf\">jrf</a>、<a href=\"https://profiles.wordpress.org/jrgould\">JRGould</a>、<a href=\"https://profiles.wordpress.org/juanfra\">Juanfra Aldasoro</a>、<a href=\"https://profiles.wordpress.org/juhise\">Juhi Saxena</a>、<a href=\"https://profiles.wordpress.org/nukaga\">Junko Nukaga</a>、<a href=\"https://profiles.wordpress.org/justinbusa\">Justin Busa</a>、<a href=\"https://profiles.wordpress.org/justinsainton\">Justin Sainton</a>、<a href=\"https://profiles.wordpress.org/jshreve\">Justin Shreve</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/kacperszurek\">kacperszurek</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/kalenjohnson\">KalenJohnson</a>、<a href=\"https://profiles.wordpress.org/codebykat\">Kat Hagan</a>、<a href=\"https://profiles.wordpress.org/kkoppenhaver\">Keanan Koppenhaver</a>、<a href=\"https://profiles.wordpress.org/keesiemeijer\">keesiemeijer</a>、<a href=\"https://profiles.wordpress.org/kellbot\">kellbot</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/wraithkenny\">Ken Newman</a>、<a href=\"https://profiles.wordpress.org/khag7\">Kevin Hagerty</a>、<a href=\"https://profiles.wordpress.org/kwight\">Kirk Wight</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kite</a>、<a href=\"https://profiles.wordpress.org/kjbenk\">kjbenk</a>、<a href=\"https://profiles.wordpress.org/knutsp\">Knut Sparhell</a>、<a href=\"https://profiles.wordpress.org/koenschipper\">koenschipper</a>、<a href=\"https://profiles.wordpress.org/kokarn\">kokarn</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/kouratoras\">Konstantinos Kouratoras</a>、<a href=\"https://profiles.wordpress.org/kuchenundkakao\">kuchenundkakao</a>、<a href=\"https://profiles.wordpress.org/kuldipem\">kuldipem</a>、<a href=\"https://profiles.wordpress.org/laurelfulford\">Laurel Fulford</a>、<a href=\"https://profiles.wordpress.org/leewillis77\">Lee Willis</a>、<a href=\"https://profiles.wordpress.org/leobaiano\">Leo Baiano</a>、<a href=\"https://profiles.wordpress.org/littlebigthing\">LittleBigThings (Csaba)</a>、<a href=\"https://profiles.wordpress.org/lucasstark\">Lucas Stark</a>、<a href=\"https://profiles.wordpress.org/lukecavanagh\">Luke Cavanagh</a>、<a href=\"https://profiles.wordpress.org/lgedeon\">Luke Gedeon</a>、<a href=\"https://profiles.wordpress.org/lukepettway\">lukepettway</a>、<a href=\"https://profiles.wordpress.org/lyubomir_popov\">lyubomir_popov</a>、<a href=\"https://profiles.wordpress.org/mageshp\">mageshp</a>、<a href=\"https://profiles.wordpress.org/mahesh901122\">Mahesh Waghmare</a>、<a href=\"https://profiles.wordpress.org/mangeshp\">Mangesh Parte</a>、<a href=\"https://profiles.wordpress.org/manishsongirkar36\">Manish Songirkar</a>、<a href=\"https://profiles.wordpress.org/mantismamita\">mantismamita</a>、<a href=\"https://profiles.wordpress.org/mbootsman\">Marcel Bootsman</a>、<a href=\"https://profiles.wordpress.org/tyxla\">Marin Atanasov</a>、<a href=\"https://profiles.wordpress.org/mariovalney\">Mario Valney</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius L. J. (Clorith)</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/mrwweb\">Mark Root-Wiley</a>、<a href=\"https://profiles.wordpress.org/mapk\">Mark Uraine</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/markshep\">markshep</a>、<a href=\"https://profiles.wordpress.org/matrixik\">matrixik</a>、<a href=\"https://profiles.wordpress.org/mjbanks\">Matt Banks</a>、<a href=\"https://profiles.wordpress.org/jaworskimatt\">Matt Jaworski</a>、<a href=\"https://profiles.wordpress.org/mattking5000\">Matt King</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/veraxus\">Matt van Andel</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mattyrob\">mattyrob</a>、<a href=\"https://profiles.wordpress.org/maxcutler\">Max Cutler</a>、<a href=\"https://profiles.wordpress.org/maximeculea\">Maxime Culea</a>、<a href=\"https://profiles.wordpress.org/mayukojpn\">Mayo Moriyama</a>、<a href=\"https://profiles.wordpress.org/mbelchev\">mbelchev</a>、<a href=\"https://profiles.wordpress.org/mckernanin\">mckernanin</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/mhowell\">mhowell</a>、<a href=\"https://profiles.wordpress.org/michaelarestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/michalzuber\">michalzuber</a>、<a href=\"https://profiles.wordpress.org/mauteri\">Mike Auteri</a>、<a href=\"https://profiles.wordpress.org/mihai2u\">Mike Crantea</a>、<a href=\"https://profiles.wordpress.org/mdgl\">Mike Glendinning</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikelittle\">Mike Little</a>、<a href=\"https://profiles.wordpress.org/mikeschroder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/mikeviele\">Mike Viele</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinić</a>、<a href=\"https://profiles.wordpress.org/modemlooper\">modemlooper</a>、<a href=\"https://profiles.wordpress.org/batmoo\">Mohammad Jangda</a>、<a href=\"https://profiles.wordpress.org/deremohan\">Mohan Dere</a>、<a href=\"https://profiles.wordpress.org/monikarao\">monikarao</a>、<a href=\"https://profiles.wordpress.org/morettigeorgiev\">morettigeorgiev</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mor10\">Morten Rand-Hendriksen</a>、<a href=\"https://profiles.wordpress.org/mt8biz\">moto hachi ( mt8.biz )</a>、<a href=\"https://profiles.wordpress.org/mrbobbybryant\">mrbobbybryant</a>、<a href=\"https://profiles.wordpress.org/nnaimov\">Naim Naimov</a>、<a href=\"https://profiles.wordpress.org/natewr\">NateWr</a>、<a href=\"https://profiles.wordpress.org/nathanrice\">nathanrice</a>、<a href=\"https://profiles.wordpress.org/nazgul\">Nazgul</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey </a>、<a href=\"https://profiles.wordpress.org/nikeo\">Nicolas GUILLAUME</a>、<a href=\"https://profiles.wordpress.org/nikschavan\">Nikhil Chavan</a>、<a href=\"https://profiles.wordpress.org/nikv\">Nikhil Vimal</a>、<a href=\"https://profiles.wordpress.org/nbachiyski\">Nikolay Bachiyski</a>、<a href=\"https://profiles.wordpress.org/rabmalin\">Nilambar Sharma</a>、<a href=\"https://profiles.wordpress.org/noplanman\">noplanman</a>、<a href=\"https://profiles.wordpress.org/nullvariable\">nullvariable</a>、<a href=\"https://profiles.wordpress.org/odie2\">odie2</a>、<a href=\"https://profiles.wordpress.org/odysseygate\">odyssey</a>、<a href=\"https://profiles.wordpress.org/hideokamoto\">Okamoto Hidetaka</a>、<a href=\"https://profiles.wordpress.org/orvils\">orvils</a>、<a href=\"https://profiles.wordpress.org/oskosk\">oskosk</a>、<a href=\"https://profiles.wordpress.org/ottok\">Otto Kekäläinen</a>、<a href=\"https://profiles.wordpress.org/ovann86\">ovann86</a>、<a href=\"https://profiles.wordpress.org/swissspidy\">Pascal Birchler</a>、<a href=\"https://profiles.wordpress.org/patilvikasj\">patilvikasj</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/sirbrillig\">Payton Swick</a>、<a href=\"https://profiles.wordpress.org/pdufour\">pdufour</a>、<a href=\"https://profiles.wordpress.org/piewp\">Perdaan</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/phh\">phh</a>、<a href=\"https://profiles.wordpress.org/php\">php</a>、<a href=\"https://profiles.wordpress.org/delawski\">Piotr Delawski</a>、<a href=\"https://profiles.wordpress.org/pippinsplugins\">pippinsplugins</a>、<a href=\"https://profiles.wordpress.org/pjgalbraith\">pjgalbraith</a>、<a href=\"https://profiles.wordpress.org/pkevan\">pkevan</a>、<a href=\"https://profiles.wordpress.org/pratikchaskar\">Pratik</a>、<a href=\"https://profiles.wordpress.org/pressionate\">Pressionate</a>、<a href=\"https://profiles.wordpress.org/presskopp\">Presskopp</a>、<a href=\"https://profiles.wordpress.org/procodewp\">procodewp</a>、<a href=\"https://profiles.wordpress.org/quasel\">quasel</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/rahulsprajapati\">Rahul Prajapati</a>、<a href=\"https://profiles.wordpress.org/superpoincare\">Ramanan</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/ramiabraham\">ramiabraham</a>、<a href=\"https://profiles.wordpress.org/ranh\">ranh</a>、<a href=\"https://profiles.wordpress.org/redsand\">Red Sand Media Group</a>、<a href=\"https://profiles.wordpress.org/rianrietveld\">Rian Rietveld</a>、<a href=\"https://profiles.wordpress.org/iamfriendly\">Richard Tape</a>、<a href=\"https://profiles.wordpress.org/rpayne7264\">Robert D Payne</a>、<a href=\"https://profiles.wordpress.org/rnoakes3rd\">Robert Noakes</a>、<a href=\"https://profiles.wordpress.org/d4z_c0nf\">Rocco Aliberti</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/rommelxcastro\">Rommel Castro</a>、<a href=\"https://profiles.wordpress.org/fronaldaraujo\">Ronald Araújo</a>、<a href=\"https://profiles.wordpress.org/magicroundabout\">Ross Wintle</a>、<a href=\"https://profiles.wordpress.org/guavaworks\">Roy Sivan</a>、<a href=\"https://profiles.wordpress.org/ryankienstra\">Ryan Kienstra</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/ryanplas\">Ryan Plas</a>、<a href=\"https://profiles.wordpress.org/welcher\">Ryan Welcher</a>、<a href=\"https://profiles.wordpress.org/salcode\">Sal Ferrarello</a>、<a href=\"https://profiles.wordpress.org/samikeijonen\">Sami Keijonen</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">Samir Shah</a>、<a href=\"https://profiles.wordpress.org/samuelsidler\">Samuel Sidler</a>、<a href=\"https://profiles.wordpress.org/sandesh055\">Sandesh</a>、<a href=\"https://profiles.wordpress.org/smyoon315\">Sang-Min Yoon</a>、<a href=\"https://profiles.wordpress.org/pollyplummer\">Sarah Gooding</a>、<a href=\"https://profiles.wordpress.org/sayedwp\">Sayed Taqui</a>、<a href=\"https://profiles.wordpress.org/schlessera\">schlessera</a>、<a href=\"https://profiles.wordpress.org/schrapel\">schrapel</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/scrappyhuborg\">scrappy@hub.org</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/seancjones\">seancjones</a>、<a href=\"https://profiles.wordpress.org/sebastianpisula\">Sebastian Pisula</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/sgr33n\">Sergio De Falco</a>、<a href=\"https://profiles.wordpress.org/shayanys\">shayanys</a>、<a href=\"https://profiles.wordpress.org/shprink\">shprink</a>、<a href=\"https://profiles.wordpress.org/simonlampen\">simonlampen</a>、<a href=\"https://profiles.wordpress.org/skippy\">skippy</a>、<a href=\"https://profiles.wordpress.org/smerriman\">smerriman</a>、<a href=\"https://profiles.wordpress.org/snacking\">snacking</a>、<a href=\"https://profiles.wordpress.org/soean\">Soeren Wrede</a>、<a href=\"https://profiles.wordpress.org/solal\">solal</a>、<a href=\"https://profiles.wordpress.org/sstoqnov\">Stanimir Stoyanov</a>、<a href=\"https://profiles.wordpress.org/metodiew\">Stanko Metodiev</a>、<a href=\"https://profiles.wordpress.org/sharkomatic\">Steph</a>、<a href=\"https://profiles.wordpress.org/sswells\">Steph Wells</a>、<a href=\"https://profiles.wordpress.org/sillybean\">Stephanie Leary</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stephenharris\">Stephen Harris</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/stevenlinx\">stevenlinx</a>、<a href=\"https://profiles.wordpress.org/stubgo\">stubgo</a>、<a href=\"https://profiles.wordpress.org/sudar\">Sudar Muthu</a>、<a href=\"https://profiles.wordpress.org/patilswapnilv\">Swapnil V. Patil</a>、<a href=\"https://profiles.wordpress.org/takahashi_fumiki\">Takahashi Fumiki</a>、<a href=\"https://profiles.wordpress.org/miyauchi\">Takayuki Miyauchi</a>、<a href=\"https://profiles.wordpress.org/karmatosed\">Tammie Lister</a>、<a href=\"https://profiles.wordpress.org/tapsboy\">tapsboy</a>、<a href=\"https://profiles.wordpress.org/tlovett1\">Taylor Lovett</a>、<a href=\"https://profiles.wordpress.org/team\">team</a>、<a href=\"https://profiles.wordpress.org/tg29359\">tg29359</a>、<a href=\"https://profiles.wordpress.org/tharsheblows\">tharsheblows</a>、<a href=\"https://profiles.wordpress.org/the\">the</a>、<a href=\"https://profiles.wordpress.org/themeshaper\">themeshaper</a>、<a href=\"https://profiles.wordpress.org/thenbrent\">thenbrent</a>、<a href=\"https://profiles.wordpress.org/thomaswm\">thomaswm</a>、<a href=\"https://profiles.wordpress.org/tfrommen\">Thorsten Frommen</a>、<a href=\"https://profiles.wordpress.org/tierra\">tierra</a>、<a href=\"https://profiles.wordpress.org/tnash\">Tim Nash</a>、<a href=\"https://profiles.wordpress.org/timmydcrawford\">Timmy Crawford</a>、<a href=\"https://profiles.wordpress.org/timothyblynjacobs\">Timothy Jacobs</a>、<a href=\"https://profiles.wordpress.org/tkama\">Tkama</a>、<a href=\"https://profiles.wordpress.org/tnegri\">tnegri</a>、<a href=\"https://profiles.wordpress.org/tomauger\">Tom Auger</a>、<a href=\"https://profiles.wordpress.org/tjnowell\">Tom J Nowell</a>、<a href=\"https://profiles.wordpress.org/tomdxw\">tomdxw</a>、<a href=\"https://profiles.wordpress.org/toro_unit\">Toro_Unit (Hiroshi Urabe)</a>、<a href=\"https://profiles.wordpress.org/zodiac1978\">Torsten Landsiedel</a>、<a href=\"https://profiles.wordpress.org/transl8or\">transl8or</a>、<a href=\"https://profiles.wordpress.org/traversal\">traversal</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/nmt90\">Triet Minh</a>、<a href=\"https://profiles.wordpress.org/trishasalas\">Trisha Salas</a>、<a href=\"https://profiles.wordpress.org/tristangemus\">tristangemus</a>、<a href=\"https://profiles.wordpress.org/truongwp\">Truong Giang</a>、<a href=\"https://profiles.wordpress.org/tsl143\">tsl143</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/grapplerulrich\">Ulrich</a>、<a href=\"https://profiles.wordpress.org/utkarshpatel\">Utkarsh</a>、<a href=\"https://profiles.wordpress.org/valeriutihai\">Valeriu Tihai</a>、<a href=\"https://profiles.wordpress.org/vishalkakadiya\">Vishal Kakadiya</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/vrundakansara-1\">Vrunda Kansara</a>、<a href=\"https://profiles.wordpress.org/webbgaraget\">webbgaraget</a>、<a href=\"https://profiles.wordpress.org/webmandesign\">WebMan Design | Oliver Juhas</a>、<a href=\"https://profiles.wordpress.org/websupporter\">websupporter</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/earnjam\">William Earnhardt</a>、<a href=\"https://profiles.wordpress.org/williampatton\">williampatton</a>、<a href=\"https://profiles.wordpress.org/wolly\">Wolly aka Paolo Valenti</a>、<a href=\"https://profiles.wordpress.org/yale01\">yale01</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/yogasukma\">Yoga Sukma</a>、<a href=\"https://profiles.wordpress.org/youknowriad\">youknowriad</a>、<a href=\"https://profiles.wordpress.org/oxymoron\">Zach Wills</a>、<a href=\"https://profiles.wordpress.org/tollmanz\">Zack Tollman</a>、<a href=\"https://profiles.wordpress.org/vanillalounge\">Ze Fontainhas</a>、<a href=\"https://profiles.wordpress.org/zhildzik\">zhildzik</a>和<a href=\"https://profiles.wordpress.org/zsusag\">zsusag</a>。</p>\n<p>特别感谢<a href=\"https://ramiabraham.com/\">Rami Abraham</a>制作发布视频。</p>\n<p>最后，让我们感谢为本次发布提供了翻译的贡献者。WordPress 4.7被翻译成了52种语言，这次的发布视频也被翻译成了44种语言！</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢您选择WordPress，我们希望您喜欢！</p>\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"https://cn.wordpress.org/2016/12/08/vaughan/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:1:\"2\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:1;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:26:\"WordPress 4.5“Coleman”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:44:\"https://cn.wordpress.org/2016/04/17/coleman/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:53:\"https://cn.wordpress.org/2016/04/17/coleman/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Sun, 17 Apr 2016 03:18:28 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:32:\"https://cn.wordpress.org/?p=1024\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.5简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:26377:\"<div style=\"width: 692px\">\n<p>WordPress 4.5简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Coleman”，以纪念爵士萨克斯手科尔曼·霍金斯。4.5的全新功能协助您精简工作流程，无论您要写作还是建构网站。</p>\n<div id=\"v-scFdjVo6-1\" class=\"video-player\"><video id=\"v-scFdjVo6-1-video\" width=\"692\" height=\"388\" poster=\"https://videos.files.wordpress.com/scFdjVo6/video-604c4abe08_scruberthumbnail_1.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/scFdjVo6/video-604c4abe08_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/scFdjVo6/video-604c4abe08_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"Introducing WordPress 4.5 “Coleman”\" src=\"https://videos.files.wordpress.com/scFdjVo6/video-604c4abe08_scruberthumbnail_1.jpg\" width=\"692\" height=\"388\" /></div><p>Introducing WordPress 4.5 “Coleman”</p></video></div>\n<hr />\n<h2 style=\"text-align: center\">编辑功能的改善</h2>\n<p><img class=\"aligncenter size-full wp-image-4220\" src=\"https://wordpress.org/news/files/2016/04/illustration-short-inlinelinks.png\" alt=\"illustration-short-inlinelinks\" width=\"1000\" height=\"400\" /></p>\n<h3>行内链接</h3>\n<p>通过降低分心的编写界面，轻易地链接内容，让您更专注在您的写作上。</p>\n<p><img class=\"aligncenter size-full wp-image-4265\" src=\"https://wordpress.org/news/files/2016/04/editing-shortcuts-big.gif\" alt=\"editing-shortcuts-big\" width=\"960\" height=\"576\" /></p>\n<h3>格式捷径</h3>\n<p>您喜欢在编写列表和标题时使用格式捷径吗？伴随着水平线和<code>&lt;code&gt;</code>现在它们变得更好用了。</p>\n<hr />\n<h2 style=\"text-align: center\">自定义进步</h2>\n<p><img class=\"aligncenter size-full wp-image-4221\" src=\"https://wordpress.org/news/files/2016/04/illustration-short-responsive-preview.png\" alt=\"illustration-short-responsive-preview\" width=\"1000\" height=\"400\" /></p>\n<h3>实时响应式预览</h3>\n<p>确保您的站点在所有设备屏幕上都能完美呈现！在定制器中直接预览手机、平板及桌面的版面。</p>\n<p><img class=\"aligncenter wp-image-4239 size-full\" src=\"https://wordpress.org/news/files/2016/04/illustration-short-customlogo-whitespace.png\" width=\"1000\" height=\"440\" /></p>\n<h3>自定标志</h3>\n<p>“二〇一五”及“二〇一六”主题已经更新，现已支持自定标志，您可以在定制器的“站点识别”一节找到，</p>\n<hr />\n<h2 style=\"text-align: center\">引擎盖下</h2>\n<div class=\"under-the-hood three-col\">\n<div class=\"col\">\n<h3>智能图片缩放</h3>\n<p>生成图片的速度现在提升了50%且无损品质。<a href=\"https://make.wordpress.org/core/2016/03/12/performance-improvements-for-images-in-wordpress-4-5/\">这真的非常酷</a>。</p>\n</div>\n<div class=\"col\">\n<h3>选择性刷新</h3>\n<p>定制器现在支持<a href=\"https://make.wordpress.org/core/2016/02/16/selective-refresh-in-the-customizer/\">全方位框架</a>来渲染各部分的预览，无须使用JavaScript重写您的PHP代码。</p>\n</div>\n<div class=\"col\">\n<h3>改善脚本载入器</h3>\n<p>更好地支持了脚本头/尾的依赖关系。新的<code><a href=\"https://make.wordpress.org/core/2016/03/08/enhanced-script-loader-in-wordpress-4-5/\">wp_add_inline_script()</a></code>可以针对已注册的脚本加入额外的代码。</p>\n<h3>更棒的嵌入模板</h3>\n<p>嵌入模板已分离为不同部分，并且可以通过模板层级<a href=\"https://make.wordpress.org/core/2016/03/11/embeds-changes-in-wordpress-4-5/\">直接由主题进行覆盖</a>。</p>\n<h3>JavaScript库更新</h3>\n<p>jQuery 1.12.3、jQuery Migrate 1.4.0、Backbone 1.2.3和Underscore 1.8.3现已收录。</p>\n</div>\n</div>\n<div class=\"under-the-hood two-col\"></div>\n<hr />\n<h2 style=\"text-align: center\">开发团队</h2>\n<p><a class=\"alignleft\" href=\"https://profiles.wordpress.org/mikeschroder\"><img id=\"grav-76424a001dc6b3ebb4faca0c567800c4-0\" class=\"grav-hashed\" src=\"https://www.gravatar.com/avatar/76424a001dc6b3ebb4faca0c567800c4?d=mm&amp;s=180&amp;r=G\" alt=\"Mike Schroder\" width=\"80\" height=\"80\" /></a>此次发布由<a href=\"https://getsource.net/\">Mike Schroder</a>领头，由<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>担任发布代表，<a href=\"https://choycedesign.com/\">Mel Choyce</a>担任发布设计主管，并得到了以下个人的帮助。这次发布包含了298人的贡献。在您喜欢的音乐服务中听听科尔曼·霍金斯，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/mercime\">@mercime</a>、<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/uglyrobot\">Aaron Edwards</a>、<a href=\"https://profiles.wordpress.org/ahockley\">Aaron Hockley</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/abiralneupane\">Abiral Neupane</a>、<a href=\"https://profiles.wordpress.org/mrahmadawais\">Ahmad Awais</a>、<a href=\"https://profiles.wordpress.org/aidanlane\">aidanlane</a>、<a href=\"https://profiles.wordpress.org/ambrosey\">Alice Brosey</a>、<a href=\"https://profiles.wordpress.org/arush\">Amanda Rush</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/andg\">Andrea Gandino</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/rockwell15\">Andrew Rockwell</a>、<a href=\"https://profiles.wordpress.org/andizer\">Andy</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/atimmer\">Anton Timmermans</a>、<a href=\"https://profiles.wordpress.org/apaliku\">apaliku</a>、<a href=\"https://profiles.wordpress.org/aramzs\">Aram Zucker-Scharff</a>、<a href=\"https://profiles.wordpress.org/ashmatadeen\">ash.matadeen</a>、<a href=\"https://profiles.wordpress.org/bappidgreat\">Ashok Kumar Nath</a>、<a href=\"https://profiles.wordpress.org/bandonrandon\">BandonRandon</a>、<a href=\"https://profiles.wordpress.org/barryceelen\">Barry Ceelen</a>、<a href=\"https://profiles.wordpress.org/empireoflight\">Ben Dunkle</a>、<a href=\"https://profiles.wordpress.org/berengerzyla\">berengerzyla</a>、<a href=\"https://profiles.wordpress.org/neoxx\">Bernhard Riedl</a>、<a href=\"https://profiles.wordpress.org/thisisit\">Bhushan S. Jawle</a>、<a href=\"https://profiles.wordpress.org/birgire\">Birgir Erlendsson (birgire)</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/williamsba1\">Brad Williams</a>、<a href=\"https://profiles.wordpress.org/bradyvercher\">Brady Vercher</a>、<a href=\"https://profiles.wordpress.org/thebrandonallen\">Brandon Allen</a>、<a href=\"https://profiles.wordpress.org/bhubbard\">Brandon Hubbard</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/krogsgard\">Brian Krogsgard</a>、<a href=\"https://profiles.wordpress.org/borgesbruno\">Bruno Borges</a>、<a href=\"https://profiles.wordpress.org/chmac\">Callum Macdonald</a>、<a href=\"https://profiles.wordpress.org/camikaos\">Cami Kaos</a>、<a href=\"https://profiles.wordpress.org/chandrapatel\">Chandra Patel</a>、<a href=\"https://profiles.wordpress.org/mackensen\">Charles Fulton</a>、<a href=\"https://profiles.wordpress.org/chetanchauhan\">Chetan Chauhan</a>、<a href=\"https://profiles.wordpress.org/chouby\">Chouby</a>、<a href=\"https://profiles.wordpress.org/chrico\">ChriCo</a>、<a href=\"https://profiles.wordpress.org/chriscct7\">Chris Christoff</a>、<a href=\"https://profiles.wordpress.org/chris_dev\">Chris Mok</a>、<a href=\"https://profiles.wordpress.org/christophherr\">Christoph Herr</a>、<a href=\"https://profiles.wordpress.org/ckoerner\">ckoerner</a>、<a href=\"https://profiles.wordpress.org/claudiosanches\">Claudio Sanches</a>、<a href=\"https://profiles.wordpress.org/compute\">Compute</a>、<a href=\"https://profiles.wordpress.org/coreymcollins\">coreymcollins</a>、<a href=\"https://profiles.wordpress.org/d4z_c0nf\">d4z_c0nf</a>、<a href=\"https://profiles.wordpress.org/extendwings\">Daisuke Takahashi</a>、<a href=\"https://profiles.wordpress.org/danhgilmore\">danhgilmore</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/scarinessreported\">Daniel Bailey</a>、<a href=\"https://profiles.wordpress.org/redsweater\">Daniel Jalkut (Red Sweater)</a>、<a href=\"https://profiles.wordpress.org/diddledan\">Daniel Llewellyn</a>、<a href=\"https://profiles.wordpress.org/mte90\">Daniele Scasciafratte</a>、<a href=\"https://profiles.wordpress.org/danielpataki\">danielpataki</a>、<a href=\"https://profiles.wordpress.org/dvankooten\">Danny van Kooten</a>、<a href=\"https://profiles.wordpress.org/thewanderingbrit\">Dave Clements</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/dbrumbaugh10up\">David Brumbaugh</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/dnewton\">David Newton</a>、<a href=\"https://profiles.wordpress.org/dshanske\">David Shanske</a>、<a href=\"https://profiles.wordpress.org/folletto\">Davide &#8216;Folletto&#8217; Casali</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/realloc\">Dennis Ploetner</a>、<a href=\"https://profiles.wordpress.org/valendesigns\">Derek Herman</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/dmsnell\">dmsnell</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/dossy\">Dossy Shiobara</a>、<a href=\"https://profiles.wordpress.org/dotancohen\">Dotan Cohen</a>、<a href=\"https://profiles.wordpress.org/drebbitsweb\">Dreb Bits</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/duaneblake\">duaneblake</a>、<a href=\"https://profiles.wordpress.org/kucrut\">Dzikri Aziz</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/iseulde\">Ella Iseulde Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/codex-m\">Emerson Maningo</a>、<a href=\"https://profiles.wordpress.org/enej\">enej</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ericdaams\">Eric Daams</a>、<a href=\"https://profiles.wordpress.org/ethitter\">Erick Hitter</a>、<a href=\"https://profiles.wordpress.org/eherman24\">Evan Herman</a>、<a href=\"https://profiles.wordpress.org/fab1en\">Fabien Quatravaux</a>、<a href=\"https://profiles.wordpress.org/faishal\">faishal</a>、<a href=\"https://profiles.wordpress.org/fantasyworld\">fantasyworld</a>、<a href=\"https://profiles.wordpress.org/flixos90\">Felix Arntz</a>、<a href=\"https://profiles.wordpress.org/finnj\">finnj</a>、<a href=\"https://profiles.wordpress.org/firebird75\">firebird75</a>、<a href=\"https://profiles.wordpress.org/frozzare\">Fredrik Forsmo</a>、<a href=\"https://profiles.wordpress.org/fusillicode\">fusillicode</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/gblsm\">gblsm</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/garusky\">Giuseppe Mamone</a>、<a href=\"https://profiles.wordpress.org/jubstuff\">Giustino Borzacchiello</a>、<a href=\"https://profiles.wordpress.org/grantpalin\">Grant Palin</a>、<a href=\"https://profiles.wordpress.org/groovecoder\">groovecoder</a>、<a href=\"https://profiles.wordpress.org/wido\">Guido Scialfa</a>、<a href=\"https://profiles.wordpress.org/bordoni\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/hakre\">hakre</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/henrywright\">Henry Wright</a>、<a href=\"https://profiles.wordpress.org/hnle\">Hinaloe</a>、<a href=\"https://profiles.wordpress.org/hlashbrooke\">Hugh Lashbrooke</a>、<a href=\"https://profiles.wordpress.org/hugobaeta\">Hugo Baeta</a>、<a href=\"https://profiles.wordpress.org/polevaultweb\">Iain Poulson</a>、<a href=\"https://profiles.wordpress.org/igmoweb\">Ignacio Cruz Moreno</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/iamntz\">Ionut Staicu</a>、<a href=\"https://profiles.wordpress.org/ivankristianto\">Ivan Kristianto</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jadpm\">jadpm</a>、<a href=\"https://profiles.wordpress.org/jamesdigioia\">James DiGioia</a>、<a href=\"https://profiles.wordpress.org/jason_the_adams\">Jason</a>、<a href=\"https://profiles.wordpress.org/jaspermdegroot\">Jasper de Groot</a>、<a href=\"https://profiles.wordpress.org/cheffheid\">Jeffrey de Wit</a>、<a href=\"https://profiles.wordpress.org/jeffpyebrookcom\">Jeffrey Schutzman</a>、<a href=\"https://profiles.wordpress.org/jmdodd\">Jennifer M. Dodd</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jeherve\">Jeremy Herve</a>、<a href=\"https://profiles.wordpress.org/jpry\">Jeremy Pry</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/ardathksheyna\">Jess G.</a>、<a href=\"https://profiles.wordpress.org/boluda\">Joan Boluda</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/joelerr\">joelerr</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/johnnypea\">JohnnyPea</a>、<a href=\"https://profiles.wordpress.org/jbrinley\">Jonathan Brinley</a>、<a href=\"https://profiles.wordpress.org/spacedmonkey\">Jonny Harris</a>、<a href=\"https://profiles.wordpress.org/keraweb\">Jory Hogeveen</a>、<a href=\"https://profiles.wordpress.org/joefusco\">Joseph Fusco</a>、<a href=\"https://profiles.wordpress.org/joshlevinson\">Josh Levinson</a>、<a href=\"https://profiles.wordpress.org/shelob9\">Josh Pollock</a>、<a href=\"https://profiles.wordpress.org/jrchamp\">jrchamp</a>、<a href=\"https://profiles.wordpress.org/jrf\">jrf</a>、<a href=\"https://profiles.wordpress.org/juanfra\">Juanfra Aldasoro</a>、<a href=\"https://profiles.wordpress.org/juhise\">Juhi Saxena</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/katieburch\">katieburch</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/khag7\">Kevin Hagerty</a>、<a href=\"https://profiles.wordpress.org/kiranpotphode\">Kiran Potphode</a>、<a href=\"https://profiles.wordpress.org/kwight\">Kirk Wight</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kite</a>、<a href=\"https://profiles.wordpress.org/kjbenk\">kjbenk</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/kouratoras\">Konstantinos Kouratoras</a>、<a href=\"https://profiles.wordpress.org/krissiev\">KrissieV</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/leemon\">leemon</a>、<a href=\"https://profiles.wordpress.org/layotte\">Lew Ayotte</a>、<a href=\"https://profiles.wordpress.org/liamdempsey\">Liam Dempsey</a>、<a href=\"https://profiles.wordpress.org/luan-ramos\">Luan Ramos</a>、<a href=\"https://profiles.wordpress.org/luciole135\">luciole135</a>、<a href=\"https://profiles.wordpress.org/lpawlik\">Lukas Pawlik</a>、<a href=\"https://profiles.wordpress.org/latz\">Lutz Schröer</a>、<a href=\"https://profiles.wordpress.org/madvic\">madvic</a>、<a href=\"https://profiles.wordpress.org/marcochiesi\">Marco Chiesi</a>、<a href=\"https://profiles.wordpress.org/tyxla\">Marin Atanasov</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">Mario Peshev</a>、<a href=\"https://profiles.wordpress.org/mark8barnes\">Mark Barnes</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/mapk\">Mark Uraine</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/gitlost\">Martin Burke</a>、<a href=\"https://profiles.wordpress.org/mattfelten\">Matt Felten</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mattgeri\">MattGeri</a>、<a href=\"https://profiles.wordpress.org/wp-architect\">Matthew Ell</a>、<a href=\"https://profiles.wordpress.org/maweder\">maweder</a>、<a href=\"https://profiles.wordpress.org/mayukojpn\">Mayo Moriyama</a>、<a href=\"https://profiles.wordpress.org/mcapybara\">mcapybara</a>、<a href=\"https://profiles.wordpress.org/mehulkaklotar\">Mehul Kaklotar</a>、<a href=\"https://profiles.wordpress.org/meitar\">Meitar</a>、<a href=\"https://profiles.wordpress.org/mensmaximus\">mensmaximus</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/michalzuber\">michalzuber</a>、<a href=\"https://profiles.wordpress.org/micropat\">micropat</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Mika Epstein</a>、<a href=\"https://profiles.wordpress.org/mdgl\">Mike Glendinning</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikejolley\">Mike Jolley</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinić</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mt8biz\">moto hachi ( mt8.biz )</a>、<a href=\"https://profiles.wordpress.org/usermrpapa\">Mr Papa</a>、<a href=\"https://profiles.wordpress.org/mwidmann\">mwidmann</a>、<a href=\"https://profiles.wordpress.org/nexurium\">nexurium</a>、<a href=\"https://profiles.wordpress.org/niallkennedy\">Niall Kennedy</a>、<a href=\"https://profiles.wordpress.org/nicdford\">Nic Ford</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey </a>、<a href=\"https://profiles.wordpress.org/rabmalin\">Nilambar Sharma</a>、<a href=\"https://profiles.wordpress.org/ninos-ego\">Ninos</a>、<a href=\"https://profiles.wordpress.org/oaron\">oaron</a>、<a href=\"https://profiles.wordpress.org/overclokk\">overclokk</a>、<a href=\"https://profiles.wordpress.org/swissspidy\">Pascal Birchler</a>、<a href=\"https://profiles.wordpress.org/obrienlabs\">Pat O&#8217;Brien</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/pauldewouters\">Paul de Wouters</a>、<a href=\"https://profiles.wordpress.org/sirbrillig\">Payton Swick</a>、<a href=\"https://profiles.wordpress.org/perezlabs\">Perez Labs</a>、<a href=\"https://profiles.wordpress.org/gungeekatx\">Pete Nelson</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/cadeyrn\">petermolnar</a>、<a href=\"https://profiles.wordpress.org/walbo\">Petter Walbø Johnsgård</a>、<a href=\"https://profiles.wordpress.org/wizzard_\">Pieter</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/ptahdunbar\">Pirate Dunbar</a>、<a href=\"https://profiles.wordpress.org/prettyboymp\">prettyboymp</a>、<a href=\"https://profiles.wordpress.org/profforg\">Profforg</a>、<a href=\"https://profiles.wordpress.org/programmin\">programmin</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/rahalaboulfeth\">rahal.aboulfeth</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/lamosty\">Rastislav Lamos</a>、<a href=\"https://profiles.wordpress.org/rickalee\">Ricky Lee Whittemore</a>、<a href=\"https://profiles.wordpress.org/ritteshpatel\">Ritesh Patel</a>、<a href=\"https://profiles.wordpress.org/rob\">rob</a>、<a href=\"https://profiles.wordpress.org/rogerhub\">Roger Chen</a>、<a href=\"https://profiles.wordpress.org/romsocial\">RomSocial</a>、<a href=\"https://profiles.wordpress.org/ruudjoyo\">Ruud Laan</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/ryankienstra\">Ryan Kienstra</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/welcher\">Ryan Welcher</a>、<a href=\"https://profiles.wordpress.org/sagarjadhav\">Sagar Jadhav</a>、<a href=\"https://profiles.wordpress.org/salcode\">Sal Ferrarello</a>、<a href=\"https://profiles.wordpress.org/salvoaranzulla\">salvoaranzulla</a>、<a href=\"https://profiles.wordpress.org/samhotchkiss\">Sam Hotchkiss</a>、<a href=\"https://profiles.wordpress.org/rosso99\">Sara Rosso</a>、<a href=\"https://profiles.wordpress.org/sarciszewski\">Scott Arciszewski</a>、<a href=\"https://profiles.wordpress.org/sc0ttkclark\">Scott Kingsley Clark</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/scottbrownconsulting\">scottbrownconsulting</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/sebastianpisula\">Sebastian Pisula</a>、<a href=\"https://profiles.wordpress.org/sergejmueller\">Sergej Müller</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/shamess\">Shane</a>、<a href=\"https://profiles.wordpress.org/shinichin\">Shinichi Nishikawa</a>、<a href=\"https://profiles.wordpress.org/sidati\">sidati</a>、<a href=\"https://profiles.wordpress.org/siobhan\">Siobhan</a>、<a href=\"https://profiles.wordpress.org/aargh-a-knot\">sky</a>、<a href=\"https://profiles.wordpress.org/slushman\">slushman</a>、<a href=\"https://profiles.wordpress.org/smerriman\">smerriman</a>、<a href=\"https://profiles.wordpress.org/stephanethomas\">stephanethomas</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stephenharris\">Stephen Harris</a>、<a href=\"https://profiles.wordpress.org/stevegrunwell\">Steve Grunwell</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/charlestonsw\">Store Locator Plus</a>、<a href=\"https://profiles.wordpress.org/subharanjan\">Subharanjan</a>、<a href=\"https://profiles.wordpress.org/sudar\">Sudar Muthu</a>、<a href=\"https://profiles.wordpress.org/5um17\">Sumit Singh</a>、<a href=\"https://profiles.wordpress.org/tacoverdo\">Taco Verdonschot</a>、<a href=\"https://profiles.wordpress.org/tahteche\">tahteche</a>、<a href=\"https://profiles.wordpress.org/iamtakashi\">Takashi Irie</a>、<a href=\"https://profiles.wordpress.org/takayukister\">Takayuki Miyoshi</a>、<a href=\"https://profiles.wordpress.org/karmatosed\">Tammie Lister</a>、<a href=\"https://profiles.wordpress.org/tharsheblows\">tharsheblows</a>、<a href=\"https://profiles.wordpress.org/themiked\">theMikeD</a>、<a href=\"https://profiles.wordpress.org/thomaswm\">thomaswm</a>、<a href=\"https://profiles.wordpress.org/timothyblynjacobs\">Timothy Jacobs</a>、<a href=\"https://profiles.wordpress.org/timplunkett\">timplunkett</a>、<a href=\"https://profiles.wordpress.org/tmuikku\">tmuikku</a>、<a href=\"https://profiles.wordpress.org/skithund\">Toni Viemerö</a>、<a href=\"https://profiles.wordpress.org/toro_unit\">Toro_Unit (Hiroshi Urabe)</a>、<a href=\"https://profiles.wordpress.org/liljimmi\">Tracy Levesque</a>、<a href=\"https://profiles.wordpress.org/rilwis\">Tran Ngoc Tuan Anh</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/grapplerulrich\">Ulrich</a>、<a href=\"https://profiles.wordpress.org/utkarshpatel\">Utkarsh</a>、<a href=\"https://profiles.wordpress.org/vhomenko\">vhomenko</a>、<a href=\"https://profiles.wordpress.org/virgodesign\">virgodesign</a>、<a href=\"https://profiles.wordpress.org/vladolaru\">vlad.olaru</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/vtieu\">vtieu</a>、<a href=\"https://profiles.wordpress.org/webaware\">webaware</a>、<a href=\"https://profiles.wordpress.org/wesleye\">Wesley Elfring</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/wisdmlabs\">WisdmLabs</a>、<a href=\"https://profiles.wordpress.org/wpdelighter\">WP Delighter</a>、<a href=\"https://profiles.wordpress.org/xavortm\">xavortm</a>、<a href=\"https://profiles.wordpress.org/yetanotherdaniel\">yetAnotherDaniel</a>和<a href=\"https://profiles.wordpress.org/zinigor\">zinigor</a>。</p>\n<p>特别感谢<a href=\"http://siobhanmckeown.com/\">Siobhan McKeown</a>制作发布视频，及<a href=\"https://jacklenox.com/\">Jack Lenox</a>的配音。</p>\n<p>最后，让我们感谢为本次发布提供了翻译的贡献者。WordPress 4.5被翻译成了44种语言，这次的发布视频也被翻译成了32种语言！</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢您选择WordPress，我们4.6见！</p>\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"https://cn.wordpress.org/2016/04/17/coleman/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:1:\"5\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:2;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:27:\"WordPress 4.4“Clifford”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:45:\"https://cn.wordpress.org/2015/12/13/clifford/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:54:\"https://cn.wordpress.org/2015/12/13/clifford/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Sat, 12 Dec 2015 22:52:22 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:32:\"https://cn.wordpress.org/?p=1011\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.4简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:37891:\"<div style=\"width: 692px\">\n<p>WordPress 4.4简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Clifford”，以纪念爵士小号手<a href=\"https://en.wikipedia.org/wiki/Clifford_Brown\">克利福德·布朗</a>。4.4让您的网站更具连接性且反应敏捷。Clifford也带来了全新的默认主题，二〇一六。</p>\n<hr />\n<h2>介绍二〇一六</h2>\n<p><img class=\"aligncenter size-full wp-image-3994\" src=\"https://wordpress.org/news/files/2015/12/ipad-white-desktop-2x.png\" alt=\"A screenshot of Twenty Sixteen set in an iPad frame\" width=\"632\" height=\"428\" /></p>\n<p>我们最新的默认主题，二〇一六，是一个具现代感又不失经典博客设计风格的主题。</p>\n<p>二〇一六在任何设备上都看起来很棒。一个流动式网格设计、灵活页首，搭配各式趣味的配色，让你的内容大放异彩。</p>\n<hr />\n<h2>自适应图片</h2>\n<p><img class=\"aligncenter wp-image-3995 size-full\" src=\"https://wordpress.org/news/files/2015/12/responsive-devices-ipad-2x.png\" alt=\"An image of a laptop, iPad, Android phone, and iPhone containing the same image displayed at multiple sizes to demonstrate responsive image features.\" width=\"632\" height=\"290\" /></p>\n<p>WordPress现在以更聪明的方式显示适合任何设备的图片尺寸，确保每次皆完美呈现。您甚至不需要修改您的主题，</p>\n<hr />\n<h2>嵌入一切</h2>\n<blockquote data-secret=\"UpjyQbDxun\" class=\"wp-embedded-content\"><p><a href=\"https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/\">New Embeds Feature in WordPress 4.4</a></p></blockquote>\n<p><iframe class=\"wp-embedded-content\" sandbox=\"allow-scripts\" security=\"restricted\" src=\"https://make.wordpress.org/core/2015/10/28/new-embeds-feature-in-wordpress-4-4/embed/#?secret=UpjyQbDxun\" data-secret=\"UpjyQbDxun\" width=\"600\" height=\"338\" title=\"&#8220;New Embeds Feature in WordPress 4.4&#8221; &#8212; Make WordPress Core\" frameborder=\"0\" marginwidth=\"0\" marginheight=\"0\" scrolling=\"no\"></iframe></p>\n<p>现在您可以将文章嵌入到其他WordPress网站。只要将文章URL贴入编辑器，即可看到即时嵌入预览，完整的标题、摘要及特色图片（如果您有设定），甚至会包含您的网站图标以及评论与分享链接。</p>\n<p>除了文章嵌入外，WordPress 4.4还加入五个新的oEmbed提供者：Cloudup、Reddit留言、ReverbNation、Speaker Deck及VideoPress。</p>\n<hr />\n<h2>引擎盖下</h2>\n<p><img class=\"aligncenter size-full wp-image-4003\" src=\"https://wordpress.org/news/files/2015/12/banner-1544x500.jpg\" alt=\"The WordPress REST API logo\" width=\"1544\" height=\"500\" /></p>\n<h3>REST API基础设施</h3>\n<p>REST API基础设施已整合于WordPress的核心中，将开发模式带入一个崭新的纪元。REST API为开发者提供在WordPress之上建设并扩展RESTful API的道路。</p>\n<p>基础设施是REST API多阶段推出的第一部分，而将会在未来的发布中包含核心节点。要了解更多关于核心节点或是扩展REST API的信息，请查阅官方<a href=\"https://wordpress.org/plugins/rest-api/\">WordPress REST API</a>扩展。</p>\n<h3>项目元数据</h3>\n<p>项目现在像文章一样支持元数据。请参阅<a href=\"https://developer.wordpress.org/reference/functions/add_term_meta\"><code>add_term_meta()</code></a>、<a href=\"https://developer.wordpress.org/reference/functions/get_term_meta\"><code>get_term_meta()</code></a>和<a href=\"https://developer.wordpress.org/reference/functions/update_term_meta\"><code>update_term_meta()</code></a>来获得更多信息。</p>\n<h3>评论查询改善</h3>\n<p>评论查询现在有缓存机制来改善性能。全新<code>WP_Comment_Query</code>参数能更轻松地调用、访问评论。</p>\n<h3>项目、评论以及网络对象</h3>\n<p>新的<code>WP_Term</code>、<code>WP_Comment</code>和<code>WP_Network</code>对象让与项目、评论和网络的交互变得更直观、更可预测。</p>\n<hr />\n<h2>开发团队</h2>\n<p>此次发布由<a href=\"http://scotty-t.com/\">Scott Taylor</a>领头，并得到了以下个人的帮助。这次发布包含了471人的贡献（创下新高！）。在您喜欢的音乐服务中听听克利福德·布朗，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/mercime\">@mercime</a>、<a href=\"https://profiles.wordpress.org/_smartik_\">_smartik_</a>、<a href=\"https://profiles.wordpress.org/a5hleyrich\">A5hleyRich</a>、<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/aaronrutley\">Aaron Rutley</a>、<a href=\"https://profiles.wordpress.org/kawauso\">Adam Harley (Kawauso)</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/adamholisky\">adamholisky</a>、<a href=\"https://profiles.wordpress.org/aduth\">aduth</a>、<a href=\"https://profiles.wordpress.org/mrahmadawais\">Ahmad Awais</a>、<a href=\"https://profiles.wordpress.org/akibjorklund\">Aki Bjorklund</a>、<a href=\"https://profiles.wordpress.org/albertoct\">AlbertoCT</a>、<a href=\"https://profiles.wordpress.org/akirk\">Alex Kirk</a>、<a href=\"https://profiles.wordpress.org/viper007bond\">Alex Mills (Viper007Bond)</a>、<a href=\"https://profiles.wordpress.org/tellyworth\">Alex Shiels</a>、<a href=\"https://profiles.wordpress.org/gounder\">Alexander Gounder</a>、<a href=\"https://profiles.wordpress.org/alireza1375\">alireza1375</a>、<a href=\"https://profiles.wordpress.org/shedonist\">Amanda Giles</a>、<a href=\"https://profiles.wordpress.org/amereservant\">amereservant</a>、<a href=\"https://profiles.wordpress.org/sabreuse\">Amy Hendrix (sabreuse)</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/norcross\">Andrew Norcross</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/afragen\">Andy Fragen</a>、<a href=\"https://profiles.wordpress.org/amandato\">Angelo Mandato</a>、<a href=\"https://profiles.wordpress.org/ankitgadertcampcom\">Ankit Gade</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/antpb\">Anthony Burchell</a>、<a href=\"https://profiles.wordpress.org/apkoponen\">ap.koponen</a>、<a href=\"https://profiles.wordpress.org/apokalyptik\">apokalyptik</a>、<a href=\"https://profiles.wordpress.org/athsear\">Athsear&#8217;J.S.</a>、<a href=\"https://profiles.wordpress.org/atomicjack\">atomicjack</a>、<a href=\"https://profiles.wordpress.org/austinginder\">Austin Ginder</a>、<a href=\"https://profiles.wordpress.org/filosofo\">Austin Matzko</a>、<a href=\"https://profiles.wordpress.org/barryceelen\">Barry Ceelen</a>、<a href=\"https://profiles.wordpress.org/barrykooij\">Barry Kooij</a>、<a href=\"https://profiles.wordpress.org/bcworkz\">bcworkz</a>、<a href=\"https://profiles.wordpress.org/bdn3504\">BdN3504</a>、<a href=\"https://profiles.wordpress.org/pixolin\">Bego Mario Garde</a>、<a href=\"https://profiles.wordpress.org/benjmay\">Ben May</a>、<a href=\"https://profiles.wordpress.org/benjaminpick\">Benjamin Pick</a>、<a href=\"https://profiles.wordpress.org/neoxx\">Bernhard Riedl</a>、<a href=\"https://profiles.wordpress.org/bigdawggi\">bigdawggi</a>、<a href=\"https://profiles.wordpress.org/bilalcoder\">bilalcoder</a>、<a href=\"https://profiles.wordpress.org/binarykitten\">BinaryKitten</a>、<a href=\"https://profiles.wordpress.org/birgire\">Birgir Erlendsson (birgire)</a>、<a href=\"https://profiles.wordpress.org/bjornjohansen\">Bjorn Johansen</a>、<a href=\"https://profiles.wordpress.org/bobbingwide\">bobbingwide</a>、<a href=\"https://profiles.wordpress.org/gitlost\">bonger</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/bradt\">Brad Touesnard</a>、<a href=\"https://profiles.wordpress.org/bradparbs\">bradparbs</a>、<a href=\"https://profiles.wordpress.org/bradyvercher\">Brady Vercher</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/bravokeyl\">bravokeyl</a>、<a href=\"https://profiles.wordpress.org/brentvr\">brentvr</a>、<a href=\"https://profiles.wordpress.org/brettz95\">brettz95</a>、<a href=\"https://profiles.wordpress.org/mckilem\">Bruno Kos</a>、<a href=\"https://profiles.wordpress.org/crazycoolcam\">Cam</a>、<a href=\"https://profiles.wordpress.org/camikaos\">Cami Kaos</a>、<a href=\"https://profiles.wordpress.org/carolinegeven\">carolinegeven</a>、<a href=\"https://profiles.wordpress.org/misterbisson\">Casey Bisson</a>、<a href=\"https://profiles.wordpress.org/cdog\">Catalin Dogaru</a>、<a href=\"https://profiles.wordpress.org/ch1902\">ch1902</a>、<a href=\"https://profiles.wordpress.org/chacha102\">chacha102</a>、<a href=\"https://profiles.wordpress.org/nhuja\">Chandra M</a>、<a href=\"https://profiles.wordpress.org/chasewiseman\">Chase Wiseman</a>、<a href=\"https://profiles.wordpress.org/chiara_09\">Chiara Dossena</a>、<a href=\"https://profiles.wordpress.org/chipbennett\">Chip Bennett</a>、<a href=\"https://profiles.wordpress.org/chiragswadia\">Chirag Swadia</a>、<a href=\"https://profiles.wordpress.org/chriscct7\">Chris Christoff</a>、<a href=\"https://profiles.wordpress.org/chrismkindred\">Chris Kindred</a>、<a href=\"https://profiles.wordpress.org/cklosows\">Chris Klosowski</a>、<a href=\"https://profiles.wordpress.org/chriscoyier\">chriscoyier</a>、<a href=\"https://profiles.wordpress.org/chrisdc1\">Chrisdc1</a>、<a href=\"https://profiles.wordpress.org/lovememore\">christianoliff</a>、<a href=\"https://profiles.wordpress.org/christophherr\">Christoph Herr</a>、<a href=\"https://profiles.wordpress.org/cfinke\">Christopher Finke</a>、<a href=\"https://profiles.wordpress.org/chrisvendiadvertisingcom\">cjhaas</a>、<a href=\"https://profiles.wordpress.org/codeelite\">codeelite</a>、<a href=\"https://profiles.wordpress.org/coenjacobs\">Coen Jacobs</a>、<a href=\"https://profiles.wordpress.org/compute\">Compute</a>、<a href=\"https://profiles.wordpress.org/couturefreak\">Courtney Ivey</a>、<a href=\"https://profiles.wordpress.org/craig-ralston\">Craig Ralston</a>、<a href=\"https://profiles.wordpress.org/cgrymala\">Curtiss Grymala</a>、<a href=\"https://profiles.wordpress.org/extendwings\">Daisuke Takahashi</a>、<a href=\"https://profiles.wordpress.org/dboulet\">Dan Boulet</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/daniel-koskinen\">Daniel Koskinen</a>、<a href=\"https://profiles.wordpress.org/dmenard\">Daniel Menard</a>、<a href=\"https://profiles.wordpress.org/mte90\">Daniele Scasciafratte</a>、<a href=\"https://profiles.wordpress.org/daniellandau\">daniellandau</a>、<a href=\"https://profiles.wordpress.org/daniloercoli\">daniloercoli</a>、<a href=\"https://profiles.wordpress.org/dannydehaan\">Danny de Haan</a>、<a href=\"https://profiles.wordpress.org/nerrad\">Darren Ethier (nerrad)</a>、<a href=\"https://profiles.wordpress.org/dllh\">Daryl L. L. Houston (dllh)</a>、<a href=\"https://profiles.wordpress.org/dattaparad\">Datta Parad</a>、<a href=\"https://profiles.wordpress.org/dmchale\">Dave McHale</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/davidanderson\">David Anderson</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/dshanske\">David Shanske</a>、<a href=\"https://profiles.wordpress.org/davidbinda\">david.binda</a>、<a href=\"https://profiles.wordpress.org/debaat\">DeBAAT</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/realloc\">Dennis Ploetner</a>、<a href=\"https://profiles.wordpress.org/valendesigns\">Derek Herman</a>、<a href=\"https://profiles.wordpress.org/downstairsdev\">Devin Price</a>、<a href=\"https://profiles.wordpress.org/dezzy\">Dezzy</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/dipalidhole27gmailcom\">Dipali Dhole</a>、<a href=\"https://profiles.wordpress.org/dipeshkakadiya\">dipesh.kakadiya</a>、<a href=\"https://profiles.wordpress.org/dbru\">Dominik Bruderer</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/drebbitsweb\">Dreb Bits</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/dustinbolton\">dustinbolton</a>、<a href=\"https://profiles.wordpress.org/kucrut\">Dzikri Aziz</a>、<a href=\"https://profiles.wordpress.org/edirect24\">edirect24</a>、<a href=\"https://profiles.wordpress.org/oso96_2000\">Eduardo Reveles</a>、<a href=\"https://profiles.wordpress.org/eduardozulian\">Eduardo Zulian</a>、<a href=\"https://profiles.wordpress.org/cais\">Edward Caissie</a>、<a href=\"https://profiles.wordpress.org/egill\">Egill R. Erlendsson</a>、<a href=\"https://profiles.wordpress.org/egower\">egower</a>、<a href=\"https://profiles.wordpress.org/iehsanir\">Ehsaan</a>、<a href=\"https://profiles.wordpress.org/ehtis\">ehtis</a>、<a href=\"https://profiles.wordpress.org/iseulde\">Ella Iseulde Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/ellieroepken\">Ellie Strejlau</a>、<a href=\"https://profiles.wordpress.org/elliott-stocks\">Elliott Stocks</a>、<a href=\"https://profiles.wordpress.org/elusiveunit\">elusiveunit</a>、<a href=\"https://profiles.wordpress.org/enshrined\">enshrined</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ericdaams\">Eric Daams</a>、<a href=\"https://profiles.wordpress.org/ericmann\">Eric Mann</a>、<a href=\"https://profiles.wordpress.org/ericjuden\">ericjuden</a>、<a href=\"https://profiles.wordpress.org/eherman24\">Evan Herman</a>、<a href=\"https://profiles.wordpress.org/f4rkie\">F4rkie</a>、<a href=\"https://profiles.wordpress.org/flixos90\">Felix Arntz</a>、<a href=\"https://profiles.wordpress.org/fsylum\">Firdaus Zahari</a>、<a href=\"https://profiles.wordpress.org/fonglh\">fonglh</a>、<a href=\"https://profiles.wordpress.org/francoisb\">francoisb</a>、<a href=\"https://profiles.wordpress.org/frank-klein\">Frank Klein</a>、<a href=\"https://profiles.wordpress.org/fjarrett\">Frankie Jarrett</a>、<a href=\"https://profiles.wordpress.org/frozzare\">Fredrik Forsmo</a>、<a href=\"https://profiles.wordpress.org/gaelan\">Gaelan Lloyd</a>、<a href=\"https://profiles.wordpress.org/gagan0123\">Gagan Deep Singh</a>、<a href=\"https://profiles.wordpress.org/garyc40\">Gary Cao</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/garza\">garza</a>、<a href=\"https://profiles.wordpress.org/grvrulz\">Gaurav Pareek</a>、<a href=\"https://profiles.wordpress.org/gautamgupta\">Gautam Gupta</a>、<a href=\"https://profiles.wordpress.org/geminorum\">geminorum</a>、<a href=\"https://profiles.wordpress.org/kloon\">Gerhard Potgieter</a>、<a href=\"https://profiles.wordpress.org/gezamiklo\">geza.miklo</a>、<a href=\"https://profiles.wordpress.org/gizburdt\">Gijs Jorissen</a>、<a href=\"https://profiles.wordpress.org/garusky\">Giuseppe Mamone</a>、<a href=\"https://profiles.wordpress.org/jubstuff\">Giustino Borzacchiello</a>、<a href=\"https://profiles.wordpress.org/gnaka08\">gnaka08</a>、<a href=\"https://profiles.wordpress.org/gradyetc\">gradyetc</a>、<a href=\"https://profiles.wordpress.org/gregrickaby\">Greg Rickaby</a>、<a href=\"https://profiles.wordpress.org/tivnet\">Gregory Karpinsky (@tivnet)</a>、<a href=\"https://profiles.wordpress.org/bordoni\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/webord\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/gwinhlopez\">gwinh.lopez</a>、<a href=\"https://profiles.wordpress.org/hakre\">hakre</a>、<a href=\"https://profiles.wordpress.org/hauvong\">hauvong</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/hnle\">Hinaloe</a>、<a href=\"https://profiles.wordpress.org/hrishiv90\">Hrishikesh Vaipurkar</a>、<a href=\"https://profiles.wordpress.org/hlashbrooke\">Hugh Lashbrooke</a>、<a href=\"https://profiles.wordpress.org/hugobaeta\">Hugo Baeta</a>、<a href=\"https://profiles.wordpress.org/polevaultweb\">Iain Poulson</a>、<a href=\"https://profiles.wordpress.org/iandunn\">Ian Dunn</a>、<a href=\"https://profiles.wordpress.org/iandstewart\">Ian Stewart</a>、<a href=\"https://profiles.wordpress.org/icetee\">icetee</a>、<a href=\"https://profiles.wordpress.org/igmoweb\">Ignacio Cruz Moreno</a>、<a href=\"https://profiles.wordpress.org/headonfire\">Ihor Vorotnov</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/ippetkov\">ippetkov</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jakubtyrcha\">jakub.tyrcha</a>、<a href=\"https://profiles.wordpress.org/macmanx\">James Huff</a>、<a href=\"https://profiles.wordpress.org/janhenckens\">janhenckens</a>、<a href=\"https://profiles.wordpress.org/japh\">Japh</a>、<a href=\"https://profiles.wordpress.org/jaspermdegroot\">Jasper de Groot</a>、<a href=\"https://profiles.wordpress.org/jazbek\">jazbek</a>、<a href=\"https://profiles.wordpress.org/jcroucher\">jcroucher</a>、<a href=\"https://profiles.wordpress.org/jfarthing84\">Jeff Farthing</a>、<a href=\"https://profiles.wordpress.org/jeffstieler\">Jeff Stieler</a>、<a href=\"https://profiles.wordpress.org/jeffmatson\">JeffMatson</a>、<a href=\"https://profiles.wordpress.org/cheffheid\">Jeffrey de Wit</a>、<a href=\"https://profiles.wordpress.org/jeichorn\">jeichorn</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jpry\">Jeremy Pry</a>、<a href=\"https://profiles.wordpress.org/slimndap\">Jeroen Schmit</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/engelen\">Jesper van Engelen</a>、<a href=\"https://profiles.wordpress.org/jim912\">jim912</a>、<a href=\"https://profiles.wordpress.org/jliman\">jliman</a>、<a href=\"https://profiles.wordpress.org/jmayhak\">jmayhak</a>、<a href=\"https://profiles.wordpress.org/jnylen0\">jnylen0</a>、<a href=\"https://profiles.wordpress.org/jobst\">Jobst Schmalenbach</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/joehills\">joehills</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/johnpbloch\">John P. Bloch</a>、<a href=\"https://profiles.wordpress.org/mindctrl\">John Parris</a>、<a href=\"https://profiles.wordpress.org/duck_\">Jon Cave</a>、<a href=\"https://profiles.wordpress.org/jonathanbardo\">Jonathan Bardo</a>、<a href=\"https://profiles.wordpress.org/desrosj\">Jonathan Desrosiers</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/koke\">Jorge Bernal</a>、<a href=\"https://profiles.wordpress.org/betzster\">Josh Betz</a>、<a href=\"https://profiles.wordpress.org/jjeaton\">Josh Eaton</a>、<a href=\"https://profiles.wordpress.org/shelob9\">Josh Pollock</a>、<a href=\"https://profiles.wordpress.org/jrf\">jrf</a>、<a href=\"https://profiles.wordpress.org/juhise\">Juhi Saxena</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/justdaiv\">justdaiv</a>、<a href=\"https://profiles.wordpress.org/justinsainton\">Justin Sainton</a>、<a href=\"https://profiles.wordpress.org/jshreve\">Justin Shreve</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/greenshady\">Justin Tadlock</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/kalenjohnson\">KalenJohnson</a>、<a href=\"https://profiles.wordpress.org/karinedo\">karinedo</a>、<a href=\"https://profiles.wordpress.org/karpstrucking\">karpstrucking</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kevinb\">Kevin Behrens</a>、<a href=\"https://profiles.wordpress.org/kevinlangleyjr\">Kevin Langley</a>、<a href=\"https://profiles.wordpress.org/kevinatelement\">kevinatelement</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kite</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/kraftner\">kraftner</a>、<a href=\"https://profiles.wordpress.org/drozdz\">Krzysiek Drozdz</a>、<a href=\"https://profiles.wordpress.org/kurtpayne\">Kurt Payne</a>、<a href=\"https://profiles.wordpress.org/laceous\">laceous</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/offereins\">Laurens Offereins</a>、<a href=\"https://profiles.wordpress.org/lcherpit\">lcherpit</a>、<a href=\"https://profiles.wordpress.org/ldinclaux\">ldinclaux</a>、<a href=\"https://profiles.wordpress.org/leewillis77\">Lee Willis</a>、<a href=\"https://profiles.wordpress.org/leemon\">leemon</a>、<a href=\"https://profiles.wordpress.org/lessbloat\">lessbloat</a>、<a href=\"https://profiles.wordpress.org/linuxologos\">linuxologos</a>、<a href=\"https://profiles.wordpress.org/spmlucas\">Lucas Karpiuk</a>、<a href=\"https://profiles.wordpress.org/lucatume\">lucatume</a>、<a href=\"https://profiles.wordpress.org/luciole135\">luciole135</a>、<a href=\"https://profiles.wordpress.org/lucymtc\">lucymtc</a>、<a href=\"https://profiles.wordpress.org/lukecarbis\">Luke Carbis</a>、<a href=\"https://profiles.wordpress.org/madalinungureanu\">madalin.ungureanu</a>、<a href=\"https://profiles.wordpress.org/mako09\">Mako</a>、<a href=\"https://profiles.wordpress.org/manolis09\">manolis09</a>、<a href=\"https://profiles.wordpress.org/iworks\">Marcin Pietrzak</a>、<a href=\"https://profiles.wordpress.org/tyxla\">Marin Atanasov</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">Mario Peshev</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius (Clorith)</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/mechter\">Markus</a>、<a href=\"https://profiles.wordpress.org/wilto\">Mat Marquis</a>、<a href=\"https://profiles.wordpress.org/matheusfd\">Matheus Martins</a>、<a href=\"https://profiles.wordpress.org/mattbagwell\">Matt Bagwell</a>、<a href=\"https://profiles.wordpress.org/mgibbs189\">Matt Gibbs</a>、<a href=\"https://profiles.wordpress.org/sivel\">Matt Martz</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/veraxus\">Matt van Andel</a>、<a href=\"https://profiles.wordpress.org/mboynes\">Matthew Boynes</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mazurstas\">mazurstas</a>、<a href=\"https://profiles.wordpress.org/mbrandys\">mbrandys</a>、<a href=\"https://profiles.wordpress.org/mdmcginn\">mdmcginn</a>、<a href=\"https://profiles.wordpress.org/mehulkaklotar\">mehulkaklotar</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/meloniq\">meloniq</a>、<a href=\"https://profiles.wordpress.org/micahmills\">micahmills</a>、<a href=\"https://profiles.wordpress.org/micahwave\">micahwave</a>、<a href=\"https://profiles.wordpress.org/mdawaffe\">Michael Adams (mdawaffe)</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/cainm\">Michael Cain</a>、<a href=\"https://profiles.wordpress.org/michielhab\">Michiel Habraken</a>、<a href=\"https://profiles.wordpress.org/mcguive7\">Mickey Kay</a>、<a href=\"https://profiles.wordpress.org/mdgl\">Mike Glendinning</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikejolley\">Mike Jolley</a>、<a href=\"https://profiles.wordpress.org/thaicloud\">Mike Jordan</a>、<a href=\"https://profiles.wordpress.org/mikeschinkel\">Mike Schinkel</a>、<a href=\"https://profiles.wordpress.org/mikeschroder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinic</a>、<a href=\"https://profiles.wordpress.org/mismith227\">mismith227</a>、<a href=\"https://profiles.wordpress.org/misterunknown\">misterunknown</a>、<a href=\"https://profiles.wordpress.org/mitchoyoshitaka\">mitcho (Michael Yoshitaka Erlewine)</a>、<a href=\"https://profiles.wordpress.org/monika\">Monika</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mor10\">Morten Rand-Hendriksen</a>、<a href=\"https://profiles.wordpress.org/mt8biz\">moto hachi ( mt8.biz )</a>、<a href=\"https://profiles.wordpress.org/usermrpapa\">Mr Papa</a>、<a href=\"https://profiles.wordpress.org/mrmist\">mrmist</a>、<a href=\"https://profiles.wordpress.org/mulvane\">mulvane</a>、<a href=\"https://profiles.wordpress.org/neoscrib\">neoscrib</a>、<a href=\"https://profiles.wordpress.org/next-season\">NExT-Season</a>、<a href=\"https://profiles.wordpress.org/niallkennedy\">Niall Kennedy</a>、<a href=\"https://profiles.wordpress.org/nicholas_io\">nicholas_io</a>、<a href=\"https://profiles.wordpress.org/nickciske\">Nick Ciske</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nickduncan\">NickDuncan</a>、<a href=\"https://profiles.wordpress.org/rahe\">Nicolas Juen</a>、<a href=\"https://profiles.wordpress.org/nikeo\">nikeo</a>、<a href=\"https://profiles.wordpress.org/nikschavan\">Nikhil Chavan</a>、<a href=\"https://profiles.wordpress.org/niklasbr\">Niklas</a>、<a href=\"https://profiles.wordpress.org/nikolovtmw\">Nikola Nikolov</a>、<a href=\"https://profiles.wordpress.org/nbachiyski\">Nikolay Bachiyski</a>、<a href=\"https://profiles.wordpress.org/rabmalin\">Nilambar Sharma</a>、<a href=\"https://profiles.wordpress.org/originalexe\">OriginalEXE</a>、<a href=\"https://profiles.wordpress.org/pareshradadiya-1\">Paresh Radadiya</a>、<a href=\"https://profiles.wordpress.org/swissspidy\">Pascal Birchler</a>、<a href=\"https://profiles.wordpress.org/obrienlabs\">Pat O&#8217;Brien</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/pauldewouters\">Paul de Wouters</a>、<a href=\"https://profiles.wordpress.org/figureone\">Paul Ryan</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/sirbrillig\">Payton Swick</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/walbo\">Petter Walbo Johnsgard</a>、<a href=\"https://profiles.wordpress.org/petya\">Petya Raykovska</a>、<a href=\"https://profiles.wordpress.org/pfefferle\">pfefferle</a>、<a href=\"https://profiles.wordpress.org/philiparthurmoore\">Philip Arthur Moore</a>、<a href=\"https://profiles.wordpress.org/philiplakin\">PhilipLakin</a>、<a href=\"https://profiles.wordpress.org/corphi\">Philipp Cordes</a>、<a href=\"https://profiles.wordpress.org/delawski\">Piotr Delawski</a>、<a href=\"https://profiles.wordpress.org/psoluch\">Piotr Soluch</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/prasad-nevase\">Prasad Nevase</a>、<a href=\"https://profiles.wordpress.org/nprasath002\">Prasath Nadarajah</a>、<a href=\"https://profiles.wordpress.org/pratikchaskar\">Pratik</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/rajnikmit\">rajnikmit</a>、<a href=\"https://profiles.wordpress.org/racase\">Rakesh Lawaju (Racase Lawaju)</a>、<a href=\"https://profiles.wordpress.org/ramay\">ramay</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/raulillana\">Raul Illana</a>、<a href=\"https://profiles.wordpress.org/renoirb\">renoirb</a>、<a href=\"https://profiles.wordpress.org/rhubbardreverb\">rhubbardreverb</a>、<a href=\"https://profiles.wordpress.org/rhyswynne\">Rhys Wynne</a>、<a href=\"https://profiles.wordpress.org/rianrietveld\">Rian Rietveld</a>、<a href=\"https://profiles.wordpress.org/iamfriendly\">Richard Tape</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/rommelxcastro\">Rommel Castro</a>、<a href=\"https://profiles.wordpress.org/wpmuguru\">Ron Rennick</a>、<a href=\"https://profiles.wordpress.org/ronalfy\">Ronald Huereca</a>、<a href=\"https://profiles.wordpress.org/kingkool68\">Russell Heimlich</a>、<a href=\"https://profiles.wordpress.org/ruudjoyo\">Ruud Laan</a>、<a href=\"https://profiles.wordpress.org/ryankienstra\">Ryan Kienstra</a>、<a href=\"https://profiles.wordpress.org/markel\">Ryan Markel</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/welcher\">Ryan Welcher</a>、<a href=\"https://profiles.wordpress.org/zeo\">Safirul Alredha</a>、<a href=\"https://profiles.wordpress.org/salcode\">Sal Ferrarello</a>、<a href=\"https://profiles.wordpress.org/sammybeats\">Sam Brodie</a>、<a href=\"https://profiles.wordpress.org/sam2kb\">sam2kb</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">Samir Shah</a>、<a href=\"https://profiles.wordpress.org/samuelsidler\">Samuel Sidler</a>、<a href=\"https://profiles.wordpress.org/otto42\">Samuel Wood (Otto)</a>、<a href=\"https://profiles.wordpress.org/sanketparmar\">Sanket Parmar</a>、<a href=\"https://profiles.wordpress.org/rosso99\">Sara Rosso</a>、<a href=\"https://profiles.wordpress.org/sarciszewski\">sarciszewski</a>、<a href=\"https://profiles.wordpress.org/sgrant\">Scott Grant</a>、<a href=\"https://profiles.wordpress.org/sc0ttkclark\">Scott Kingsley Clark</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/greglone\">ScreenfeedFr</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/sdavis2702\">Sean Davis</a>、<a href=\"https://profiles.wordpress.org/seanchayes\">Sean Hayes</a>、<a href=\"https://profiles.wordpress.org/sebastianpisula\">Sebastian Pisula</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/serpent7776\">serpent7776</a>、<a href=\"https://profiles.wordpress.org/several27\">several27</a>、<a href=\"https://profiles.wordpress.org/shimakyohsuke\">shimakyohsuke</a>、<a href=\"https://profiles.wordpress.org/side777\">side777</a>、<a href=\"https://profiles.wordpress.org/pross\">Simon Prosser</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/siobhan\">Siobhan</a>、<a href=\"https://profiles.wordpress.org/sirzooro\">sirzooro</a>、<a href=\"https://profiles.wordpress.org/sjmur\">sjmur</a>、<a href=\"https://profiles.wordpress.org/smerriman\">smerriman</a>、<a href=\"https://profiles.wordpress.org/spacedmonkey\">Spacedmonkey</a>、<a href=\"https://profiles.wordpress.org/khromov\">Stanislav Khromov</a>、<a href=\"https://profiles.wordpress.org/metodiew\">Stanko Metodiev</a>、<a href=\"https://profiles.wordpress.org/stebbiv\">stebbiv</a>、<a href=\"https://profiles.wordpress.org/miglosh\">Stefan Froehlich</a>、<a href=\"https://profiles.wordpress.org/sboisvert\">Stephane Boisvert</a>、<a href=\"https://profiles.wordpress.org/sillybean\">Stephanie Leary</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stephenharris\">Stephen Harris</a>、<a href=\"https://profiles.wordpress.org/stevegrunwell\">Steve Grunwell</a>、<a href=\"https://profiles.wordpress.org/stevehenty\">stevehenty</a>、<a href=\"https://profiles.wordpress.org/stevehoneynz\">SteveHoneyNZ</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/charlestonsw\">Store Locator Plus</a>、<a href=\"https://profiles.wordpress.org/sudar\">Sudar Muthu</a>、<a href=\"https://profiles.wordpress.org/brainstormforce\">Sujay</a>、<a href=\"https://profiles.wordpress.org/5um17\">Sumit Singh</a>、<a href=\"https://profiles.wordpress.org/summerblue\">summerblue</a>、<a href=\"https://profiles.wordpress.org/sunnyratilal\">Sunny Ratilal</a>、<a href=\"https://profiles.wordpress.org/iamtakashi\">Takashi Irie</a>、<a href=\"https://profiles.wordpress.org/miyauchi\">Takayuki Miyauchi</a>、<a href=\"https://profiles.wordpress.org/karmatosed\">Tammie Lister</a>、<a href=\"https://profiles.wordpress.org/tanner-m\">Tanner Moushey</a>、<a href=\"https://profiles.wordpress.org/tbcorr\">tbcorr</a>、<a href=\"https://profiles.wordpress.org/tychay\">Terry Chay</a>、<a href=\"https://profiles.wordpress.org/tharsheblows\">tharsheblows</a>、<a href=\"https://profiles.wordpress.org/themiked\">theMikeD</a>、<a href=\"https://profiles.wordpress.org/thomaswm\">thomaswm</a>、<a href=\"https://profiles.wordpress.org/tfrommen\">Thorsten Frommen</a>、<a href=\"https://profiles.wordpress.org/tott\">Thorsten Ott</a>、<a href=\"https://profiles.wordpress.org/tigertech\">tigertech</a>、<a href=\"https://profiles.wordpress.org/tillkruess\">Till Kruss</a>、<a href=\"https://profiles.wordpress.org/tevko\">Tim Evko</a>、<a href=\"https://profiles.wordpress.org/tmatsuur\">tmatsuur</a>、<a href=\"https://profiles.wordpress.org/tmeister\">tmeister</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/willmot\">Tom Willmot</a>、<a href=\"https://profiles.wordpress.org/tomharrigan\">TomHarrigan</a>、<a href=\"https://profiles.wordpress.org/tommarshall\">tommarshall</a>、<a href=\"https://profiles.wordpress.org/tomsommer\">tomsommer</a>、<a href=\"https://profiles.wordpress.org/skithund\">Toni Viemero</a>、<a href=\"https://profiles.wordpress.org/toro_unit\">Toro_Unit (Hiroshi Urabe)</a>、<a href=\"https://profiles.wordpress.org/liljimmi\">Tracy (LilJimmi) Levesque</a>、<a href=\"https://profiles.wordpress.org/rilwis\">Tran Ngoc Tuan Anh</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/trenzterra\">trenzterra</a>、<a href=\"https://profiles.wordpress.org/tryon\">Tryon Eggleston</a>、<a href=\"https://profiles.wordpress.org/tszming\">tszming</a>、<a href=\"https://profiles.wordpress.org/junsuijin\">ty</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/grapplerulrich\">Ulrich</a>、<a href=\"https://profiles.wordpress.org/sorich87\">Ulrich Sossou</a>、<a href=\"https://profiles.wordpress.org/umeshsingla\">Umesh Kumar</a>、<a href=\"https://profiles.wordpress.org/umeshnevase\">Umesh Nevase</a>、<a href=\"https://profiles.wordpress.org/utkarshpatel\">Utkarsh</a>、<a href=\"https://profiles.wordpress.org/vilkatis\">vilkatis</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/walterebert\">Walter Ebert</a>、<a href=\"https://profiles.wordpress.org/walterbarcelos\">walterbarcelos</a>、<a href=\"https://profiles.wordpress.org/webdevmattcrom\">webdevmattcrom</a>、<a href=\"https://profiles.wordpress.org/wen-solutions\">WEN Solutions</a>、<a href=\"https://profiles.wordpress.org/wenthemes\">WEN Themes</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/wmertens\">wmertens</a>、<a href=\"https://profiles.wordpress.org/wojtekszkutnik\">Wojtek Szkutnik</a>、<a href=\"https://profiles.wordpress.org/theode\">WP Plugin Dev dot com</a>、<a href=\"https://profiles.wordpress.org/wpdev101\">wpdev101</a>、<a href=\"https://profiles.wordpress.org/alphawolf\">wpseek</a>、<a href=\"https://profiles.wordpress.org/wturrell\">wturrell</a>、<a href=\"https://profiles.wordpress.org/yamchhetri\">Yam Chhetri</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/oxymoron\">Zach Wills</a>、<a href=\"https://profiles.wordpress.org/zrothauser\">Zack Rothauser</a>和<a href=\"https://profiles.wordpress.org/tollmanz\">Zack Tollman</a>。</p>\n<p>特别感谢<a href=\"http://siobhanmckeown.com/\">Siobhan McKeown</a>与<a href=\"http://www.sararosso.com/newsletter/\">Sara Rosso</a>制作发布视频，及<a href=\"http://camikaos.com/\">Cami Kaos</a>的配音。</p>\n<p>最后，让我们感谢为发布视频制作了字幕的贡献者，这次的发布视频被翻译成了23种语言！</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢您选择WordPress，我们4.5见！</p>\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:50:\"https://cn.wordpress.org/2015/12/13/clifford/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"10\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:3;a:6:{s:4:\"data\";s:45:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n\n\n\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:8:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:25:\"WordPress 4.3“Billie”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:43:\"https://cn.wordpress.org/2015/08/21/billie/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:52:\"https://cn.wordpress.org/2015/08/21/billie/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Thu, 20 Aug 2015 19:04:38 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"https://cn.wordpress.org/?p=995\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.3简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:9:\"enclosure\";a:3:{i:0;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:46:\"https://s.w.org/images/core/4.3/formatting.mp4\";s:6:\"length\";s:7:\"1574782\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:1;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:46:\"https://s.w.org/images/core/4.3/formatting.ogv\";s:6:\"length\";s:7:\"1939540\";s:4:\"type\";s:9:\"video/ogg\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:2;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:47:\"https://s.w.org/images/core/4.3/formatting.webm\";s:6:\"length\";s:6:\"686435\";s:4:\"type\";s:10:\"video/webm\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:22076:\"<div style=\"width: 692px\">\nWordPress 4.3简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Billie”，以纪念爵士钢琴手<a href=\"https://zh.wikipedia.org/zh-cn/%E6%AF%94%E8%8E%89%C2%B7%E8%8D%B7%E8%8E%89%E6%88%B4\">比莉·荷莉戴</a>。4.3中的新功能会让您更容易自定义网站及内容格式。</p>\n<div id=\"v-T54Iy7Tw-1\" class=\"video-player\"><video id=\"v-T54Iy7Tw-1-video\" width=\"620\" height=\"348\" poster=\"https://videos.files.wordpress.com/T54Iy7Tw/video-7601c95191_scruberthumbnail_1.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/T54Iy7Tw/video-7601c95191_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/T54Iy7Tw/video-7601c95191_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"Introducing WordPress 4.3 &quot;Billie&quot;\" src=\"https://videos.files.wordpress.com/T54Iy7Tw/video-7601c95191_scruberthumbnail_1.jpg\" width=\"620\" height=\"348\" /></div><p>Introducing WordPress 4.3 &quot;Billie&quot;</p></video></div>\n<hr />\n<h2>定制器菜单</h2>\n<div><img src=\"https://s.w.org/images/core/4.3/menu-customizer.png\" alt=\"\" /></div>\n<p>建立您的菜单，更新，然后指定至适当位置，同时还能在定制器里即时预览。流线式定制器设计提供对手机友好且更方便的介面。随着每个版本发布，它将变得更快、更好用。</p>\n<hr />\n<h2>格式快捷键</h2>\n<p><div style=\"width: 640px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-995-4\" width=\"640\" height=\"360\" loop=\"1\" autoplay=\"1\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://s.w.org/images/core/4.3/formatting.mp4?_=4\" /><source type=\"video/webm\" src=\"https://s.w.org/images/core/4.3/formatting.webm?_=4\" /><source type=\"video/ogg\" src=\"https://s.w.org/images/core/4.3/formatting.ogv?_=4\" /><a href=\"https://s.w.org/images/core/4.3/formatting.mp4\">https://s.w.org/images/core/4.3/formatting.mp4</a></video></div><br />\n您的写作流程伴随着WordPress 4.3全新格式快捷键功能将变得更快。使用星号来建立清单、井号建立一个标题。别再打断您的工作；您的文字搭配<code>*</code>和<code>#</code>看起来更加美好。</p>\n<hr />\n<h2>站点图标</h2>\n<p><img src=\"https://s.w.org/images/core/4.3/site-icon-customizer.png\" alt=\"\" /><br />\n在浏览器标签、收藏夹和移动设备主画面以站点图标作为您的站点代表。在定制器里新增您独一无二的站点图标；当您切换主题时仍保持不变。使您的站点呈现出自己的品牌。</p>\n<hr />\n<h2>更好的密码</h2>\n<p><img src=\"https://s.w.org/images/core/4.3/better-passwords.png\" alt=\"\" /><br />\n借助WordPress改进的密码设定功能使网站更安全。不再使用电子邮件接收密码，而是取得一个密码重设链接。当您在网站新增用户或编辑用户资料时，WordPress将会自动产生一个安全密码。</p>\n<hr />\n<h2>其他改善</h2>\n<ul>\n<li><strong>更顺滑的管理体验</strong> – 经过改进的跨管理界面的列表视图使您的WordPress更方便并且更容易在任何装置上运作。</li>\n<li><strong>关闭页面的评论</strong> – 新建立的页面将关闭评论，将讨论局限在您的博客，只在它们应该出现的地方显示。</li>\n<li><strong>快速自定义您的站点</strong> – 无论您是否在前台，都可以点击工具栏的自定义链接迅速为您的网站做出更改。</li>\n</ul>\n<hr />\n<h2>开发团队</h2>\n<p><a class=\"alignleft\" href=\"https://profiles.wordpress.org/obenland\"><img id=\"grav-2370ea5912750f4cb0f3c51ae1cbca55-0\" class=\"grav-hashed\" src=\"https://www.gravatar.com/avatar/2370ea5912750f4cb0f3c51ae1cbca55?d=mm&amp;s=180&amp;r=G\" alt=\"Konstantin Obenland\" width=\"80\" height=\"80\" /></a><br />\n此次发布由<a href=\"http://konstantin.obenland.it/\">Konstantin Obenland</a>领头，并得到了以下个人的帮助。这次发布包含了246人的贡献。在您喜欢的音乐服务中听听比莉·荷莉戴，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/mercime\">@mercime</a>、<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/adamkheckler\">Adam Heckler</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/akibjorklund\">Aki Bjorklund</a>、<a href=\"https://profiles.wordpress.org/akirk\">Alex Kirk</a>、<a href=\"https://profiles.wordpress.org/viper007bond\">Alex Mills (Viper007Bond)</a>、<a href=\"https://profiles.wordpress.org/tellyworth\">Alex Shiels</a>、<a href=\"https://profiles.wordpress.org/deconf\">Alin Marcu</a>、<a href=\"https://profiles.wordpress.org/andfinally\">andfinally</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/andg\">Andrea Gandino</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/afragen\">Andy Fragen</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/antpb\">Anthony Burchell</a>、<a href=\"https://profiles.wordpress.org/anubisthejackle\">anubisthejackle</a>、<a href=\"https://profiles.wordpress.org/aramzs\">Aram Zucker-Scharff</a>、<a href=\"https://profiles.wordpress.org/arjunskumar\">Arjun S Kumar</a>、<a href=\"https://profiles.wordpress.org/avnarun\">avnarun</a>、<a href=\"https://profiles.wordpress.org/brad2dabone\">Bad Feather</a>、<a href=\"https://profiles.wordpress.org/bcole808\">Ben Cole</a>、<a href=\"https://profiles.wordpress.org/empireoflight\">Ben Dunkle</a>、<a href=\"https://profiles.wordpress.org/binarykitten\">BinaryKitten</a>、<a href=\"https://profiles.wordpress.org/birgire\">Birgir Erlendsson (birgire)</a>、<a href=\"https://profiles.wordpress.org/bjornjohansen\">Bjorn Johansen</a>、<a href=\"https://profiles.wordpress.org/bolo1988\">bolo1988</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/bradt\">Brad Touesnard</a>、<a href=\"https://profiles.wordpress.org/bramd\">Bram Duvigneau</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/krogsgard\">Brian Krogsgard</a>、<a href=\"https://profiles.wordpress.org/brianlayman\">Brian Layman</a>、<a href=\"https://profiles.wordpress.org/icaleb\">Caleb Burks</a>、<a href=\"https://profiles.wordpress.org/calevans\">CalEvans</a>、<a href=\"https://profiles.wordpress.org/chasewiseman\">Chase Wiseman</a>、<a href=\"https://profiles.wordpress.org/chipbennett\">Chip Bennett</a>、<a href=\"https://profiles.wordpress.org/chouby\">Chouby</a>、<a href=\"https://profiles.wordpress.org/c3mdigital\">Chris Olbekson</a>、<a href=\"https://profiles.wordpress.org/chriscct7\">chriscct7</a>、<a href=\"https://profiles.wordpress.org/posykrat\">Clement Biron</a>、<a href=\"https://profiles.wordpress.org/craig-ralston\">Craig Ralston</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/redsweater\">Daniel Jalkut (Red Sweater)</a>、<a href=\"https://profiles.wordpress.org/mte90\">Daniele Mte90 Scasciafratte</a>、<a href=\"https://profiles.wordpress.org/daniluk4000\">daniluk4000</a>、<a href=\"https://profiles.wordpress.org/dmchale\">Dave McHale</a>、<a href=\"https://profiles.wordpress.org/daveal\">DaveAl</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/daxelrod\">daxelrod</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/realloc\">Dennis Ploetner</a>、<a href=\"https://profiles.wordpress.org/valendesigns\">Derek Herman</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/dipeshkakadiya\">dipesh.kakadiya</a>、<a href=\"https://profiles.wordpress.org/dmsnell\">dmsnell</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/kucrut\">Dzikri Aziz</a>、<a href=\"https://profiles.wordpress.org/eclev91\">eclev91</a>、<a href=\"https://profiles.wordpress.org/eligijus\">eligijus</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/iseulde\">Ella Iseulde Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ericmann\">Eric Mann</a>、<a href=\"https://profiles.wordpress.org/fab1en\">Fabien Quatravaux</a>、<a href=\"https://profiles.wordpress.org/flixos90\">Felix Arntz</a>、<a href=\"https://profiles.wordpress.org/francoeurdavid\">francoeurdavid</a>、<a href=\"https://profiles.wordpress.org/frank-klein\">Frank Klein</a>、<a href=\"https://profiles.wordpress.org/gabrielperezs\">gabrielperezs</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">Garth Mortensen</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/glennm\">glennm</a>、<a href=\"https://profiles.wordpress.org/gtuk\">gtuk</a>、<a href=\"https://profiles.wordpress.org/hailin\">hailin</a>、<a href=\"https://profiles.wordpress.org/hauvong\">hauvong</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/henrikakselsen\">henrikakselsen</a>、<a href=\"https://profiles.wordpress.org/hnle\">Hinaloe</a>、<a href=\"https://profiles.wordpress.org/hrishiv90\">Hrishikesh Vaipurkar</a>、<a href=\"https://profiles.wordpress.org/hugobaeta\">Hugo Baeta</a>、<a href=\"https://profiles.wordpress.org/polevaultweb\">Iain Poulson</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/isaacchapman\">isaacchapman</a>、<a href=\"https://profiles.wordpress.org/izem\">izem</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jacklenox\">Jack Lenox</a>、<a href=\"https://profiles.wordpress.org/jadpm\">jadpm</a>、<a href=\"https://profiles.wordpress.org/jamesgol\">jamesgol</a>、<a href=\"https://profiles.wordpress.org/jancbeck\">jancbeck</a>、<a href=\"https://profiles.wordpress.org/jfarthing84\">Jeff Farthing</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jpry\">Jeremy Pry</a>、<a href=\"https://profiles.wordpress.org/jmichaelward\">Jeremy Ward</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/jipmoors\">jipmoors</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/jkudish\">Joey Kudish</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/picard102\">John Leschinski</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/jpyper\">Jpyper</a>、<a href=\"https://profiles.wordpress.org/jrf\">jrf</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/ungestaltbar\">Kai</a>、<a href=\"https://profiles.wordpress.org/karinchristen\">karinchristen</a>、<a href=\"https://profiles.wordpress.org/karpstrucking\">karpstrucking</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kevkoeh\">Kevin Koehler</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kite</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/leewillis77\">Lee Willis</a>、<a href=\"https://profiles.wordpress.org/leogopal\">Leo Gopal</a>、<a href=\"https://profiles.wordpress.org/loushou\">loushou</a>、<a href=\"https://profiles.wordpress.org/lumaraf\">Lumaraf</a>、<a href=\"https://profiles.wordpress.org/tyxla\">Marin Atanasov</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">Mario Peshev</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius (Clorith)</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/marsjaninzmarsa\">marsjaninzmarsa</a>、<a href=\"https://profiles.wordpress.org/martinsachse\">martinsachse</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/veraxus\">Matt van Andel</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mattyrob\">mattyrob</a>、<a href=\"https://profiles.wordpress.org/maxxsnake\">maxxsnake</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/nikonratm\">Michael</a>、<a href=\"https://profiles.wordpress.org/mdawaffe\">Michael Adams (mdawaffe)</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/michaelryanmcneill\">michaelryanmcneill</a>、<a href=\"https://profiles.wordpress.org/mcguive7\">Mickey Kay</a>、<a href=\"https://profiles.wordpress.org/mihai\">mihai</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mnelson4\">Mike Nelson</a>、<a href=\"https://profiles.wordpress.org/dh-shredder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinic</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mrutz\">mrutz</a>、<a href=\"https://profiles.wordpress.org/nabil_kadimi\">nabil_kadimi</a>、<a href=\"https://profiles.wordpress.org/Nao\">Naoko Takano</a>、<a href=\"https://profiles.wordpress.org/nazmulhossainnihal\">Nazmul Hossain Nihal</a>、<a href=\"https://profiles.wordpress.org/nicholas_io\">nicholas_io</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nickmomrik\">Nick Momrik</a>、<a href=\"https://profiles.wordpress.org/nbachiyski\">Nikolay Bachiyski</a>、<a href=\"https://profiles.wordpress.org/rabmalin\">Nilambar Sharma</a>、<a href=\"https://profiles.wordpress.org/onnimonni\">Onni Hakala</a>、<a href=\"https://profiles.wordpress.org/ozh\">Ozh</a>、<a href=\"https://profiles.wordpress.org/pareshradadiya-1\">Paresh Radadiya</a>、<a href=\"https://profiles.wordpress.org/swissspidy\">Pascal Birchler</a>、<a href=\"https://profiles.wordpress.org/djpaul\">Paul Gibbs</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/gungeekatx\">Pete Nelson</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/peterrknight\">PeterRKnight</a>、<a href=\"https://profiles.wordpress.org/philiparthurmoore\">Philip Arthur Moore</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/pragunbhutani\">pragunbhutani</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/rarylson\">rarylson</a>、<a href=\"https://profiles.wordpress.org/lamosty\">Rastislav Lamos</a>、<a href=\"https://profiles.wordpress.org/rauchg\">rauchg</a>、<a href=\"https://profiles.wordpress.org/ravinderk\">Ravinder Kumar</a>、<a href=\"https://profiles.wordpress.org/rclations\">RC Lations</a>、<a href=\"https://profiles.wordpress.org/greuben\">Reuben Gunday</a>、<a href=\"https://profiles.wordpress.org/rianrietveld\">Rian Rietveld</a>、<a href=\"https://profiles.wordpress.org/ritteshpatel\">Ritesh Patel</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/rdall\">Robert Dall</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/rommelxcastro\">Rommel Castro</a>、<a href=\"https://profiles.wordpress.org/magicroundabout\">Ross Wintle</a>、<a href=\"https://profiles.wordpress.org/rhurling\">Rouven Hurling</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/rmarks\">Ryan Marks</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/ohryan\">Ryan Neudorf</a>、<a href=\"https://profiles.wordpress.org/welcher\">Ryan Welcher</a>、<a href=\"https://profiles.wordpress.org/sagarjadhav\">Sagar Jadhav</a>、<a href=\"https://profiles.wordpress.org/salcode\">Sal Ferrarello</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">Samir Shah</a>、<a href=\"https://profiles.wordpress.org/santagada\">santagada</a>、<a href=\"https://profiles.wordpress.org/sc0ttkclark\">Scott Kingsley Clark</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/scruffian\">scruffian</a>、<a href=\"https://profiles.wordpress.org/seanchayes\">Sean Hayes</a>、<a href=\"https://profiles.wordpress.org/sebastiantiede\">Sebastian</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/shooper\">Shawn Hooper</a>、<a href=\"https://profiles.wordpress.org/designsimply\">Sheri Bigelow</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/siobhan\">Siobhan</a>、<a href=\"https://profiles.wordpress.org/metodiew\">Stanko Metodiev</a>、<a href=\"https://profiles.wordpress.org/stephdau\">Stephane Daury (stephdau)</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stevegrunwell\">Steve Grunwell</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/stuartshields\">stuartshields</a>、<a href=\"https://profiles.wordpress.org/sudar\">Sudar</a>、<a href=\"https://profiles.wordpress.org/sunnyratilal\">Sunny Ratilal</a>、<a href=\"https://profiles.wordpress.org/taka2\">taka2</a>、<a href=\"https://profiles.wordpress.org/tharsheblows\">tharsheblows</a>、<a href=\"https://profiles.wordpress.org/thorbrink\">Thor Brink</a>、<a href=\"https://profiles.wordpress.org/creativeinfusion\">Tim Smith</a>、<a href=\"https://profiles.wordpress.org/tlexcellent\">tlexcellent</a>、<a href=\"https://profiles.wordpress.org/tmatsuur\">tmatsuur</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/tomasm\">Tomas Mackevicius</a>、<a href=\"https://profiles.wordpress.org/tomharrigan\">TomHarrigan</a>、<a href=\"https://profiles.wordpress.org/toro_unit\">Toro_Unit (Hiroshi Urabe)</a>、<a href=\"https://profiles.wordpress.org/toru\">Toru Miki</a>、<a href=\"https://profiles.wordpress.org/liljimmi\">Tracy (LilJimmi) Levesque</a>、<a href=\"https://profiles.wordpress.org/tryon\">Tryon Eggleston</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/desaiuditd\">Udit Desai</a>、<a href=\"https://profiles.wordpress.org/vivekbhusal\">vivekbhusal</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/willnorris\">Will Norris</a>、<a href=\"https://profiles.wordpress.org/willgladstone\">willgladstone</a>、<a href=\"https://profiles.wordpress.org/earnjam\">William Earnhardt</a>、<a href=\"https://profiles.wordpress.org/willstedt\">willstedt</a>、<a href=\"https://profiles.wordpress.org/eltobiano\">WPMU DEV Jose</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/ysalame\">Yuri Salame</a>、<a href=\"https://profiles.wordpress.org/oxymoron\">Zach Wills</a>、<a href=\"https://profiles.wordpress.org/katzwebdesign\">Zack Katz</a>和<a href=\"https://profiles.wordpress.org/tollmanz\">Zack Tollman</a>。</p>\n<p>特别感谢<a href=\"http://siobhanmckeown.com/\">Siobhan McKeown</a>制作发布视频、<a href=\"http://hugobaeta.com/\">Hugo Baeta</a>的设计和<a href=\"http://jacklenox.com/\">Jack Lenox</a>的配音。</p>\n<p>最后，让我们感谢为发布视频制作了字幕的贡献者，这次的发布视频被翻译成了30种语言！</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢您选择WordPress，我们4.4见！\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:48:\"https://cn.wordpress.org/2015/08/21/billie/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"13\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:4;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:25:\"WordPress 4.2“Powell”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:43:\"https://cn.wordpress.org/2015/04/24/powell/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:52:\"https://cn.wordpress.org/2015/04/24/powell/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Thu, 23 Apr 2015 19:32:36 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"https://cn.wordpress.org/?p=977\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.2简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:30191:\"<div style=\"width: 692px\">\nWordPress 4.2简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Powell”，以纪念爵士钢琴手<a href=\"https://en.wikipedia.org/wiki/Bud_Powell\">巴德·鲍威尔</a>。4.2中的新功能会帮助您与全世界交流共享。</p>\n<div id=\"v-e9kH4FzP-1\" class=\"video-player\"><video id=\"v-e9kH4FzP-1-video\" width=\"620\" height=\"348\" poster=\"https://videos.files.wordpress.com/e9kH4FzP/wordpress-4-2_scruberthumbnail_2.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/e9kH4FzP/wordpress-4-2_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/e9kH4FzP/wordpress-4-2_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"Introducing WordPress 4.2 &quot;Powell&quot;\" src=\"https://videos.files.wordpress.com/e9kH4FzP/wordpress-4-2_scruberthumbnail_2.jpg\" width=\"620\" height=\"348\" /></div><p>Introducing WordPress 4.2 &quot;Powell&quot;</p></video></div>\n<hr style=\"margin: 2em 0 3em\" />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">更方便地共享内容</h2>\n<p><img class=\"alignnone size-full wp-image-3677\" src=\"https://wordpress.org/news/files/2015/04/4.2-press-this-2.jpg\" alt=\"按这里\" width=\"1000\" height=\"832\" /><br />\n收藏、编辑、发布，向您介绍最新的”按这里“工具。在工具菜单中，将”按这里“加入到您的浏览器书签或移动设备主屏幕，然后您就可以迅雷不及掩耳地共享您的内容。共享您喜欢的视频、图片和内容从来没有像现在这样简单快捷。</p>\n<hr style=\"margin: 2em 0 3em\" />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">扩展的字符集支持</h2>\n<p><img class=\"alignnone size-full wp-image-3676\" src=\"https://wordpress.org/news/files/2015/04/4.2-characters.png\" alt=\"字符集支持：颜文字和特殊字符\" width=\"1000\" height=\"832\" /><br />\n无论您使用何种语言，在WordPress中写作都将变得更好。WordPress 4.2将原生支持许多新字符，包括中日韩文字、音乐和数学符号，以及象形文字。</p>\n<p>即使您没有在使用以上那些字符，您仍可获益——WordPress现已支持颜文字！发挥创意并用<img src=\"https://s.w.org/images/core/emoji/2.2.1/72x72/1f499.png\" alt=\"💙\" class=\"wp-smiley\" style=\"height: 1em; max-height: 1em;\" />、<img src=\"https://s.w.org/images/core/emoji/2.2.1/72x72/1f438.png\" alt=\"🐸\" class=\"wp-smiley\" style=\"height: 1em; max-height: 1em;\" />、<img src=\"https://s.w.org/images/core/emoji/2.2.1/72x72/1f412.png\" alt=\"🐒\" class=\"wp-smiley\" style=\"height: 1em; max-height: 1em;\" />、<img src=\"https://s.w.org/images/core/emoji/2.2.1/72x72/1f355.png\" alt=\"🍕\" class=\"wp-smiley\" style=\"height: 1em; max-height: 1em;\" />与所有其他<a href=\"https://codex.wordpress.org/Emoji\">颜文字</a>来装点您的内容。</p>\n<hr style=\"margin: 2em 0 3em\" />\n<p><img class=\"alignright size-medium wp-image-3656\" src=\"https://wordpress.org/news/files/2015/04/4.2-theme-switcher-300x230.png\" alt=\"定制器中的主题切换器\" width=\"288\" height=\"221\" /></p>\n<h3 style=\"margin: 0 0 5px 0;font-size: 16px;font-weight: bold\">在定制器中切换主题</h3>\n<p>您可以在定制器中浏览和预览已安装的主题，并可让主题在您的站点亮相之前确保它能够搭配您的内容。</p>\n<div style=\"clear: both\"></div>\n<p><img class=\"alignright size-medium wp-image-3653\" src=\"https://wordpress.org/news/files/2015/04/4.2-embeds-300x230.png\" alt=\"Tumbr.com oEmbed样例\" width=\"288\" height=\"221\" /></p>\n<h3 style=\"margin: 0 0 5px 0;font-size: 16px;font-weight: bold\">更多的嵌入内容</h3>\n<p>把Tumblr.com和Kickstarter的链接粘贴进编辑器，那些内容就将魔法般地出现在您眼前。您的发布和编辑体验会随着我们的每次发布变得更密不可分。</p>\n<div style=\"clear: both\"></div>\n<p><img class=\"alignright size-medium wp-image-3654\" src=\"https://wordpress.org/news/files/2015/04/4.2-plugins-300x230.png\" alt=\"内联插件升级\" width=\"288\" height=\"221\" /></p>\n<h3 style=\"margin: 0 0 5px 0;font-size: 16px;font-weight: bold\">更流畅的插件升级</h3>\n<p>向无聊的加载屏幕说再见，并向简单顺滑的插件升级说你好。点击<em>现在升级</em>，您即可以看到魔法发生。</p>\n<div style=\"clear: both\"></div>\n<hr style=\"margin: 2em 0 3em\" />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">引擎盖下</h2>\n<h5>utf8支持</h5>\n<p>数据库字符编码已从utf8变为utf8，加入了对所有4字节字符的支持。</p>\n<h5>JavaScript无障碍</h5>\n<p>您现在可以在JavaScript中通过<code>wp.a11y.speak()</code>向屏幕阅读器发送音频提醒。传入字符串，更新就会被发送到专用的ARIA即时通知区域。</p>\n<h5>分离共享的条目信息</h5>\n<p>不同分类法间共享的条目信息将在其中一条获得更新时分离。您可以在<a href=\"https://developer.wordpress.org/plugins/taxonomy/working-with-split-terms-in-wp-4-2/\">插件开发者手册</a>中获取更多信息。</p>\n<h5>复杂查询排序</h5>\n<p><code>WP_Query</code>、<code>WP_Comment_Query</code>和<code>WP_User_Query</code>现在支持使用具名的元查询条款进行复杂排序。</p>\n<hr style=\"margin: 2em 0 3em\" />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">开发团队</h2>\n<p><a class=\"alignleft\" href=\"https://profiles.wordpress.org/drewapicture\"><img id=\"grav-95c934fa2c3362794bf62ff8c59ada08-0\" class=\"grav-hashed\" src=\"https://www.gravatar.com/avatar/95c934fa2c3362794bf62ff8c59ada08?d=mm&amp;s=180&amp;r=G\" alt=\"Drew Jaynes\" width=\"90\" height=\"90\" /></a></p>\n<p>此次发布由<a href=\"http://werdswords.com/\">Drew Jaynes</a>领头，并得到了以下个人的帮助。这次发布包含了283人的贡献，创下新高。在您喜欢的音乐服务中听听巴德·鲍威尔，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/mercime\">@mercime</a>、<a href=\"https://profiles.wordpress.org/a5hleyrich\">A5hleyRich</a>、<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/abhishekfdd\">abhishekfdd</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/mrahmadawais\">Ahmad Awais</a>、<a href=\"https://profiles.wordpress.org/alexkingorg\">Alex King</a>、<a href=\"https://profiles.wordpress.org/viper007bond\">Alex Mills (Viper007Bond)</a>、<a href=\"https://profiles.wordpress.org/deconf\">Alin Marcu</a>、<a href=\"https://profiles.wordpress.org/collinsinternet\">Allan Collins</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/awbauer\">Andrew Bauer</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/norcross\">Andrew Norcross</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/ankitgadertcampcom\">Ankit Gade</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/atimmer\">Anton Timmermans</a>、<a href=\"https://profiles.wordpress.org/aramzs\">Aram Zucker-Scharff</a>、<a href=\"https://profiles.wordpress.org/arminbraun\">ArminBraun</a>、<a href=\"https://profiles.wordpress.org/ashfame\">Ashfame</a>、<a href=\"https://profiles.wordpress.org/filosofo\">Austin Matzko</a>、<a href=\"https://profiles.wordpress.org/avryl\">avryl</a>、<a href=\"https://profiles.wordpress.org/barrykooij\">Barry Kooij</a>、<a href=\"https://profiles.wordpress.org/beaulebens\">Beau Lebens</a>、<a href=\"https://profiles.wordpress.org/bendoh\">Ben Doherty (Oomph、Inc)</a>、<a href=\"https://profiles.wordpress.org/bananastalktome\">Billy Schneider</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/krogsgard\">Brian Krogsgard</a>、<a href=\"https://profiles.wordpress.org/bswatson\">Brian Watson</a>、<a href=\"https://profiles.wordpress.org/calevans\">CalEvans</a>、<a href=\"https://profiles.wordpress.org/carolinegeven\">carolinegeven</a>、<a href=\"https://profiles.wordpress.org/caseypatrickdriscoll\">Casey Driscoll</a>、<a href=\"https://profiles.wordpress.org/caspie\">Caspie</a>、<a href=\"https://profiles.wordpress.org/cdog\">Catalin Dogaru</a>、<a href=\"https://profiles.wordpress.org/chipbennett\">Chip Bennett</a>、<a href=\"https://profiles.wordpress.org/chipx86\">chipx86</a>、<a href=\"https://profiles.wordpress.org/chrico\">ChriCo</a>、<a href=\"https://profiles.wordpress.org/cbaldelomar\">Chris Baldelomar</a>、<a href=\"https://profiles.wordpress.org/c3mdigital\">Chris Olbekson</a>、<a href=\"https://profiles.wordpress.org/cfoellmann\">Christian Foellmann</a>、<a href=\"https://profiles.wordpress.org/cfinke\">Christopher Finke</a>、<a href=\"https://profiles.wordpress.org/clifgriffin\">Clifton Griffin</a>、<a href=\"https://profiles.wordpress.org/codix\">Code Master</a>、<a href=\"https://profiles.wordpress.org/corphi\">Corphi</a>、<a href=\"https://profiles.wordpress.org/couturefreak\">Courtney Ivey</a>、<a href=\"https://profiles.wordpress.org/craig-ralston\">Craig Ralston</a>、<a href=\"https://profiles.wordpress.org/cweiske\">cweiske</a>、<a href=\"https://profiles.wordpress.org/extendwings\">Daisuke Takahashi</a>、<a href=\"https://profiles.wordpress.org/timersys\">Damian</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/redsweater\">Daniel Jalkut (Red Sweater)</a>、<a href=\"https://profiles.wordpress.org/dkotter\">Darin Kotter</a>、<a href=\"https://profiles.wordpress.org/nerrad\">Darren Ethier (nerrad)</a>、<a href=\"https://profiles.wordpress.org/dllh\">Daryl L. L. Houston (dllh)</a>、<a href=\"https://profiles.wordpress.org/dmchale\">Dave McHale</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/davidanderson\">David Anderson</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/folletto\">Davide &#8216;Folletto&#8217; Casali</a>、<a href=\"https://profiles.wordpress.org/davideugenepratt\">davideugenepratt</a>、<a href=\"https://profiles.wordpress.org/davidhamiltron\">davidhamiltron</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/valendesigns\">Derek Herman</a>、<a href=\"https://profiles.wordpress.org/dsmart\">Derek Smart</a>、<a href=\"https://profiles.wordpress.org/designsimply\">designsimply</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/dipeshkakadiya\">dipesh.kakadiya</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/doublesharp\">doublesharp</a>、<a href=\"https://profiles.wordpress.org/dzerycz\">DzeryCZ</a>、<a href=\"https://profiles.wordpress.org/kucrut\">Dzikri Aziz</a>、<a href=\"https://profiles.wordpress.org/emazovetskiy\">e.mazovetskiy</a>、<a href=\"https://profiles.wordpress.org/oso96_2000\">Eduardo Reveles</a>、<a href=\"https://profiles.wordpress.org/cais\">Edward Caissie</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/iseulde\">Ella Iseulde Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/elliottcarlson\">elliottcarlson</a>、<a href=\"https://profiles.wordpress.org/enej\">enej</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Lewis</a>、<a href=\"https://profiles.wordpress.org/ethitter\">Erick Hitter</a>、<a href=\"https://profiles.wordpress.org/evansolomon\">Evan Solomon</a>、<a href=\"https://profiles.wordpress.org/fab1en\">Fabien Quatravaux</a>、<a href=\"https://profiles.wordpress.org/fhwebcs\">fhwebcs</a>、<a href=\"https://profiles.wordpress.org/floriansimeth\">Florian Simeth</a>、<a href=\"https://profiles.wordpress.org/bueltge\">Frank</a>、<a href=\"https://profiles.wordpress.org/frankpw\">Frank P. Walentynowicz</a>、<a href=\"https://profiles.wordpress.org/f-j-kaiser\">Franz Josef Kaiser</a>、<a href=\"https://profiles.wordpress.org/garyc40\">Gary Cao</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/geertdd\">Geert De Deckere</a>、<a href=\"https://profiles.wordpress.org/genkisan\">genkisan</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/grahamarmfield\">Graham Armfield</a>、<a href=\"https://profiles.wordpress.org/webord\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/hakre\">hakre</a>、<a href=\"https://profiles.wordpress.org/harishchaudhari\">Harish Chaudhari</a>、<a href=\"https://profiles.wordpress.org/hauvong\">hauvong</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/herbmillerjr\">herbmillerjr</a>、<a href=\"https://profiles.wordpress.org/hew\">Hew</a>、<a href=\"https://profiles.wordpress.org/horike\">horike</a>、<a href=\"https://profiles.wordpress.org/hlashbrooke\">Hugh Lashbrooke</a>、<a href=\"https://profiles.wordpress.org/hugobaeta\">Hugo Baeta</a>、<a href=\"https://profiles.wordpress.org/iandunn\">Ian Dunn</a>、<a href=\"https://profiles.wordpress.org/ianmjones\">ianmjones</a>、<a href=\"https://profiles.wordpress.org/idealien\">idealien</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jacklenox\">Jack Lenox</a>、<a href=\"https://profiles.wordpress.org/jamescollins\">James Collins</a>、<a href=\"https://profiles.wordpress.org/janhenckens\">janhenckens</a>、<a href=\"https://profiles.wordpress.org/cheffheid\">Jeff de Wit</a>、<a href=\"https://profiles.wordpress.org/jfarthing84\">Jeff Farthing</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/jipmoors\">jipmoors</a>、<a href=\"https://profiles.wordpress.org/jartes\">Joan Artes</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/yo-l1982\">Joel Bernerman</a>、<a href=\"https://profiles.wordpress.org/joen\">Joen Asmussen</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johneckman\">John Eckman</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/jlevandowski\">John Levandowski</a>、<a href=\"https://profiles.wordpress.org/desrosj\">Jonathan Desrosiers</a>、<a href=\"https://profiles.wordpress.org/joostdekeijzer\">joost de keijzer</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/jcastaneda\">Jose Castaneda</a>、<a href=\"https://profiles.wordpress.org/joshlevinson\">Josh Levinson</a>、<a href=\"https://profiles.wordpress.org/jphase\">jphase</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/kopepasah\">Justin Kopepasah</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/justincwatt\">Justin Watt</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kevdotbadger\">Kevin Ruscoe</a>、<a href=\"https://profiles.wordpress.org/kpdesign\">Kim Parsell</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kite</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/mindrun\">Leonard</a>、<a href=\"https://profiles.wordpress.org/leopeo\">Leonardo Giacone</a>、<a href=\"https://profiles.wordpress.org/lgladdy\">Liam Gladdy</a>、<a href=\"https://profiles.wordpress.org/magicroundabout\">magicroundabout</a>、<a href=\"https://profiles.wordpress.org/maimairel\">maimairel</a>、<a href=\"https://profiles.wordpress.org/mako09\">Mako</a>、<a href=\"https://profiles.wordpress.org/funkatronic\">Manny Fleurmond</a>、<a href=\"https://profiles.wordpress.org/marcelomazza\">marcelomazza</a>、<a href=\"https://profiles.wordpress.org/marcochiesi\">Marco Chiesi</a>、<a href=\"https://profiles.wordpress.org/mkaz\">Marcus Kazmierczak</a>、<a href=\"https://profiles.wordpress.org/tyxla\">Marin Atanasov</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">Mario Peshev</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius (Clorith)</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/senff\">Mark Senff</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/mzak\">Matt</a>、<a href=\"https://profiles.wordpress.org/sivel\">Matt Martz</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mboynes\">Matthew Boynes</a>、<a href=\"https://profiles.wordpress.org/mattheweppelsheimer\">Matthew Eppelsheimer</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mattyrob\">mattyrob</a>、<a href=\"https://profiles.wordpress.org/maxcutler\">Max Cutler</a>、<a href=\"https://profiles.wordpress.org/mehulkaklotar\">mehulkaklotar</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/meloniq\">meloniq</a>、<a href=\"https://profiles.wordpress.org/mgibbs189\">mgibbs189</a>、<a href=\"https://profiles.wordpress.org/mdawaffe\">Michael Adams (mdawaffe)</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/tw2113\">Michael Beckwith</a>、<a href=\"https://profiles.wordpress.org/michalzuber\">michalzuber</a>、<a href=\"https://profiles.wordpress.org/mdgl\">Mike Glendinning</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/thaicloud\">Mike Jordan</a>、<a href=\"https://profiles.wordpress.org/mikeschinkel\">Mike Schinkel</a>、<a href=\"https://profiles.wordpress.org/mikengarrett\">MikeNGarrett</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinic</a>、<a href=\"https://profiles.wordpress.org/mmn-o\">mmn-o</a>、<a href=\"https://profiles.wordpress.org/batmoo\">Mohammad Jangda</a>、<a href=\"https://profiles.wordpress.org/momdad\">MomDad</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/morpheu5\">Morpheu5</a>、<a href=\"https://profiles.wordpress.org/Nao\">Naoko Takano</a>、<a href=\"https://profiles.wordpress.org/nathan_dawson\">nathan_dawson</a>、<a href=\"https://profiles.wordpress.org/neil_pie\">Neil Pie</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nicnicnicdevos\">nicnicnicdevos</a>、<a href=\"https://profiles.wordpress.org/nikv\">Nikhil Vimal</a>、<a href=\"https://profiles.wordpress.org/ninnypants\">ninnypants</a>、<a href=\"https://profiles.wordpress.org/nitkr\">nitkr</a>、<a href=\"https://profiles.wordpress.org/nunomorgadinho\">Nuno Morgadinho</a>、<a href=\"https://profiles.wordpress.org/originalexe\">OriginalEXE</a>、<a href=\"https://profiles.wordpress.org/pareshradadiya-1\">Paresh Radadiya</a>、<a href=\"https://profiles.wordpress.org/pathawks\">Pat Hawks</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/paulschreiber\">Paul Schreiber</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/sirbrillig\">Payton Swick</a>、<a href=\"https://profiles.wordpress.org/petemall\">Pete Mall</a>、<a href=\"https://profiles.wordpress.org/gungeekatx\">Pete Nelson</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/podpirate\">podpirate</a>、<a href=\"https://profiles.wordpress.org/postpostmodern\">postpostmodern</a>、<a href=\"https://profiles.wordpress.org/nprasath002\">Prasath Nadarajah</a>、<a href=\"https://profiles.wordpress.org/prasoon2211\">prasoon2211</a>、<a href=\"https://profiles.wordpress.org/cyman\">Primoz Cigler</a>、<a href=\"https://profiles.wordpress.org/r-a-y\">r-a-y</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/rahulbhangale\">rahulbhangale</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/lamosty\">Rastislav Lamos</a>、<a href=\"https://profiles.wordpress.org/ravindra-pal-singh\">Ravindra Pal Singh</a>、<a href=\"https://profiles.wordpress.org/rianrietveld\">Rian Rietveld</a>、<a href=\"https://profiles.wordpress.org/ritteshpatel\">Ritesh Patel</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/rmarks\">Ryan Marks</a>、<a href=\"https://profiles.wordpress.org/sagarjadhav\">sagarjadhav</a>、<a href=\"https://profiles.wordpress.org/samo9789\">samo9789</a>、<a href=\"https://profiles.wordpress.org/samuelsidler\">samuelsidler</a>、<a href=\"https://profiles.wordpress.org/sgrant\">Scott Grant</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/scottgonzalez\">scott.gonzalez</a>、<a href=\"https://profiles.wordpress.org/greglone\">ScreenfeedFr</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/seanchayes\">Sean Hayes</a>、<a href=\"https://profiles.wordpress.org/sergejmueller\">Sergej Muller</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/sevenspark\">sevenspark</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/siobhan\">Siobhan</a>、<a href=\"https://profiles.wordpress.org/sippis\">sippis</a>、<a href=\"https://profiles.wordpress.org/slobodanmanic\">Slobodan Manic</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">solarissmoke</a>、<a href=\"https://profiles.wordpress.org/stephdau\">Stephane Daury</a>、<a href=\"https://profiles.wordpress.org/sillybean\">Stephanie Leary</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stevegrunwell\">Steve Grunwell</a>、<a href=\"https://profiles.wordpress.org/stevehickeydesign\">stevehickeydesign</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/iamtakashi\">Takashi Irie</a>、<a href=\"https://profiles.wordpress.org/hissy\">Takuro Hishikawa</a>、<a href=\"https://profiles.wordpress.org/themiked\">theMikeD</a>、<a href=\"https://profiles.wordpress.org/thomaswm\">thomaswm</a>、<a href=\"https://profiles.wordpress.org/ipm-frommen\">Thorsten Frommen</a>、<a href=\"https://profiles.wordpress.org/tillkruess\">Till</a>、<a href=\"https://profiles.wordpress.org/timothyblynjacobs\">Timothy Jacobs</a>、<a href=\"https://profiles.wordpress.org/tiqbiz\">tiqbiz</a>、<a href=\"https://profiles.wordpress.org/tmatsuur\">tmatsuur</a>、<a href=\"https://profiles.wordpress.org/tmeister\">tmeister</a>、<a href=\"https://profiles.wordpress.org/tschutter\">Tobias Schutter</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/tomdxw\">tomdxw</a>、<a href=\"https://profiles.wordpress.org/travisnorthcutt\">Travis Northcutt</a>、<a href=\"https://profiles.wordpress.org/trishasalas\">trishasalas</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/uamv\">UaMV</a>、<a href=\"https://profiles.wordpress.org/desaiuditd\">Udit Desai</a>、<a href=\"https://profiles.wordpress.org/sorich87\">Ulrich Sossou</a>、<a href=\"https://profiles.wordpress.org/veritaserum\">Veritaserum</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/volodymyrc\">VolodymyrC</a>、<a href=\"https://profiles.wordpress.org/vortfu\">vortfu</a>、<a href=\"https://profiles.wordpress.org/welcher\">welcher</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/earnjam\">William Earnhardt</a>和<a href=\"https://profiles.wordpress.org/wordpressorru\">WordPressor</a>。</p>\n<p>特别感谢<a href=\"http://siobhanmckeown.com/\">Siobhan McKeown</a>制作发布视频及<a href=\"http://camikaos.com/\">Cami Kaos</a>为视频配音。</p>\n<p>最后，让我们感谢为发布视频制作了字幕的贡献者，这次的发布视频被翻译成了30种语言！</p>\n<p><a href=\"https://profiles.wordpress.org/adrianpop\">Adrian Pop</a>、<a href=\"https://profiles.wordpress.org/deconf\">Alin Marcu</a>、<a href=\"https://profiles.wordpress.org/bagerathan\">Bagerathan Sivarajah</a>、<a href=\"https://profiles.wordpress.org/besnik\">Besnik</a>、<a href=\"https://profiles.wordpress.org/bjornjohansen\">Bjørn Johansen</a>、Chantal Coolsma、<a href=\"https://profiles.wordpress.org/cubells\">cubells</a>、Daisuke Takahashi、<a href=\"https://profiles.wordpress.org/dianakc\">Diana K. Cury</a>、<a href=\"https://profiles.wordpress.org/djzone\">DjZoNe</a>、<a href=\"https://profiles.wordpress.org/dyrer\">dyrer</a>、<a href=\"https://profiles.wordpress.org/semblance\">Elzette Roelofse</a>、<a href=\"https://profiles.wordpress.org/fxbtacoverdoenard\">fxbtacoverdoenard</a>、<a href=\"https://profiles.wordpress.org/gabriel-reguly\">Gabriel Reguly</a>、<a href=\"https://profiles.wordpress.org/miss_jwo\">Jenny Wong</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/hgmb\">Håvard Grimelid</a>、<a href=\"https://profiles.wordpress.org/intoxstudio\">Joachim Jensen</a>、<a href=\"https://profiles.wordpress.org/jimmyxu\">Jimmy Xu</a>、<a href=\"https://profiles.wordpress.org/nukaga\">Junko Nukaga</a>、<a href=\"https://profiles.wordpress.org/pokeraitis\">Justina</a>、<a href=\"https://profiles.wordpress.org/kosvrouvas\">Kostas Vrouvas</a>、<a href=\"https://profiles.wordpress.org/eclare\">Krzysztof Trynkiewicz</a>、<a href=\"https://profiles.wordpress.org/goblindegook\">Luís Rodrigues</a>、<a href=\"https://profiles.wordpress.org/luisrull\">Luis Rull</a>、<a href=\"https://profiles.wordpress.org/culturemark\">Mark Thomas Gazel </a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius Jensen</a>、<a href=\"https://profiles.wordpress.org/matthee\">matthee</a>、<a href=\"https://profiles.wordpress.org/damst\">Mattias Tengblad</a>、Matúš Záhradník、Mayuko Moriyama、<a href=\"https://profiles.wordpress.org/michalvittek\">Michal Vittek</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinić</a>、<a href=\"https://profiles.wordpress.org/mrshemek\">MrShemek</a>、<a href=\"https://profiles.wordpress.org/Nao\">Naoko Takano</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/peterhoob\">Peter Holme Obrestad</a>、<a href=\"https://profiles.wordpress.org/petya\">Petya Raykovska</a>、Przemysław Mirota、<a href=\"https://profiles.wordpress.org/qraczek\">qraczek</a>、<a href=\"https://profiles.wordpress.org/bi0xid\">Rafa Poveda</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/rasheed\">Rasheed Bydousi</a>、<a href=\"https://profiles.wordpress.org/gwgan\">Rhoslyn Prys</a>、<a href=\"https://profiles.wordpress.org/robee\">Robert Axelsen</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/siobhyb\">Siobhan Bamber</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/tohave\">ک To Have داشتن</a>、<a href=\"https://profiles.wordpress.org/zodiac1978\">Torsten Landsiedel</a>、<a href=\"https://profiles.wordpress.org/egalego\">Victor J. Quesada</a>、<a href=\"https://profiles.wordpress.org/wolly\">Wolly</a>、<a href=\"https://profiles.wordpress.org/xavivars\">Xavi Ivars</a>和<a href=\"https://profiles.wordpress.org/xibe\">Xavier Borderie</a>。</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢您选择WordPress，我们4.3见！\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:48:\"https://cn.wordpress.org/2015/04/24/powell/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"27\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:5;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:24:\"WordPress 4.1“Dinah”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:42:\"https://cn.wordpress.org/2014/12/23/dinah/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:51:\"https://cn.wordpress.org/2014/12/23/dinah/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Tue, 23 Dec 2014 01:34:27 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"https://cn.wordpress.org/?p=959\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.1简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:25152:\"<div style=\"width: 692px\">\nWordPress 4.1简体中文版现已<a href=\"https://cn.wordpress.org/releases/\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Dinah”，以纪念爵士歌手<a href=\"https://en.wikipedia.org/wiki/Dinah_Washington\">黛娜·华盛顿</a>。WordPress 4.1中的新功能帮助您聚焦于您的写作，新的默认主题也能让您有型地展示您的文章。</p>\n<hr />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">向您介绍Twenty Fifteen</h2>\n<p><img class=\"aligncenter size-large wp-image-3389\" src=\"https://wordpress.org/news/files/2014/12/2015-laptop-1024x533.png\" alt=\"2015-laptop\" width=\"692\" height=\"360\" /></p>\n<h3 style=\"margin: 0 0 5px 0;font-size: 16px;font-weight: bold\">Twenty Fifteen，我们最新的默认主题，是一套以明晰为中心的面向博客的主题。</h3>\n<p><img class=\"alignright wp-image-3426 size-medium\" src=\"https://wordpress.org/news/files/2014/12/2015-phones-languages-small-300x250.png\" alt=\"\" width=\"300\" height=\"250\" />感谢<a href=\"\\&quot;%s\\&quot;\">Google的Noto字体家族</a>，Twenty Fifteen有着无懈可击的语言支持。</p>\n<p>简单的排版在任何屏幕尺寸上都容易阅读。</p>\n<p>您的内容永远居于最中，无论是在手机、平板、膝上型电脑还是台式机上阅读都是如此。</p>\n<hr style=\"clear: both\" />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">免打扰写作</h2>\n<p><img class=\"aligncenter size-large wp-image-3392\" src=\"https://wordpress.org/news/files/2014/12/dfw-screen-1024x614.png\" alt=\"dfw-screen\" width=\"692\" height=\"415\" /></p>\n<h3 style=\"text-align: center;margin: 0 0 5px 0;font-size: 16px;font-weight: bold\"><em>去写吧</em></h3>\n<p>有时，您需要集中精力遣词造句。试试打开<strong>免打扰写作模式</strong>，在您开始打字时，所有会让您分心的东西都会淡出，让您只注意您的写作。您的所有编辑工具都会在您需要用到它们时立刻出现。</p>\n<hr />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">细节之处</h2>\n<h5><strong><img class=\"alignleft wp-image-3405\" src=\"https://wordpress.org/news/files/2014/12/icon-language2.png\" alt=\"\" width=\"80\" height=\"80\" /></strong>选择语言</h5>\n<p>现在，WordPress 4.1已经有了40多种语言版本，我们也一直在进行更多翻译。您可以在常规选项中切换到任意一种语言。</p>\n<h5><strong><img class=\"alignleft wp-image-3406\" src=\"https://wordpress.org/news/files/2014/12/icon-logout1.png\" alt=\"\" width=\"80\" height=\"80\" /></strong>随处登出</h5>\n<p>如果您曾经担心过忘记在公用电脑上登出，您现在可以前往您的个人资料页面并登出您的所有会话。</p>\n<h5><strong><img class=\"alignleft wp-image-3407\" src=\"https://wordpress.org/news/files/2014/12/icon-vine1.png\" alt=\"\" width=\"80\" height=\"80\" /></strong>Vine嵌入</h5>\n<p>嵌入来自Vine的视频也已被简化为了将URL粘贴进文章里。查看我们支持的嵌入的<a href=\"https://codex.wordpress.org/Embeds\">完整列表</a>。</p>\n<h5><strong><img class=\"alignleft wp-image-3408\" src=\"https://wordpress.org/news/files/2014/12/icon-recommended1.png\" alt=\"\" width=\"80\" height=\"80\" /></strong>插件推荐</h5>\n<p>插件安装器现在会为您推荐值得一试的插件。推荐是基于您和其他用户已经安装的插件做出的。</p>\n<hr />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">引擎盖下</h2>\n<h5>复杂查询</h5>\n<p>元数据、日期和信息查询现已支持高级条件逻辑，如嵌套语句和多种操作符——<code>A AND ( B OR C )</code>。</p>\n<h5>定制器API</h5>\n<p>定制器现在能够根据当前预览的页面有条件地显示面板和小节。</p>\n<h5>主题中的<code>&lt;title&gt;</code>标签</h5>\n<p><code>add_theme_support( \'title-tag\' )</code>让WordPress来处理复杂的页面标题。</p>\n<h5>开发者参考</h5>\n<p>通过对内联代码文档的改善，<a href=\"https://developer.wordpress.org/reference/\">开发者参考</a>现在比以往任何时候都更完整。</p>\n<hr />\n<h2 style=\"text-align: center;margin: 15px 0 20px;font-family: sans-serif;font-size: 26px\">合唱团</h2>\n<p>本次发布由<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>领头，并得到了如下个人的帮助。在您喜欢的音乐服务中听听黛娜·华盛顿，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/akumria\">akumria</a>、<a href=\"https://profiles.wordpress.org/xknown\">Alex Concha</a>、<a href=\"https://profiles.wordpress.org/viper007bond\">Alex Mills (Viper007Bond)</a>、<a href=\"https://profiles.wordpress.org/tellyworth\">Alex Shiels</a>、<a href=\"https://profiles.wordpress.org/collinsinternet\">Allan Collins</a>、<a href=\"https://profiles.wordpress.org/momo360modena\">Amaury Balmer</a>、<a href=\"https://profiles.wordpress.org/amruta123b\">Amruta Bhosale</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/andg\">Andrea Gandino</a>、<a href=\"https://profiles.wordpress.org/sumobi\">Andrew Munro (sumobi)</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/andrewryno\">Andrew Ryno</a>、<a href=\"https://profiles.wordpress.org/rarst\">Andrey &#8220;Rarst&#8221; Savchenko</a>、<a href=\"https://profiles.wordpress.org/ankitgadertcampcom\">Ankit Gade</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/antpb\">antpb</a>、<a href=\"https://profiles.wordpress.org/arippberger\">arippberger</a>、<a href=\"https://profiles.wordpress.org/filosofo\">Austin Matzko</a>、<a href=\"https://profiles.wordpress.org/bainternet\">Bainternet</a>、<a href=\"https://profiles.wordpress.org/barrykooij\">Barry Kooij</a>、<a href=\"https://profiles.wordpress.org/empireoflight\">Ben Dunkle</a>、<a href=\"https://profiles.wordpress.org/benjmay\">Ben May</a>、<a href=\"https://profiles.wordpress.org/neoxx\">Bernhard Riedl</a>、<a href=\"https://profiles.wordpress.org/birgire\">Birgir Erlendsson (birgire)</a>、<a href=\"https://profiles.wordpress.org/bobbingwide\">bobbingwide</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone B. Gorges</a>、<a href=\"https://profiles.wordpress.org/bradyvercher\">Brady Vercher</a>、<a href=\"https://profiles.wordpress.org/bramd\">Bram Duvigneau</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/briandichiara\">Brian DiChiara</a>、<a href=\"https://profiles.wordpress.org/rzen\">Brian Richards</a>、<a href=\"https://profiles.wordpress.org/bswatson\">Brian Watson</a>、<a href=\"https://profiles.wordpress.org/camdensegal\">Camden Segal</a>、<a href=\"https://profiles.wordpress.org/captaintheme\">Captain Theme</a>、<a href=\"https://profiles.wordpress.org/hiwhatsup\">Carlos Zuniga</a>、<a href=\"https://profiles.wordpress.org/caspie\">Caspie</a>、<a href=\"https://profiles.wordpress.org/ccprice\">ccprice</a>、<a href=\"https://profiles.wordpress.org/mackensen\">Charles Fulton</a>、<a href=\"https://profiles.wordpress.org/chrico\">ChriCo</a>、<a href=\"https://profiles.wordpress.org/aprea\">Chris Aprea</a>、<a href=\"https://profiles.wordpress.org/chrisbliss18\">Chris Jean</a>、<a href=\"https://profiles.wordpress.org/cmmarslender\">Chris Marslender</a>、<a href=\"https://profiles.wordpress.org/jazzs3quence\">Chris Reynolds</a>、<a href=\"https://profiles.wordpress.org/chriscct7\">chriscct7</a>、<a href=\"https://profiles.wordpress.org/chrisl27\">chrisl27</a>、<a href=\"https://profiles.wordpress.org/cfoellmann\">Christian Foellmann</a>、<a href=\"https://profiles.wordpress.org/cfinke\">Christopher Finke</a>、<a href=\"https://profiles.wordpress.org/cyclometh\">Corey Snow</a>、<a href=\"https://profiles.wordpress.org/corphi\">Corphi</a>、<a href=\"https://profiles.wordpress.org/curtjen\">curtjen</a>、<a href=\"https://profiles.wordpress.org/colorful-tones\">Damon Cook</a>、<a href=\"https://profiles.wordpress.org/dancameron\">Dan Cameron</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/convissor\">Daniel Convissor</a>、<a href=\"https://profiles.wordpress.org/nerrad\">Darren Ethier (nerrad)</a>、<a href=\"https://profiles.wordpress.org/koop\">Daryl Koopersmith</a>、<a href=\"https://profiles.wordpress.org/dmchale\">Dave McHale</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/davidjlaietta\">David Laietta</a>、<a href=\"https://profiles.wordpress.org/technical_mastermind\">David Wood</a>、<a href=\"https://profiles.wordpress.org/davidthemachine\">DavidTheMachine</a>、<a href=\"https://profiles.wordpress.org/dcavins\">dcavins</a>、<a href=\"https://profiles.wordpress.org/realloc\">Dennis Ploetner</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/wedi\">Dirk Weise</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/dominikschwind-1\">Dominik Schwind</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/dustyf\">Dustin Filippini</a>、<a href=\"https://profiles.wordpress.org/dustinhartzler\">Dustin Hartzler</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ew_holmes\">Eric Holmes</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Lewis</a>、<a href=\"https://profiles.wordpress.org/fab1en\">Fabien Quatravaux</a>、<a href=\"https://profiles.wordpress.org/florianziegler\">florianziegler</a>、<a href=\"https://profiles.wordpress.org/hereswhatidid\">Gabe Shackle</a>、<a href=\"https://profiles.wordpress.org/garyc40\">Gary Cao</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/soulseekah\">Gennady Kovshenin</a>、<a href=\"https://profiles.wordpress.org/babbardel\">George Olaru</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/gregrickaby\">Greg Rickaby</a>、<a href=\"https://profiles.wordpress.org/gcorne\">Gregory Cornelius</a>、<a href=\"https://profiles.wordpress.org/tivnet\">Gregory Karpinsky (@tivnet)</a>、<a href=\"https://profiles.wordpress.org/bordoni\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/hardy101\">hardy101</a>、<a href=\"https://profiles.wordpress.org/hauvong\">hauvong</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/heshiming\">heshiming</a>、<a href=\"https://profiles.wordpress.org/honeysilvas\">honeysilvas</a>、<a href=\"https://profiles.wordpress.org/hugodelgado\">hugodelgado</a>、<a href=\"https://profiles.wordpress.org/iandstewart\">Ian Stewart</a>、<a href=\"https://profiles.wordpress.org/ianmjones\">ianmjones</a>、<a href=\"https://profiles.wordpress.org/igmoweb\">Ignacio Cruz Moreno</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/ivankristianto\">Ivan Kristianto</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jaimieolmstead\">jaimieolmstead</a>、<a href=\"https://profiles.wordpress.org/jakubtyrcha\">jakub.tyrcha</a>、<a href=\"https://profiles.wordpress.org/janhenckens\">janhenckens</a>、<a href=\"https://profiles.wordpress.org/avryl\">Janneke Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/japh\">Japh</a>、<a href=\"https://profiles.wordpress.org/jwenerd\">Jared Wenerd</a>、<a href=\"https://profiles.wordpress.org/jarednova\">jarednova</a>、<a href=\"https://profiles.wordpress.org/jeanyoungkim\">jeanyoungkim</a>、<a href=\"https://profiles.wordpress.org/jfarthing84\">Jeff Farthing</a>、<a href=\"https://profiles.wordpress.org/jeffstieler\">Jeff Stieler</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jeherve\">Jeremy Herve</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/jayjdk\">Jesper Johansen (jayjdk)</a>、<a href=\"https://profiles.wordpress.org/engelen\">Jesper van Engelen</a>、<a href=\"https://profiles.wordpress.org/jessepollak\">Jesse Pollak</a>、<a href=\"https://profiles.wordpress.org/jipmoors\">jipmoors</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joemcgill\">Joe McGill</a>、<a href=\"https://profiles.wordpress.org/johneckman\">John Eckman</a>、<a href=\"https://profiles.wordpress.org/johnrom\">johnrom</a>、<a href=\"https://profiles.wordpress.org/johnstonphilip\">johnstonphilip</a>、<a href=\"https://profiles.wordpress.org/jb510\">Jon Brown</a>、<a href=\"https://profiles.wordpress.org/duck_\">Jon Cave</a>、<a href=\"https://profiles.wordpress.org/jbrinley\">Jonathan Brinley</a>、<a href=\"https://profiles.wordpress.org/desrosj\">Jonathan Desrosiers</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/softmodeling\">Jordi Cabot</a>、<a href=\"https://profiles.wordpress.org/joshuaabenazer\">Joshua Abenazer</a>、<a href=\"https://profiles.wordpress.org/tai\">JOTAKI Taisuke</a>、<a href=\"https://profiles.wordpress.org/jrf\">jrf</a>、<a href=\"https://profiles.wordpress.org/julien731\">julien731</a>、<a href=\"https://profiles.wordpress.org/justinsainton\">Justin Sainton</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kaito</a>、<a href=\"https://profiles.wordpress.org/kamelkev\">kamelkev</a>、<a href=\"https://profiles.wordpress.org/karpstrucking\">karpstrucking</a>、<a href=\"https://profiles.wordpress.org/keesiemeijer\">keesiemeijer</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kevinlangleyjr\">Kevin Langley</a>、<a href=\"https://profiles.wordpress.org/kdoran\">Kiko Doran</a>、<a href=\"https://profiles.wordpress.org/kpdesign\">Kim Parsell</a>、<a href=\"https://profiles.wordpress.org/kwight\">Kirk Wight</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/knutsp\">Knut Sparhell</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/kosvrouvas\">Kostas Vrouvas</a>、<a href=\"https://profiles.wordpress.org/kraftner\">kraftner</a>、<a href=\"https://profiles.wordpress.org/kristastevens\">kristastevens</a>、<a href=\"https://profiles.wordpress.org/kurtpayne\">Kurt Payne</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/offereins\">Laurens Offereins</a>、<a href=\"https://profiles.wordpress.org/linuxologos\">linuxologos</a>、<a href=\"https://profiles.wordpress.org/ideag\">Liuiza Arunas</a>、<a href=\"https://profiles.wordpress.org/loushou\">loushou</a>、<a href=\"https://profiles.wordpress.org/latz\">Lutz Schroer</a>、<a href=\"https://profiles.wordpress.org/manoz69\">Manoz69</a>、<a href=\"https://profiles.wordpress.org/mantismamita\">mantismamita</a>、<a href=\"https://profiles.wordpress.org/marcosf\">marco</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">Mario Peshev</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius (Clorith)</a>、<a href=\"https://profiles.wordpress.org/landakram\">Mark Hudnall</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/senff\">Mark Senff</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/marsjaninzmarsa\">marsjaninzmarsa</a>、<a href=\"https://profiles.wordpress.org/matveb\">Matias Ventura</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mboynes\">Matthew Boynes</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mattkeys\">mattkeys</a>、<a href=\"https://profiles.wordpress.org/mlteal\">Maura Teal</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/merty\">Mert Yazicioglu</a>、<a href=\"https://profiles.wordpress.org/mdawaffe\">Michael Adams (mdawaffe)</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/tw2113\">Michael Beckwith</a>、<a href=\"https://profiles.wordpress.org/cainm\">Michael Cain</a>、<a href=\"https://profiles.wordpress.org/smashcut\">Michael Pick</a>、<a href=\"https://profiles.wordpress.org/michalzuber\">michalzuber</a>、<a href=\"https://profiles.wordpress.org/chellycat\">Michelle Langston</a>、<a href=\"https://profiles.wordpress.org/mcsf\">Miguel Fonseca</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikejolley\">Mike Jolley</a>、<a href=\"https://profiles.wordpress.org/mnelson4\">Mike Nelson</a>、<a href=\"https://profiles.wordpress.org/dh-shredder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/mikeyarce\">Mikey Arce</a>、<a href=\"https://profiles.wordpress.org/studionashvegas\">Mitch Canter (studionashvegas)</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mor10\">Morten Rand-Hendriksen</a>、<a href=\"https://profiles.wordpress.org/mvd7793\">mvd7793</a>、<a href=\"https://profiles.wordpress.org/alex-ye\">Nashwan Doaqan</a>、<a href=\"https://profiles.wordpress.org/niallkennedy\">Niall Kennedy</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nikv\">Nikhil Vimal (NikV)</a>、<a href=\"https://profiles.wordpress.org/nikolovtmw\">Nikola Nikolov</a>、<a href=\"https://profiles.wordpress.org/nobleclem\">nobleclem</a>、<a href=\"https://profiles.wordpress.org/noplanman\">noplanman</a>、<a href=\"https://profiles.wordpress.org/nvwd\">Nowell VanHoesen</a>、<a href=\"https://profiles.wordpress.org/originalexe\">OriginalEXE</a>、<a href=\"https://profiles.wordpress.org/p_enrique\">p_enrique</a>、<a href=\"https://profiles.wordpress.org/pushplaybang\">Paul</a>、<a href=\"https://profiles.wordpress.org/pauldewouters\">Paul de Wouters</a>、<a href=\"https://profiles.wordpress.org/paulschreiber\">Paul Schreiber</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/peterchester\">Peter Chester</a>、<a href=\"https://profiles.wordpress.org/donutz\">Peter J. Herrel</a>、<a href=\"https://profiles.wordpress.org/westi\">Peter Westwood</a>、<a href=\"https://profiles.wordpress.org/peterwilsoncc\">Peter Wilson</a>、<a href=\"https://profiles.wordpress.org/philiparthurmoore\">Philip Arthur Moore</a>、<a href=\"https://profiles.wordpress.org/phpmypython\">phpmypython</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/nprasath002\">Prasath Nadarajah</a>、<a href=\"https://profiles.wordpress.org/psycleuk\">psycleuk</a>、<a href=\"https://profiles.wordpress.org/ptahdunbar\">Ptah Dunbar</a>、<a href=\"https://profiles.wordpress.org/quietnic\">quietnic</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/ramiy\">Rami Yushuvaev</a>、<a href=\"https://profiles.wordpress.org/ramiabraham\">ramiabraham</a>、<a href=\"https://profiles.wordpress.org/greuben\">Reuben Gunday</a>、<a href=\"https://profiles.wordpress.org/rianrietveld\">Rian Rietveld</a>、<a href=\"https://profiles.wordpress.org/richardmtl\">Richard Archambault</a>、<a href=\"https://profiles.wordpress.org/rickalee\">Ricky Lee Whittemore</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/ryankienstra\">Ryan Kienstra</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/sakinshrestha\">Sakin Shrestha</a>、<a href=\"https://profiles.wordpress.org/samhotchkiss\">Sam Hotchkiss</a>、<a href=\"https://profiles.wordpress.org/otto42\">Samuel Wood (Otto)</a>、<a href=\"https://profiles.wordpress.org/sc0ttkclark\">Scott Kingsley Clark</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/shooper\">Shawn Hooper</a>、<a href=\"https://profiles.wordpress.org/simonp303\">Simon Pollard</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/skaeser\">skaeser</a>、<a href=\"https://profiles.wordpress.org/slobodanmanic\">Slobodan Manic</a>、<a href=\"https://profiles.wordpress.org/socki03\">socki03</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">solarissmoke</a>、<a href=\"https://profiles.wordpress.org/stephdau\">Stephane Daury</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stephenharris\">Stephen Harris</a>、<a href=\"https://profiles.wordpress.org/stevegrunwell\">Steve Grunwell</a>、<a href=\"https://profiles.wordpress.org/5um17\">Sumit Singh</a>、<a href=\"https://profiles.wordpress.org/tacoverdo\">TacoVerdo</a>、<a href=\"https://profiles.wordpress.org/iamtakashi\">Takashi Irie</a>、<a href=\"https://profiles.wordpress.org/miyauchi\">Takayuki Miyauchi</a>、<a href=\"https://profiles.wordpress.org/karmatosed\">Tammie</a>、<a href=\"https://profiles.wordpress.org/tareq1988\">Tareq Hasan</a>、<a href=\"https://profiles.wordpress.org/tlovett1\">Taylor Lovett</a>、<a href=\"https://profiles.wordpress.org/ipm-frommen\">Thorsten Frommen</a>、<a href=\"https://profiles.wordpress.org/tillkruess\">Till Kruss</a>、<a href=\"https://profiles.wordpress.org/tschutter\">Tobias Schutter</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/tmtrademark\">Toby McKes</a>、<a href=\"https://profiles.wordpress.org/tjnowell\">Tom J Nowell</a>、<a href=\"https://profiles.wordpress.org/tomasm\">Tomas Mackevicius</a>、<a href=\"https://profiles.wordpress.org/tomharrigan\">TomHarrigan</a>、<a href=\"https://profiles.wordpress.org/topher1kenobe\">Topher</a>、<a href=\"https://profiles.wordpress.org/zodiac1978\">Torsten Landsiedel</a>、<a href=\"https://profiles.wordpress.org/liljimmi\">Tracy Levesque</a>、<a href=\"https://profiles.wordpress.org/transom\">transom</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/tywayne\">Ty Carlson</a>、<a href=\"https://profiles.wordpress.org/desaiuditd\">Udit Desai</a>、<a href=\"https://profiles.wordpress.org/umeshsingla\">Umesh Kumar</a>、<a href=\"https://profiles.wordpress.org/vinod-dalvi\">Vinod Dalvi</a>、<a href=\"https://profiles.wordpress.org/vlajos\">vlajos</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/nobinobi\">Yuta Sekine</a>、<a href=\"https://profiles.wordpress.org/zrothauser\">Zack Rothauser</a>和<a href=\"https://profiles.wordpress.org/tollmanz\">Zack Tollman</a>。<br />\n本次发布得到了283人的贡献，再次创下新高。</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。</p>\n<p>感谢您选择WordPress。节日快乐，我们4.2见！\n</p></div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:47:\"https://cn.wordpress.org/2014/12/23/dinah/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"29\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:6;a:6:{s:4:\"data\";s:45:\"\n		\n		\n		\n		\n		\n				\n		\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:27:\"WordPress 4.0.1安全更新\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:52:\"https://cn.wordpress.org/2014/11/21/wordpress-4-0-1/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:61:\"https://cn.wordpress.org/2014/11/21/wordpress-4-0-1/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Fri, 21 Nov 2014 03:51:39 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:2:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:1;a:5:{s:4:\"data\";s:8:\"Security\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"https://cn.wordpress.org/?p=942\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:45:\"WordPress 4.0.1简体中文版现已可用。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:3034:\"<p>WordPress 4.0.1现已发布，这是一次对所有较早版本的<strong>重要安全更新</strong>，我们强烈建议您立即升级您的站点。</p>\n<p>支持后台自动更新的站点将在未来几个小时内被自动升级到WordPress 4.0.1。如果您仍在使用WordPress 3.9.2、3.8.4或3.7.4，请升级到3.9.3、3.8.5或3.7.5来保证您站点的安全性。（我们不对旧版本提供支持，所以也请考虑升级到4.0.1来使用我们最新最强大的版本。）</p>\n<p>WordPress 3.9.2与更早版本均受一严重的跨站脚本漏洞影响，可能使匿名用户危害站点安全。此漏洞由<a href=\"http://klikki.fi/\">Jouko Pynnonen</a>报告。这项问题并不影响4.0版，但4.0.1版也修正了如下8个安全问题：</p>\n<ul>\n<li>三个可被网站文章作者利用的跨站脚本问题，由<a href=\"http://joncave.co.uk/\">Jon Cave</a>、<a href=\"http://www.miqrogroove.com/\">Robert Chapin</a>与WordPress安全团队的<a href=\"https://johnblackbourn.com/\">John Blackbourn</a>发现。</li>\n<li>一个可能被用来诱使用户修改密码的跨站请求伪造。</li>\n<li>一项在检查密码时可能引发拒绝服务的问题，由<a href=\"http://www.behindthefirewalls.com/\">Javier Nieto Arevalo</a>与<a href=\"http://www.devconsole.info/\">Andres Rojas Guerrero</a>发现。</li>\n<li>在WordPress发起HTTP请求时对服务器侧请求伪造攻击的额外防护，由Ben Bidner（vortfu）报告。</li>\n<li>一项极不可能发生的散列碰撞，可能导致2008年之后从未登录过的账户被盗，由<a href=\"http://david.dw-perspective.org.uk/\">David Anderson</a>报告。</li>\n<li>WordPress现在会在用户想起密码、登录并修改电子邮件地址后使早前发出的密码重设邮件中的链接失效，由<a href=\"https://twitter.com/MomenBassel\">Momen Bassel</a>、<a href=\"http://c0dehouse.blogspot.in/\">Tanoy Bose</a>与<a href=\"https://managewp.com/\">ManageWP的Bojan Slavković</a>独立报告。</li>\n</ul>\n<p>4.0.1版也修正了4.0中的23个bug，我们也做出了两项强化修改，包括在从上传的照片中提取EXIF数据时进行更好的验证，由<a href=\"http://www.securesolutions.no/\">Chris Andrè Dale</a>报告。</p>\n<p>我们感谢这些问题被<a href=\"https://codex.wordpress.org/FAQ_Security\">负责任地透漏</a>给我们的安全小组。要获取更多信息，请参见<a href=\"https://codex.wordpress.org/Version_4.0.1\">发布说明</a>或查阅<a href=\"https://core.trac.wordpress.org/log/branches/4.0?rev=30475&amp;stop_rev=29710\">修改列表</a>。</p>\n<p><a href=\"https://cn.wordpress.org/releases/\">下载WordPress 4.0.1简体中文版</a>或在仪表盘→更新中点击“现在更新”。</p>\n<p><em>已经在测试WordPress 4.1了？包含这些安全更新的beta 2现已发布（<a href=\"https://wordpress.org/wordpress-4.1-beta2.zip\">zip</a>）。更多有关4.1的信息，请参见<a href=\"https://wordpress.org/news/2014/11/wordpress-4-1-beta-1/\">beta 1发布说明</a>。</em></p>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:57:\"https://cn.wordpress.org/2014/11/21/wordpress-4-0-1/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"21\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:7;a:6:{s:4:\"data\";s:44:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n\n\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:8:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:24:\"WordPress 4.0“Benny”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:42:\"https://cn.wordpress.org/2014/09/05/benny/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:51:\"https://cn.wordpress.org/2014/09/05/benny/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Fri, 05 Sep 2014 00:38:11 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:30:\"http://cn.wordpress.org/?p=925\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 4.0简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:9:\"enclosure\";a:2:{i:0;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:40:\"http://s.w.org/images/core/4.0/embed.mp4\";s:6:\"length\";s:7:\"3521313\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}i:1;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:3:\"url\";s:40:\"http://s.w.org/images/core/4.0/focus.mp4\";s:6:\"length\";s:7:\"5181557\";s:4:\"type\";s:9:\"video/mp4\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:23516:\"<div style=\"width: 692px\">\nWordPress 4.0简体中文版现已<a href=\"https://cn.wordpress.org/wordpress-4.0-zh_CN.zip\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Benny”，以纪念<a href=\"https://zh.wikipedia.org/wiki/%E7%8F%AD%E5%B0%BC%C2%B7%E5%8F%A4%E5%BE%B7%E6%9B%BC\">本尼·古德曼</a>，爵士单簧管家和乐队指挥。这次发布为您带来了更顺滑的写作和管理体验，我们希望您喜欢。<br />\n<div id=\"v-bUdzKMro-1\" class=\"video-player\"><video id=\"v-bUdzKMro-1-video\" width=\"692\" height=\"388\" poster=\"https://videos.files.wordpress.com/bUdzKMro/wordpress-4-0_scruberthumbnail_0.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/bUdzKMro/wordpress-4-0_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/bUdzKMro/wordpress-4-0_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"Introducing WordPress 4.0 &quot;Benny&quot;\" src=\"https://videos.files.wordpress.com/bUdzKMro/wordpress-4-0_scruberthumbnail_0.jpg\" width=\"692\" height=\"388\" /></div><p>Introducing WordPress 4.0 &quot;Benny&quot;</p></video></div></p>\n<hr />\n<h2>优雅地管理媒体</h2>\n<p><img class=\"alignnone size-full wp-image-3316\"  src=\"//i0.wp.com/i0.wp.com/wordpress.org/news/files/2014/09/media.jpg?resize=692%2C406\" alt=\"媒体库\" width=\"632\" height=\"371\" /><br />\n在美丽、无尽的网格中浏览您上传的文件。无论您想查看或编辑多少文件，新的详情预览都能使这一过程无比迅捷。</p>\n<hr />\n<h2>管理嵌入现在前所未有地简单</h2>\n<div style=\"width: 640px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-925-5\" width=\"640\" height=\"360\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://s.w.org/images/core/4.0/embed.mp4?_=5\" /><a href=\"https://s.w.org/images/core/4.0/embed.mp4\">https://s.w.org/images/core/4.0/embed.mp4</a></video></div>\n<p>在空行中粘贴一行YouTube URL，它就会魔术般地变成嵌入视频。现在用一条tweet试试。是的——嵌入现在变成了视觉体验。编辑器现在能够显示嵌入内容的真实预览，为您节约时间，也给您自信。</p>\n<p>我们也增加了默认支持的服务数量——您现在可以嵌入来自CollegeHumor的视频、来自YouTube的播放列表和来自TED的演讲。<a href=\"https://codex.wordpress.org/Embeds\">查阅所有WordPress支持的嵌入</a>。</p>\n<hr />\n<h2>专注于您的内容</h2>\n<div style=\"width: 640px;\" class=\"wp-video\"><video class=\"wp-video-shortcode\" id=\"video-925-6\" width=\"640\" height=\"360\" preload=\"metadata\" controls=\"controls\"><source type=\"video/mp4\" src=\"https://s.w.org/images/core/4.0/focus.mp4?_=6\" /><a href=\"https://s.w.org/images/core/4.0/focus.mp4\">https://s.w.org/images/core/4.0/focus.mp4</a></video></div>\n<p>写作和编辑现在变得更顺滑、更身临其境。随着您的写作，编辑器将会自动扩展来适应您的内容，并保证格式工具总是可用。</p>\n<hr />\n<h2>寻找正确的插件</h2>\n<p><img class=\"aligncenter size-large wp-image-3309\"  src=\"//i0.wp.com/i0.wp.com/wordpress.org/news/files/2014/09/add-plugin1.png?resize=692%2C405\" alt=\"添加插件\" width=\"632\" height=\"370\" /><br />\nWordPress的插件目录中现在有多于30,000个免费且开源的插件。WordPress 4.0通过加入新的条件、改善的搜索器和更可视化的浏览体验使找到符合您需要的插件变得更简单。</p>\n<hr />\n<h2>乐团</h2>\n<p>本次发布由<a href=\"http://helenhousandi.com/\">Helen Hou-Sandí</a>领头，并得到了以下优秀个人的协助。本次发布有275名贡献者参与，创下新高。在您喜欢的音乐服务中找找本尼·古德曼，并看看下面这些个人资料吧：</p>\n<p><a href=\"https://profiles.wordpress.org/sharonaustin\">_Redd</a>、<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/viper007bond\">Alex Mills (Viper007Bond)</a>、<a href=\"https://profiles.wordpress.org/tellyworth\">Alex Shiels</a>、<a href=\"https://profiles.wordpress.org/alexanderrohmann\">Alexander Rohmann</a>、<a href=\"https://profiles.wordpress.org/aliso\">Alison Barrett</a>、<a href=\"https://profiles.wordpress.org/collinsinternet\">Allan Collins</a>、<a href=\"https://profiles.wordpress.org/amit\">Amit Gupta</a>、<a href=\"https://profiles.wordpress.org/sabreuse\">Amy Hendrix (sabreuse)</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/andrezrv\">Andres Villarreal</a>、<a href=\"https://profiles.wordpress.org/zamfeer\">Andrew Mowe</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/andy\">Andy Skelton</a>、<a href=\"https://profiles.wordpress.org/ankit-k-gupta\">Ankit K Gupta</a>、<a href=\"https://profiles.wordpress.org/atimmer\">Anton Timmermans</a>、<a href=\"https://profiles.wordpress.org/arnee\">arnee</a>、<a href=\"https://profiles.wordpress.org/aubreypwd\">Aubrey Portwood</a>、<a href=\"https://profiles.wordpress.org/filosofo\">Austin Matzko</a>、<a href=\"https://profiles.wordpress.org/empireoflight\">Ben Dunkle</a>、<a href=\"https://profiles.wordpress.org/kau-boy\">Bernhard Kau</a>、<a href=\"https://profiles.wordpress.org/boonebgorges\">Boone Gorges</a>、<a href=\"https://profiles.wordpress.org/bradyvercher\">Brady Vercher</a>、<a href=\"https://profiles.wordpress.org/bramd\">bramd</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/krogsgard\">Brian Krogsgard</a>、<a href=\"https://profiles.wordpress.org/brianlayman\">Brian Layman</a>、<a href=\"https://profiles.wordpress.org/rzen\">Brian Richards</a>、<a href=\"https://profiles.wordpress.org/camdensegal\">Camden Segal</a>、<a href=\"https://profiles.wordpress.org/lukecarbis\">Carbis</a>、<a href=\"https://profiles.wordpress.org/sixhours\">Caroline Moore</a>、<a href=\"https://profiles.wordpress.org/mackensen\">Charles Fulton</a>、<a href=\"https://profiles.wordpress.org/chouby\">Chouby</a>、<a href=\"https://profiles.wordpress.org/chrico\">ChriCo</a>、<a href=\"https://profiles.wordpress.org/c3mdigital\">Chris Olbekson</a>、<a href=\"https://profiles.wordpress.org/chrisl27\">chrisl27</a>、<a href=\"https://profiles.wordpress.org/caxelsson\">Christian Axelsson</a>、<a href=\"https://profiles.wordpress.org/cfinke\">Christopher Finke</a>、<a href=\"https://profiles.wordpress.org/boda1982\">Christopher Spires</a>、<a href=\"https://profiles.wordpress.org/clifgriffin\">Clifton Griffin</a>、<a href=\"https://profiles.wordpress.org/jupiterwise\">Corey McKrill</a>、<a href=\"https://profiles.wordpress.org/corphi\">Corphi</a>、<a href=\"https://profiles.wordpress.org/extendwings\">Daisuke Takahashi</a>、<a href=\"https://profiles.wordpress.org/ghost1227\">Dan Griffiths</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/danielhuesken\">Daniel Husken</a>、<a href=\"https://profiles.wordpress.org/redsweater\">Daniel Jalkut (Red Sweater)</a>、<a href=\"https://profiles.wordpress.org/dannydehaan\">Danny de Haan</a>、<a href=\"https://profiles.wordpress.org/dkotter\">Darin Kotter</a>、<a href=\"https://profiles.wordpress.org/koop\">Daryl Koopersmith</a>、<a href=\"https://profiles.wordpress.org/dllh\">Daryl L. L. Houston (dllh)</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/dlh\">David Herrera</a>、<a href=\"https://profiles.wordpress.org/dnaber-de\">David Naber</a>、<a href=\"https://profiles.wordpress.org/davidthemachine\">DavidTheMachine</a>、<a href=\"https://profiles.wordpress.org/debaat\">DeBAAT</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/donncha\">Donncha O Caoimh</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/dustyn\">Dustyn Doyle</a>、<a href=\"https://profiles.wordpress.org/eddiemoya\">Eddie Moya</a>、<a href=\"https://profiles.wordpress.org/oso96_2000\">Eduardo Reveles</a>、<a href=\"https://profiles.wordpress.org/edwin-at-studiojoyocom\">Edwin Siebel</a>、<a href=\"https://profiles.wordpress.org/ehg\">ehg</a>、<a href=\"https://profiles.wordpress.org/tmeister\">Enrique Chavez</a>、<a href=\"https://profiles.wordpress.org/erayalakese\">erayalakese</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/ebinnion\">Eric Binnion</a>、<a href=\"https://profiles.wordpress.org/ericmann\">Eric Mann</a>、<a href=\"https://profiles.wordpress.org/ejdanderson\">Evan Anderson</a>、<a href=\"https://profiles.wordpress.org/eherman24\">Evan Herman</a>、<a href=\"https://profiles.wordpress.org/fab1en\">Fabien Quatravaux</a>、<a href=\"https://profiles.wordpress.org/fahmiadib\">Fahmi Adib</a>、<a href=\"https://profiles.wordpress.org/feedmeastraycat\">feedmeastraycat</a>、<a href=\"https://profiles.wordpress.org/frank-klein\">Frank Klein</a>、<a href=\"https://profiles.wordpress.org/garhdez\">garhdez</a>、<a href=\"https://profiles.wordpress.org/garyc40\">Gary Cao</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/garza\">garza</a>、<a href=\"https://profiles.wordpress.org/gauravmittal1995\">gauravmittal1995</a>、<a href=\"https://profiles.wordpress.org/gavra\">Gavrisimo</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/grahamarmfield\">Graham Armfield</a>、<a href=\"https://profiles.wordpress.org/vancoder\">Grant Mangham</a>、<a href=\"https://profiles.wordpress.org/gcorne\">Gregory Cornelius</a>、<a href=\"https://profiles.wordpress.org/bordoni\">Gustavo Bordoni</a>、<a href=\"https://profiles.wordpress.org/harrym\">harrym</a>、<a href=\"https://profiles.wordpress.org/hebbet\">hebbet</a>、<a href=\"https://profiles.wordpress.org/hinnerk\">Hinnerk Altenburg</a>、<a href=\"https://profiles.wordpress.org/hlashbrooke\">Hugh Lashbrooke</a>、<a href=\"https://profiles.wordpress.org/iljoja\">iljoja</a>、<a href=\"https://profiles.wordpress.org/imath\">imath</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/issuu\">issuu</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jacklenox\">Jack Lenox</a>、<a href=\"https://profiles.wordpress.org/jackreichert\">Jack Reichert</a>、<a href=\"https://profiles.wordpress.org/jacobdubail\">Jacob Dubail</a>、<a href=\"https://profiles.wordpress.org/janhenkg\">JanHenkG</a>、<a href=\"https://profiles.wordpress.org/avryl\">Janneke Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/jwenerd\">Jared Wenerd</a>、<a href=\"https://profiles.wordpress.org/jaza613\">Jaza613</a>、<a href=\"https://profiles.wordpress.org/jeffstieler\">Jeff Stieler</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jpry\">Jeremy Pry</a>、<a href=\"https://profiles.wordpress.org/slimndap\">Jeroen Schmit</a>、<a href=\"https://profiles.wordpress.org/jerrysarcastic\">Jerry Bates (jerrysarcastic)</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/jayjdk\">Jesper Johansen (jayjdk)</a>、<a href=\"https://profiles.wordpress.org/engelen\">Jesper van Engelen</a>、<a href=\"https://profiles.wordpress.org/jesper800\">Jesper van Engelen</a>、<a href=\"https://profiles.wordpress.org/jessepollak\">Jesse Pollak</a>、<a href=\"https://profiles.wordpress.org/jgadbois\">jgadbois</a>、<a href=\"https://profiles.wordpress.org/jartes\">Joan Artes</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/jkudish\">Joey Kudish</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/johnzanussi\">John Zanussi</a>、<a href=\"https://profiles.wordpress.org/duck_\">Jon Cave</a>、<a href=\"https://profiles.wordpress.org/jonnyauk\">jonnyauk</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/softmodeling\">Jordi Cabot</a>、<a href=\"https://profiles.wordpress.org/jjeaton\">Josh Eaton</a>、<a href=\"https://profiles.wordpress.org/tai\">JOTAKI Taisuke</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/justinsainton\">Justin Sainton</a>、<a href=\"https://profiles.wordpress.org/jtsternberg\">Justin Sternberg</a>、<a href=\"https://profiles.wordpress.org/greenshady\">Justin Tadlock</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/ixkaito\">Kaito</a>、<a href=\"https://profiles.wordpress.org/kapeels\">kapeels</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kevinlangleyjr\">Kevin Langley</a>、<a href=\"https://profiles.wordpress.org/kworthington\">Kevin Worthington</a>、<a href=\"https://profiles.wordpress.org/kpdesign\">Kim Parsell</a>、<a href=\"https://profiles.wordpress.org/kwight\">Kirk Wight</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/knutsp\">Knut Sparhell</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/kurtpayne\">Kurt Payne</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/leewillis77\">Lee Willis</a>、<a href=\"https://profiles.wordpress.org/lessbloat\">lessbloat</a>、<a href=\"https://profiles.wordpress.org/layotte\">Lew Ayotte</a>、<a href=\"https://profiles.wordpress.org/lritter\">lritter</a>、<a href=\"https://profiles.wordpress.org/lgedeon\">Luke Gedeon</a>、<a href=\"https://profiles.wordpress.org/m_i_n\">m_i_n</a>、<a href=\"https://profiles.wordpress.org/funkatronic\">Manny Fleurmond</a>、<a href=\"https://profiles.wordpress.org/targz-1\">Manuel Schmalstieg</a>、<a href=\"https://profiles.wordpress.org/clorith\">Marius Jensen (Clorith)</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/mjbanks\">Matt Banks</a>、<a href=\"https://profiles.wordpress.org/sivel\">Matt Martz</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/mattwiebe\">Matt Wiebe</a>、<a href=\"https://profiles.wordpress.org/mboynes\">Matthew Boynes</a>、<a href=\"https://profiles.wordpress.org/mdbitz\">Matthew Denton</a>、<a href=\"https://profiles.wordpress.org/mattheweppelsheimer\">Matthew Eppelsheimer</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mattyrob\">mattyrob</a>、<a href=\"https://profiles.wordpress.org/meekyhwang\">meekyhwang</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/midxcat\">mi_cat</a>、<a href=\"https://profiles.wordpress.org/mdawaffe\">Michael Adams (mdawaffe)</a>、<a href=\"https://profiles.wordpress.org/michalzuber\">michalzuber</a>、<a href=\"https://profiles.wordpress.org/mauteri\">Mike Auteri</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikejolley\">Mike Jolley</a>、<a href=\"https://profiles.wordpress.org/mikelittle\">Mike Little</a>、<a href=\"https://profiles.wordpress.org/mikemanger\">Mike Manger</a>、<a href=\"https://profiles.wordpress.org/dh-shredder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/mikeyarce\">Mikey Arce</a>、<a href=\"https://profiles.wordpress.org/dimadin\">Milan Dinic</a>、<a href=\"https://profiles.wordpress.org/mnelson4\">mnelson4</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/usermrpapa\">Mr Papa</a>、<a href=\"https://profiles.wordpress.org/mrmist\">mrmist</a>、<a href=\"https://profiles.wordpress.org/m_uysl\">Mustafa Uysal</a>、<a href=\"https://profiles.wordpress.org/muvimotv\">MuViMoTV</a>、<a href=\"https://profiles.wordpress.org/nabil_kadimi\">nabil_kadimi</a>、<a href=\"https://profiles.wordpress.org/namibia\">Namibia</a>、<a href=\"https://profiles.wordpress.org/alex-ye\">Nashwan Doaqan</a>、<a href=\"https://profiles.wordpress.org/nd987\">nd987</a>、<a href=\"https://profiles.wordpress.org/neil_pie\">Neil Pie</a>、<a href=\"https://profiles.wordpress.org/niallkennedy\">Niall Kennedy</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nbachiyski\">Nikolay Bachiyski</a>、<a href=\"https://profiles.wordpress.org/schoenwaldnils\">Nils Schonwald</a>、<a href=\"https://profiles.wordpress.org/ninos-ego\">Ninos</a>、<a href=\"https://profiles.wordpress.org/nvwd\">Nowell VanHoesen</a>、<a href=\"https://profiles.wordpress.org/compute\">Patrick Hesselberg</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/pdclark\">Paul Clark</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/paulschreiber\">paulschreiber</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/westi\">Peter Westwood</a>、<a href=\"https://profiles.wordpress.org/philiparthurmoore\">Philip Arthur Moore</a>、<a href=\"https://profiles.wordpress.org/philipjohn\">Philip John</a>、<a href=\"https://profiles.wordpress.org/senlin\">Piet</a>、<a href=\"https://profiles.wordpress.org/psoluch\">Piotr Soluch</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/purzlbaum\">purzlbaum</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">Rachel Baker</a>、<a href=\"https://profiles.wordpress.org/rclations\">RC Lations</a>、<a href=\"https://profiles.wordpress.org/iamfriendly\">Richard Tape</a>、<a href=\"https://profiles.wordpress.org/rickalee\">Ricky Lee Whittemore</a>、<a href=\"https://profiles.wordpress.org/rob1n\">rob1n</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/rdall\">Robert Dall</a>、<a href=\"https://profiles.wordpress.org/harmr\">RobertHarm</a>、<a href=\"https://profiles.wordpress.org/rohan013\">Rohan Rawat</a>、<a href=\"https://profiles.wordpress.org/rhurling\">Rouven Hurling</a>、<a href=\"https://profiles.wordpress.org/ruudjoyo\">Ruud Laan</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/sammybeats\">Sam Brodie</a>、<a href=\"https://profiles.wordpress.org/otto42\">Samuel Wood (Otto)</a>、<a href=\"https://profiles.wordpress.org/sathishn\">sathishn</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/greglone\">ScreenfeedFr</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/seanchayes\">Sean Hayes</a>、<a href=\"https://profiles.wordpress.org/nessworthy\">Sean Nessworthy</a>、<a href=\"https://profiles.wordpress.org/sergejmueller\">Sergej Muller</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/shanebp\">shanebp</a>、<a href=\"https://profiles.wordpress.org/shaunandrews\">Shaun Andrews</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/simonp303\">simonp303</a>、<a href=\"https://profiles.wordpress.org/slobodanmanic\">Slobodan Manic</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">solarissmoke</a>、<a href=\"https://profiles.wordpress.org/sphoid\">sphoid</a>、<a href=\"https://profiles.wordpress.org/stephdau\">Stephane Daury</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stompweb\">Steven Jones</a>、<a href=\"https://profiles.wordpress.org/strangerstudios\">strangerstudios</a>、<a href=\"https://profiles.wordpress.org/5um17\">Sumit Singh</a>、<a href=\"https://profiles.wordpress.org/sumobi\">sumobi</a>、<a href=\"https://profiles.wordpress.org/t4k1s\">t4k1s</a>、<a href=\"https://profiles.wordpress.org/iamtakashi\">Takashi Irie</a>、<a href=\"https://profiles.wordpress.org/taylorde\">Taylor Dewey</a>、<a href=\"https://profiles.wordpress.org/thomasvanderbeek\">Thomas van der Beek</a>、<a href=\"https://profiles.wordpress.org/tillkruess\">Till Kruss</a>、<a href=\"https://profiles.wordpress.org/codenameeli\">Tim &#8216;Eli&#8217; Dalbey</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/tjnowell\">Tom J Nowell</a>、<a href=\"https://profiles.wordpress.org/willmot\">Tom Willmot</a>、<a href=\"https://profiles.wordpress.org/topher1kenobe\">Topher</a>、<a href=\"https://profiles.wordpress.org/torresga\">torresga</a>、<a href=\"https://profiles.wordpress.org/liljimmi\">Tracy Levesque</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/treyhunner\">treyhunner</a>、<a href=\"https://profiles.wordpress.org/umeshsingla\">Umesh Kumar</a>、<a href=\"https://profiles.wordpress.org/vinod-dalvi\">Vinod Dalvi</a>、<a href=\"https://profiles.wordpress.org/vlajos\">vlajos</a>、<a href=\"https://profiles.wordpress.org/voldemortensen\">voldemortensen</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/winterdev\">winterDev</a>、<a href=\"https://profiles.wordpress.org/wojtekszkutnik\">Wojtek Szkutnik</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/katzwebdesign\">Zack Katz</a>、<a href=\"https://profiles.wordpress.org/tollmanz\">Zack Tollman</a>和<a href=\"https://profiles.wordpress.org/zoerooney\">Zoe Rooney</a>。也感谢制作发行视频<a href=\"http://michaelpick.wordpress.com/\">Michael Pick</a>，与制作音乐的Helen和<a href=\"http://adriansandi.com/\">Adrián Sandí</a>。</p>\n<p>如果您想帮忙，请查阅<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢选择WordPress，我们4.1见！\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:47:\"https://cn.wordpress.org/2014/09/05/benny/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"41\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:8;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:24:\"WordPress 3.9“Smith”\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:42:\"https://cn.wordpress.org/2014/04/19/smith/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:51:\"https://cn.wordpress.org/2014/04/19/smith/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Fri, 18 Apr 2014 17:43:14 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:30:\"http://cn.wordpress.org/?p=902\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:49:\"WordPress 3.9简体中文版现已开放下载。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:23707:\"<div style=\"width: 692px\">\nWordPress 3.9简体中文版现已<a href=\"https://cn.wordpress.org/wordpress-3.9-zh_CN.zip\">开放下载</a>，或在您的WordPress仪表盘中升级。我们将此版本命名为“Smith”，以纪念<a href=\"https://en.wikipedia.org/wiki/Jimmy_Smith_(musician)\">吉米·史密斯</a>，爵士风琴家。这次发布包含了众多细部修改，我们希望您喜欢。<br />\n<div id=\"v-sAiXhCfV-1\" class=\"video-player\"><video id=\"v-sAiXhCfV-1-video\" width=\"692\" height=\"388\" poster=\"https://videos.files.wordpress.com/sAiXhCfV/wordpress3-9-smith_scruberthumbnail_0.jpg\" controls=\"true\" preload=\"metadata\" dir=\"ltr\" lang=\"en\"><source src=\"https://videos.files.wordpress.com/sAiXhCfV/wordpress3-9-smith_dvd.mp4\" type=\"video/mp4; codecs=&quot;avc1.64001E, mp4a.40.2&quot;\" /><source src=\"https://videos.files.wordpress.com/sAiXhCfV/wordpress3-9-smith_fmt1.ogv\" type=\"video/ogg; codecs=&quot;theora, vorbis&quot;\" /><div><img alt=\"\" src=\"https://videos.files.wordpress.com/sAiXhCfV/wordpress3-9-smith_scruberthumbnail_0.jpg\" width=\"692\" height=\"388\" /></div></video></div></p>\n<h2 style=\"text-align: center\">更流畅的媒体编辑体验</h2>\n<p><img class=\"alignright\" src=\"https://wordpress.org/news/files/2014/04/editor1-300x233.jpg\" alt=\"编辑器\" width=\"228\" height=\"177\" /></p>\n<h3>改良的可视化编辑</h3>\n<p>新的可视化编辑器在速度、可用性、移动支持方面都有了进步。您现在可以从您的文字处理器中直接粘贴文本到可视化编辑器，无需再受杂乱的样式所困。（没错，我们在说你，Microsoft Word。）</p>\n<div style=\"clear: both\"></div>\n<p><img class=\"alignright\" src=\"https://wordpress.org/news/files/2014/04/image1-300x233.jpg\" alt=\"图像\" width=\"228\" height=\"178\" /></p>\n<h3>方便的图像编辑</h3>\n<p>裁剪和旋转工具更易访问，在您编辑文章时修改图像相比以往更加便捷。您也可在编辑器中缩放图像。</p>\n<div style=\"clear: both\"></div>\n<p><img class=\"alignright\" src=\"https://wordpress.org/news/files/2014/04/dragdrop1-300x233.jpg\" alt=\"拖放\" width=\"228\" height=\"178\" /></p>\n<h3>拖放您的图像</h3>\n<p>上传图像变得更简单，直接从桌面上拖放到编辑器中即可。</p>\n<div style=\"clear: both\"></div>\n<hr />\n<h2 style=\"text-align: center\">相册预览</h2>\n<p><img class=\"aligncenter size-full\" src=\"https://wordpress.org/news/files/2014/04/gallery1.jpg\" alt=\"gallery\" width=\"980\" height=\"550\" /><br />\n相册可在编辑器中展示能与已发布文章中的效果相媲美的图像网格。</p>\n<hr />\n<h2 style=\"text-align: center\">音频、视频的新花样</h2>\n<p>\n<a href=\'https://cn.wordpress.org/files/2014/04/AintMisbehavin.mp3\'>Ain\'t Misbehavin\'</a>\n<a href=\'https://cn.wordpress.org/files/2014/04/DavenportBlues.mp3\'>Davenport Blues</a>\n<a href=\'https://cn.wordpress.org/files/2014/04/JellyRollMorton-BuddyBoldensBlues.mp3\'>Buddy Bolden\'s Blues</a>\n<a href=\'https://cn.wordpress.org/files/2014/04/Johnny_Hodges_Orchestra-Squaty_Roo-1941.mp3\'>Squaty Roo</a>\n<a href=\'https://cn.wordpress.org/files/2014/04/Louisiana_Five-Dixie_Blues-1919.mp3\'>Dixie Blues</a>\n<a href=\'https://cn.wordpress.org/files/2014/04/WolverineBlues.mp3\'>Wolverine Blues</a>\n<br />\n图像属于相册，现在我们也对视频和音频加入了简单的播放列表，您可以方便地展示您的音乐和视频片段。</p>\n<hr />\n<h2 style=\"text-align: center\">实时挂件和顶部图像预览</h2>\n<div style=\"width: 692px\" class=\"wp-video\"><a href=\"//wordpress.org/news/files/2014/04/widgets.mp4\">//wordpress.org/news/files/2014/04/widgets.mp4</a></div>\n<p>在主题编辑器中添加、编辑并重排您站点的挂件，不再有出乎意料——实时预览您的修改，在您放心后才保存。经改善的顶部图像工具让您在自定义主题时可以上传、裁剪并管理顶部图像。</p>\n<hr />\n<h2 style=\"text-align: center\">令人惊叹的主题浏览器</h2>\n<p><img class=\"aligncenter size-full\" src=\"https://wordpress.org/news/files/2014/04/theme1.jpg\" alt=\"theme\" width=\"1003\" height=\"558\" /><br />\n寻找新主题应当是一项令人愉快的任务，通过崭新的主题浏览器漫游WordPress.org提供的无数免费主题吧。</p>\n<hr />\n<h2 style=\"text-align: center\">船员们</h2>\n<p>此次发布由<a href=\"http://nacin.com/\">Andrew Nacin</a>与<a href=\"http://www.getsource.net/\">Mike Schroder</a>牵头，并得到了以下这些优秀个人的帮助。共有267名贡献者参与了这次发布，历史新高：<br />\n<a href=\"https://profiles.wordpress.org/aaroncampbell\">Aaron D. Campbell</a>、<a href=\"https://profiles.wordpress.org/jorbin\">Aaron Jorbin</a>、<a href=\"https://profiles.wordpress.org/kawauso\">Adam Harley</a>、<a href=\"https://profiles.wordpress.org/adamsilverstein\">Adam Silverstein</a>、<a href=\"https://profiles.wordpress.org/adelval\">adelval</a>、<a href=\"https://profiles.wordpress.org/ajay\">Ajay</a>、<a href=\"https://profiles.wordpress.org/akeda\">Akeda Bagus</a>、<a href=\"https://profiles.wordpress.org/xknown\">Alex Concha</a>、<a href=\"https://profiles.wordpress.org/aliso\">Alison Barrett</a>、<a href=\"https://profiles.wordpress.org/collinsinternet\">Allan Collins</a>、<a href=\"https://profiles.wordpress.org/sabreuse\">Amy Hendrix (sabreuse)</a>、<a href=\"https://profiles.wordpress.org/afercia\">Andrea Fercia</a>、<a href=\"https://profiles.wordpress.org/nacin\">Andrew Nacin</a>、<a href=\"https://profiles.wordpress.org/norcross\">Andrew Norcross</a>、<a href=\"https://profiles.wordpress.org/azaozz\">Andrew Ozz</a>、<a href=\"https://profiles.wordpress.org/rarst\">Andrey &#8220;Rarst&#8221; Savchenko</a>、<a href=\"https://profiles.wordpress.org/andykeith\">Andy Keith</a>、<a href=\"https://profiles.wordpress.org/andy\">Andy Skelton</a>、<a href=\"https://profiles.wordpress.org/atimmer\">Anton Timmermans</a>、<a href=\"https://profiles.wordpress.org/aubreypwd\">Aubrey Portwood</a>、<a href=\"https://profiles.wordpress.org/barry\">Barry</a>、<a href=\"https://profiles.wordpress.org/toszcze\">Bartosz Romanowski</a>、<a href=\"https://profiles.wordpress.org/bassgang\">bassgang</a>、<a href=\"https://profiles.wordpress.org/bcworkz\">bcworkz</a>、<a href=\"https://profiles.wordpress.org/empireoflight\">Ben Dunkle</a>、<a href=\"https://profiles.wordpress.org/neoxx\">Bernhard Riedl</a>、<a href=\"https://profiles.wordpress.org/bigdawggi\">bigdawggi</a>、<a href=\"https://profiles.wordpress.org/bobbravo2\">Bob Gregor</a>、<a href=\"https://profiles.wordpress.org/bobbingwide\">bobbingwide</a>、<a href=\"https://profiles.wordpress.org/bradt\">Brad Touesnard</a>、<a href=\"https://profiles.wordpress.org/bradparbs\">bradparbs</a>、<a href=\"https://profiles.wordpress.org/bramd\">bramd</a>、<a href=\"https://profiles.wordpress.org/kraftbj\">Brandon Kraft</a>、<a href=\"https://profiles.wordpress.org/brasofilo\">brasofilo</a>、<a href=\"https://profiles.wordpress.org/bravokeyl\">bravokeyl</a>、<a href=\"https://profiles.wordpress.org/bpetty\">Bryan Petty</a>、<a href=\"https://profiles.wordpress.org/cgaffga\">cgaffga</a>、<a href=\"https://profiles.wordpress.org/chiragswadia\">Chirag Swadia</a>、<a href=\"https://profiles.wordpress.org/chouby\">Chouby</a>、<a href=\"https://profiles.wordpress.org/ehg\">Chris Blower</a>、<a href=\"https://profiles.wordpress.org/c3mdigital\">Chris Olbekson</a>、<a href=\"https://profiles.wordpress.org/chrisscott\">Chris Scott</a>、<a href=\"https://profiles.wordpress.org/chriseverson\">chriseverson</a>、<a href=\"https://profiles.wordpress.org/chrisguitarguy\">chrisguitarguy</a>、<a href=\"https://profiles.wordpress.org/cfinke\">Christopher Finke</a>、<a href=\"https://profiles.wordpress.org/ciantic\">ciantic</a>、<a href=\"https://profiles.wordpress.org/cmmarslender\">cmmarslender</a>、<a href=\"https://profiles.wordpress.org/antorome\">Comparativa de Bancos</a>、<a href=\"https://profiles.wordpress.org/cojennin\">Connor Jennings</a>、<a href=\"https://profiles.wordpress.org/corvannoorloos\">Cor van Noorloos</a>、<a href=\"https://profiles.wordpress.org/corphi\">Corphi</a>、<a href=\"https://profiles.wordpress.org/cramdesign\">cramdesign</a>、<a href=\"https://profiles.wordpress.org/danielbachhuber\">Daniel Bachhuber</a>、<a href=\"https://profiles.wordpress.org/redsweater\">Daniel Jalkut (Red Sweater)</a>、<a href=\"https://profiles.wordpress.org/dannydehaan\">Danny de Haan</a>、<a href=\"https://profiles.wordpress.org/koop\">Daryl Koopersmith</a>、<a href=\"https://profiles.wordpress.org/eightface\">Dave Kellam (eightface)</a>、<a href=\"https://profiles.wordpress.org/dpe415\">DaveE</a>、<a href=\"https://profiles.wordpress.org/davidakennedy\">David A. Kennedy</a>、<a href=\"https://profiles.wordpress.org/davidanderson\">David Anderson</a>、<a href=\"https://profiles.wordpress.org/davidmarichal\">David Marichal</a>、<a href=\"https://profiles.wordpress.org/denis-de-bernardy\">Denis de Bernardy</a>、<a href=\"https://profiles.wordpress.org/dd32\">Dion Hulse</a>、<a href=\"https://profiles.wordpress.org/ocean90\">Dominik Schilling</a>、<a href=\"https://profiles.wordpress.org/dougwollison\">Doug Wollison</a>、<a href=\"https://profiles.wordpress.org/drewapicture\">Drew Jaynes</a>、<a href=\"https://profiles.wordpress.org/drprotocols\">DrProtocols</a>、<a href=\"https://profiles.wordpress.org/dustyf\">Dustin Filippini</a>、<a href=\"https://profiles.wordpress.org/eatingrules\">eatingrules</a>、<a href=\"https://profiles.wordpress.org/plocha\">edik</a>、<a href=\"https://profiles.wordpress.org/eliorivero\">Elio Rivero</a>、<a href=\"https://profiles.wordpress.org/enej\">enej</a>、<a href=\"https://profiles.wordpress.org/ericlewis\">Eric Andrew Lewis</a>、<a href=\"https://profiles.wordpress.org/ericmann\">Eric Mann</a>、<a href=\"https://profiles.wordpress.org/evarlese\">Erica Varlese</a>、<a href=\"https://profiles.wordpress.org/ethitter\">Erick Hitter</a>、<a href=\"https://profiles.wordpress.org/ejdanderson\">Evan Anderson</a>、<a href=\"https://profiles.wordpress.org/fahmiadib\">Fahmi</a>、<a href=\"https://profiles.wordpress.org/fboender\">fboender</a>、<a href=\"https://profiles.wordpress.org/frank-klein\">Frank Klein</a>、<a href=\"https://profiles.wordpress.org/garyc40\">Gary Cao</a>、<a href=\"https://profiles.wordpress.org/garyj\">Gary Jones</a>、<a href=\"https://profiles.wordpress.org/pento\">Gary Pendergast</a>、<a href=\"https://profiles.wordpress.org/genkisan\">genkisan</a>、<a href=\"https://profiles.wordpress.org/soulseekah\">Gennady Kovshenin</a>、<a href=\"https://profiles.wordpress.org/georgestephanis\">George Stephanis</a>、<a href=\"https://profiles.wordpress.org/grahamarmfield\">Graham Armfield</a>、<a href=\"https://profiles.wordpress.org/vancoder\">Grant Mangham</a>、<a href=\"https://profiles.wordpress.org/gcorne\">Gregory Cornelius</a>、<a href=\"https://profiles.wordpress.org/tivnet\">Gregory Karpinsky</a>、<a href=\"https://profiles.wordpress.org/hakre\">hakre</a>、<a href=\"https://profiles.wordpress.org/hanni\">hanni</a>、<a href=\"https://profiles.wordpress.org/helen\">Helen Hou-Sandí</a>、<a href=\"https://profiles.wordpress.org/ippetkov\">ippetkov</a>、<a href=\"https://profiles.wordpress.org/ipstenu\">Ipstenu (Mika Epstein)</a>、<a href=\"https://profiles.wordpress.org/jdgrimes\">J.D. Grimes</a>、<a href=\"https://profiles.wordpress.org/jackreichert\">Jack Reichert</a>、<a href=\"https://profiles.wordpress.org/_jameslee\">jameslee</a>、<a href=\"https://profiles.wordpress.org/avryl\">Janneke Van Dorpe</a>、<a href=\"https://profiles.wordpress.org/janrenn\">janrenn</a>、<a href=\"https://profiles.wordpress.org/jaycc\">JayCC</a>、<a href=\"https://profiles.wordpress.org/jeffsebring\">Jeff Sebring</a>、<a href=\"https://profiles.wordpress.org/jenmylo\">Jen Mylo</a>、<a href=\"https://profiles.wordpress.org/jeremyfelt\">Jeremy Felt</a>、<a href=\"https://profiles.wordpress.org/jesin\">Jesin A</a>、<a href=\"https://profiles.wordpress.org/jayjdk\">Jesper Johansen (jayjdk)</a>、<a href=\"https://profiles.wordpress.org/jnielsendotnet\">jnielsendotnet</a>、<a href=\"https://profiles.wordpress.org/jartes\">Joan Artes</a>、<a href=\"https://profiles.wordpress.org/joedolson\">Joe Dolson</a>、<a href=\"https://profiles.wordpress.org/joehoyle\">Joe Hoyle</a>、<a href=\"https://profiles.wordpress.org/johnbillion\">John Blackbourn</a>、<a href=\"https://profiles.wordpress.org/johnjamesjacoby\">John James Jacoby</a>、<a href=\"https://profiles.wordpress.org/johnpbloch\">John P. Bloch</a>、<a href=\"https://profiles.wordpress.org/johnregan3\">John Regan</a>、<a href=\"https://profiles.wordpress.org/duck_\">Jon Cave</a>、<a href=\"https://profiles.wordpress.org/jond3r\">Jonas Bolinder (jond3r)</a>、<a href=\"https://profiles.wordpress.org/joostdevalk\">Joost de Valk</a>、<a href=\"https://profiles.wordpress.org/shelob9\">Josh Pollock</a>、<a href=\"https://profiles.wordpress.org/joshuaabenazer\">Joshua Abenazer</a>、<a href=\"https://profiles.wordpress.org/jstraitiff\">jstraitiff</a>、<a href=\"https://profiles.wordpress.org/juliobox\">Julio Potier</a>、<a href=\"https://profiles.wordpress.org/kopepasah\">Justin Kopepasah</a>、<a href=\"https://profiles.wordpress.org/justinsainton\">Justin Sainton</a>、<a href=\"https://profiles.wordpress.org/kadamwhite\">K.Adam White</a>、<a href=\"https://profiles.wordpress.org/trepmal\">Kailey (trepmal)</a>、<a href=\"https://profiles.wordpress.org/kasparsd\">Kaspars</a>、<a href=\"https://profiles.wordpress.org/ryelle\">Kelly Dwan</a>、<a href=\"https://profiles.wordpress.org/kerikae\">kerikae</a>、<a href=\"https://profiles.wordpress.org/kworthington\">Kevin Worthington</a>、<a href=\"https://profiles.wordpress.org/kpdesign\">Kim Parsell</a>、<a href=\"https://profiles.wordpress.org/kwight\">Kirk Wight</a>、<a href=\"https://profiles.wordpress.org/kitchin\">kitchin</a>、<a href=\"https://profiles.wordpress.org/klihelp\">klihelp</a>、<a href=\"https://profiles.wordpress.org/knutsp\">Knut Sparhell</a>、<a href=\"https://profiles.wordpress.org/kovshenin\">Konstantin Kovshenin</a>、<a href=\"https://profiles.wordpress.org/obenland\">Konstantin Obenland</a>、<a href=\"https://profiles.wordpress.org/drozdz\">Krzysiek Drozdz</a>、<a href=\"https://profiles.wordpress.org/lancewillett\">Lance Willett</a>、<a href=\"https://profiles.wordpress.org/leewillis77\">Lee Willis</a>、<a href=\"https://profiles.wordpress.org/lkwdwrd\">lkwdwrd</a>、<a href=\"https://profiles.wordpress.org/lpointet\">lpointet</a>、<a href=\"https://profiles.wordpress.org/ldebrouwer\">Luc De Brouwer</a>、<a href=\"https://profiles.wordpress.org/spmlucas\">Lucas Karpiuk</a>、<a href=\"https://profiles.wordpress.org/mark8barnes\">Mark Barnes</a>、<a href=\"https://profiles.wordpress.org/markjaquith\">Mark Jaquith</a>、<a href=\"https://profiles.wordpress.org/markoheijnen\">Marko Heijnen</a>、<a href=\"https://profiles.wordpress.org/marventus\">Marventus</a>、<a href=\"https://profiles.wordpress.org/iammattthomas\">Matt (Thomas) Miklic</a>、<a href=\"https://profiles.wordpress.org/mjbanks\">Matt Banks</a>、<a href=\"https://profiles.wordpress.org/matt\">Matt Mullenweg</a>、<a href=\"https://profiles.wordpress.org/mboynes\">Matthew Boynes</a>、<a href=\"https://profiles.wordpress.org/mdbitz\">Matthew Denton</a>、<a href=\"https://profiles.wordpress.org/mattheu\">Matthew Haines-Young</a>、<a href=\"https://profiles.wordpress.org/mattonomics\">mattonomics</a>、<a href=\"https://profiles.wordpress.org/mattyrob\">mattyrob</a>、<a href=\"https://profiles.wordpress.org/matveb\">Matías Ventura</a>、<a href=\"https://profiles.wordpress.org/maxcutler\">Max Cutler</a>、<a href=\"https://profiles.wordpress.org/mcadwell\">mcadwell</a>、<a href=\"https://profiles.wordpress.org/melchoyce\">Mel Choyce</a>、<a href=\"https://profiles.wordpress.org/meloniq\">meloniq</a>、<a href=\"https://profiles.wordpress.org/michael-arestad\">Michael Arestad</a>、<a href=\"https://profiles.wordpress.org/michelwppi\">Michel &#8211; xiligroup dev</a>、<a href=\"https://profiles.wordpress.org/mcsf\">Miguel Fonseca</a>、<a href=\"https://profiles.wordpress.org/gradyetc\">Mike Burns</a>、<a href=\"https://profiles.wordpress.org/mikehansenme\">Mike Hansen</a>、<a href=\"https://profiles.wordpress.org/mikemanger\">Mike Manger</a>、<a href=\"https://profiles.wordpress.org/mikeschinkel\">Mike Schinkel</a>、<a href=\"https://profiles.wordpress.org/dh-shredder\">Mike Schroder</a>、<a href=\"https://profiles.wordpress.org/mikecorkum\">mikecorkum</a>、<a href=\"https://profiles.wordpress.org/mitchoyoshitaka\">mitcho (Michael Yoshitaka Erlewine)</a>、<a href=\"https://profiles.wordpress.org/batmoo\">Mohammad Jangda</a>、<a href=\"https://profiles.wordpress.org/morganestes\">Morgan Estes</a>、<a href=\"https://profiles.wordpress.org/mor10\">Morten Rand-Hendriksen</a>、<a href=\"https://profiles.wordpress.org/Nao\">Naoko Takano</a>、<a href=\"https://profiles.wordpress.org/alex-ye\">Nashwan Doaqan</a>、<a href=\"https://profiles.wordpress.org/nendeb55\">nendeb55</a>、<a href=\"https://profiles.wordpress.org/celloexpressions\">Nick Halsey</a>、<a href=\"https://profiles.wordpress.org/nicolealleyinteractivecom\">Nicole Arnold</a>、<a href=\"https://profiles.wordpress.org/nikv\">Nikhil Vimal (NikV)</a>、<a href=\"https://profiles.wordpress.org/nivijah\">nivijah</a>、<a href=\"https://profiles.wordpress.org/nofearinc\">nofearinc</a>、<a href=\"https://profiles.wordpress.org/nunomorgadinho\">Nuno Morgadinho</a>、<a href=\"https://profiles.wordpress.org/olivm\">olivM</a>、<a href=\"https://profiles.wordpress.org/jbkkd\">Omer Korner</a>、<a href=\"https://profiles.wordpress.org/originalexe\">OriginalEXE</a>、<a href=\"https://profiles.wordpress.org/oso96_2000\">oso96_2000</a>、<a href=\"https://profiles.wordpress.org/patricknami\">patricknami</a>、<a href=\"https://profiles.wordpress.org/pbearne\">Paul Bearne</a>、<a href=\"https://profiles.wordpress.org/djpaul\">Paul Gibbs</a>、<a href=\"https://profiles.wordpress.org/paulwilde\">Paul Wilde</a>、<a href=\"https://profiles.wordpress.org/pavelevap\">pavelevap</a>、<a href=\"https://profiles.wordpress.org/westi\">Peter Westwood</a>、<a href=\"https://profiles.wordpress.org/philiparthurmoore\">Philip Arthur Moore</a>、<a href=\"https://profiles.wordpress.org/mordauk\">Pippin Williamson</a>、<a href=\"https://profiles.wordpress.org/nprasath002\">Prasath Nadarajah</a>、<a href=\"https://profiles.wordpress.org/prettyboymp\">prettyboymp</a>、<a href=\"https://profiles.wordpress.org/raamdev\">Raam Dev</a>、<a href=\"https://profiles.wordpress.org/rachelbaker\">rachelbaker</a>、<a href=\"https://profiles.wordpress.org/mauryaratan\">Ram Ratan Maurya</a>、<a href=\"https://profiles.wordpress.org/ramonchiara\">ramonchiara</a>、<a href=\"https://profiles.wordpress.org/ounziw\">Rescuework Support</a>、<a href=\"https://profiles.wordpress.org/rhyswynne\">Rhys Wynne</a>、<a href=\"https://profiles.wordpress.org/ricardocorreia\">Ricardo Correia</a>、<a href=\"https://profiles.wordpress.org/theorboman\">Richard Sweeney</a>、<a href=\"https://profiles.wordpress.org/iamfriendly\">Richard Tape</a>、<a href=\"https://profiles.wordpress.org/richard2222\">richard2222</a>、<a href=\"https://profiles.wordpress.org/rickalee\">Ricky Lee Whittemore</a>、<a href=\"https://profiles.wordpress.org/miqrogroove\">Robert Chapin</a>、<a href=\"https://profiles.wordpress.org/robmiller\">robmiller</a>、<a href=\"https://profiles.wordpress.org/rodrigosprimo\">Rodrigo Primo</a>、<a href=\"https://profiles.wordpress.org/romaimperator\">romaimperator</a>、<a href=\"https://profiles.wordpress.org/roothorick\">roothorick</a>、<a href=\"https://profiles.wordpress.org/ruudjoyo\">ruud@joyo</a>、<a href=\"https://profiles.wordpress.org/ryan\">Ryan Boren</a>、<a href=\"https://profiles.wordpress.org/rmccue\">Ryan McCue</a>、<a href=\"https://profiles.wordpress.org/salcode\">Sal Ferrarello</a>、<a href=\"https://profiles.wordpress.org/otto42\">Samuel Wood (Otto)</a>、<a href=\"https://profiles.wordpress.org/sandyr\">Sandeep</a>、<a href=\"https://profiles.wordpress.org/scottlee\">Scott Lee</a>、<a href=\"https://profiles.wordpress.org/coffee2code\">Scott Reilly</a>、<a href=\"https://profiles.wordpress.org/wonderboymusic\">Scott Taylor</a>、<a href=\"https://profiles.wordpress.org/greglone\">ScreenfeedFr</a>、<a href=\"https://profiles.wordpress.org/scribu\">scribu</a>、<a href=\"https://profiles.wordpress.org/sdasse\">sdasse</a>、<a href=\"https://profiles.wordpress.org/bootsz\">Sean Butze</a>、<a href=\"https://profiles.wordpress.org/seanchayes\">Sean Hayes</a>、<a href=\"https://profiles.wordpress.org/nessworthy\">Sean Nessworthy</a>、<a href=\"https://profiles.wordpress.org/sergeybiryukov\">Sergey Biryukov</a>、<a href=\"https://profiles.wordpress.org/shahpranaf\">shahpranaf</a>、<a href=\"https://profiles.wordpress.org/shaunandrews\">Shaun Andrews</a>、<a href=\"https://profiles.wordpress.org/shinichin\">ShinichiN</a>、<a href=\"https://profiles.wordpress.org/pross\">Simon Prosser</a>、<a href=\"https://profiles.wordpress.org/simonwheatley\">Simon Wheatley</a>、<a href=\"https://profiles.wordpress.org/siobhan\">Siobhan</a>、<a href=\"https://profiles.wordpress.org/siobhyb\">Siobhan Bamber (siobhyb)</a>、<a href=\"https://profiles.wordpress.org/sirzooro\">sirzooro</a>、<a href=\"https://profiles.wordpress.org/solarissmoke\">solarissmoke</a>、<a href=\"https://profiles.wordpress.org/sonjanyc\">sonjanyc</a>、<a href=\"https://profiles.wordpress.org/spencerfinnell\">Spencer Finnell</a>、<a href=\"https://profiles.wordpress.org/piontkowski\">Spencer Piontkowski</a>、<a href=\"https://profiles.wordpress.org/stephcook22\">stephcook22</a>、<a href=\"https://profiles.wordpress.org/netweb\">Stephen Edgar</a>、<a href=\"https://profiles.wordpress.org/stephenharris\">Stephen Harris</a>、<a href=\"https://profiles.wordpress.org/sbruner\">Steve Bruner</a>、<a href=\"https://profiles.wordpress.org/stevenkword\">Steven Word</a>、<a href=\"https://profiles.wordpress.org/miyauchi\">Takayuki Miyauchi</a>、<a href=\"https://profiles.wordpress.org/tanner-m\">Tanner Moushey</a>、<a href=\"https://profiles.wordpress.org/tlovett1\">Taylor Lovett</a>、<a href=\"https://profiles.wordpress.org/tbrams\">tbrams</a>、<a href=\"https://profiles.wordpress.org/tellyworth\">tellyworth</a>、<a href=\"https://profiles.wordpress.org/tobiasbg\">TobiasBg</a>、<a href=\"https://profiles.wordpress.org/tomauger\">Tom Auger</a>、<a href=\"https://profiles.wordpress.org/willmot\">Tom Willmot</a>、<a href=\"https://profiles.wordpress.org/topher1kenobe\">Topher</a>、<a href=\"https://profiles.wordpress.org/topquarky\">topquarky</a>、<a href=\"https://profiles.wordpress.org/zodiac1978\">Torsten Landsiedel</a>、<a href=\"https://profiles.wordpress.org/toru\">Toru</a>、<a href=\"https://profiles.wordpress.org/wpsmith\">Travis Smith</a>、<a href=\"https://profiles.wordpress.org/umeshsingla\">Umesh Kumar</a>、<a href=\"https://profiles.wordpress.org/undergroundnetwork\">undergroundnetwork</a>、<a href=\"https://profiles.wordpress.org/varunagw\">VarunAgw</a>、<a href=\"https://profiles.wordpress.org/wawco\">wawco</a>、<a href=\"https://profiles.wordpress.org/westonruter\">Weston Ruter</a>、<a href=\"https://profiles.wordpress.org/wokamoto\">wokamoto</a>、<a href=\"https://profiles.wordpress.org/xsonic\">xsonic</a>、<a href=\"https://profiles.wordpress.org/yoavf\">Yoav Farhi</a>、<a href=\"https://profiles.wordpress.org/yurivictor\">Yuri Victor</a>、<a href=\"https://profiles.wordpress.org/zbtirrell\">Zach Tirrell</a>和<a href=\"https://profiles.wordpress.org/vanillalounge\">Ze Fontainhas</a>。同时感谢<a href=\"http://michaelpick.wordpress.com/\">Michael Pick</a>制作了发行视频。</p>\n<p>如果您想帮忙，请查看<a href=\"https://make.wordpress.org/\">Make WordPress</a>和我们的<a href=\"https://make.wordpress.org/core/\">核心开发博客</a>。感谢选择WordPress，我们在4.0版等您！\n</div>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:47:\"https://cn.wordpress.org/2014/04/19/smith/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"67\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}i:9;a:6:{s:4:\"data\";s:42:\"\n		\n		\n		\n		\n		\n				\n\n		\n		\n				\n			\n		\n		\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";s:5:\"child\";a:5:{s:0:\"\";a:7:{s:5:\"title\";a:1:{i:0;a:5:{s:4:\"data\";s:27:\"WordPress 3.8.3维护更新\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:52:\"https://cn.wordpress.org/2014/04/15/wordpress-3-8-3/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:61:\"https://cn.wordpress.org/2014/04/15/wordpress-3-8-3/#comments\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:7:\"pubDate\";a:1:{i:0;a:5:{s:4:\"data\";s:31:\"Tue, 15 Apr 2014 05:33:18 +0000\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:8:\"category\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Releases\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:4:\"guid\";a:1:{i:0;a:5:{s:4:\"data\";s:30:\"http://cn.wordpress.org/?p=897\";s:7:\"attribs\";a:1:{s:0:\"\";a:1:{s:11:\"isPermaLink\";s:5:\"false\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:11:\"description\";a:1:{i:0;a:5:{s:4:\"data\";s:45:\"WordPress 3.8.3简体中文版现已可用。\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:32:\"http://purl.org/dc/elements/1.1/\";a:1:{s:7:\"creator\";a:1:{i:0;a:5:{s:4:\"data\";s:8:\"Jimmy Xu\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:40:\"http://purl.org/rss/1.0/modules/content/\";a:1:{s:7:\"encoded\";a:1:{i:0;a:5:{s:4:\"data\";s:1403:\"<p>WordPress 3.8.3现已发布，修正了<a href=\"https://wordpress.org/news/2014/04/wordpress-3-8-2/\">WordPress 3.8.2安全更新</a>中的一个bug。</p>\n<p>仪表盘中的“快速草稿”工具在3.8.2中未能正常工作，在您使用它时，您的草稿将不会被保存。尽管我们觉得不会有人用这个工具写小说，但<em>任何</em>数据丢失对我们来说都是不能接受的。</p>\n<p>我们认识到您对我们的信任，并且我们认真对待这份责任。我们对让您失望诚致歉意。</p>\n<p>仍<em>有可能</em>您上周丢失的快速草稿还在数据库中，只是您看不到它。然而，这些“丢弃的草稿”通常会在7天后被删除，而现在离我们上次发布已经过了6天。如果我们有幸救回您的草稿，您将会于更新后在“所有文章”界面看到它。（我们也将在后台推送3.8.3，所以可能您会发现列表中突然出现了一篇草稿。）</p>\n<p><a href=\"https://wordpress.org/download/\">下载WordPress 3.8.3</a>（<a href=\"https://cn.wordpress.org/wordpress-3.8.3-zh_CN.zip\">简体中文版</a>）或在仪表盘→更新中点击“现在更新”。</p>\n<p><em>这个bug也影响了3.7.2，所以我们发布了3.7.3版。但我们仍然希望您升级到最新版。</em></p>\n<hr />\n<p><em>Now for some good news:<br />\nWordPress 3.9 is near.<br />\nExpect it this week</em></p>\n\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:36:\"http://wellformedweb.org/CommentAPI/\";a:1:{s:10:\"commentRss\";a:1:{i:0;a:5:{s:4:\"data\";s:57:\"https://cn.wordpress.org/2014/04/15/wordpress-3-8-3/feed/\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:38:\"http://purl.org/rss/1.0/modules/slash/\";a:1:{s:8:\"comments\";a:1:{i:0;a:5:{s:4:\"data\";s:2:\"34\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}}}s:27:\"http://www.w3.org/2005/Atom\";a:1:{s:4:\"link\";a:1:{i:0;a:5:{s:4:\"data\";s:0:\"\";s:7:\"attribs\";a:1:{s:0:\"\";a:3:{s:4:\"href\";s:30:\"https://cn.wordpress.org/feed/\";s:3:\"rel\";s:4:\"self\";s:4:\"type\";s:19:\"application/rss+xml\";}}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}s:44:\"http://purl.org/rss/1.0/modules/syndication/\";a:2:{s:12:\"updatePeriod\";a:1:{i:0;a:5:{s:4:\"data\";s:6:\"hourly\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}s:15:\"updateFrequency\";a:1:{i:0;a:5:{s:4:\"data\";s:1:\"1\";s:7:\"attribs\";a:0:{}s:8:\"xml_base\";s:0:\"\";s:17:\"xml_base_explicit\";b:0;s:8:\"xml_lang\";s:0:\"\";}}}}}}}}}}}}s:4:\"type\";i:128;s:7:\"headers\";O:42:\"Requests_Utility_CaseInsensitiveDictionary\":1:{s:7:\"\0*\0data\";a:8:{s:6:\"server\";s:5:\"nginx\";s:4:\"date\";s:29:\"Fri, 24 Mar 2017 03:21:35 GMT\";s:12:\"content-type\";s:34:\"application/rss+xml; charset=UTF-8\";s:6:\"x-olaf\";s:3:\"⛄\";s:13:\"last-modified\";s:29:\"Thu, 08 Dec 2016 05:10:05 GMT\";s:4:\"link\";s:61:\"<https://cn.wordpress.org/wp-json/>; rel=\"https://api.w.org/\"\";s:15:\"x-frame-options\";s:10:\"SAMEORIGIN\";s:4:\"x-nc\";s:11:\"HIT lax 249\";}}s:5:\"build\";s:14:\"20130910200210\";}', 'no');
@@ -1188,21 +1306,35 @@ INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`
 (1593, '_transient_dash_5438fb5baf31c513fff2b9a1067656a6', '<div class=\"rss-widget\"><ul><li><a class=\'rsswidget\' href=\'https://cn.wordpress.org/2016/12/08/vaughan/\'>WordPress 4.7“Vaughan”</a> <span class=\"rss-date\">2016年12月8日</span><div class=\"rssSummary\">WordPress 4.7简体中文版现已开放下载，或在您的WordPress仪表盘中升级。我们将此版本命名为“ [&hellip;]</div></li></ul></div><div class=\"rss-widget\"><ul><li><a class=\'rsswidget\' href=\'https://wptavern.com/php-5-6-is-now-the-most-widely-used-php-version\'>WPTavern: PHP 5.6 Is Now the Most Widely Used PHP Version</a></li><li><a class=\'rsswidget\' href=\'https://ma.tt/2017/03/on-the-james-altucher-show/\'>Matt: On the James Altucher Show</a></li><li><a class=\'rsswidget\' href=\'https://wptavern.com/wpweekly-episode-268-behind-the-scenes-of-wordpress-development-course-up-and-running-second-edition\'>WPTavern: WPWeekly Episode 268 – Behind the Scenes of WordPress Development Course, Up and Running Second Edition</a></li></ul></div><div class=\"rss-widget\"><ul><li class=\"dashboard-news-plugin\"><span>热门插件:</span> Google Analytics Dashboard for WP&nbsp;<a href=\"plugin-install.php?tab=plugin-information&amp;plugin=google-analytics-dashboard-for-wp&amp;_wpnonce=892204b49f&amp;TB_iframe=true&amp;width=600&amp;height=800\" class=\"thickbox open-plugin-details-modal\" aria-label=\"安装Google Analytics Dashboard for WP\">(安装)</a></li></ul></div>', 'no'),
 (1594, '_site_transient_timeout_available_translations', '1490336530', 'no'),
 (1595, '_site_transient_available_translations', 'a:108:{s:2:\"af\";a:8:{s:8:\"language\";s:2:\"af\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:38:06\";s:12:\"english_name\";s:9:\"Afrikaans\";s:11:\"native_name\";s:9:\"Afrikaans\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/af.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"af\";i:2;s:3:\"afr\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:10:\"Gaan voort\";}}s:3:\"ary\";a:8:{s:8:\"language\";s:3:\"ary\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:42:35\";s:12:\"english_name\";s:15:\"Moroccan Arabic\";s:11:\"native_name\";s:31:\"العربية المغربية\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.3/ary.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ar\";i:3;s:3:\"ary\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:16:\"المتابعة\";}}s:2:\"ar\";a:8:{s:8:\"language\";s:2:\"ar\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:49:08\";s:12:\"english_name\";s:6:\"Arabic\";s:11:\"native_name\";s:14:\"العربية\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/ar.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ar\";i:2;s:3:\"ara\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:16:\"المتابعة\";}}s:2:\"as\";a:8:{s:8:\"language\";s:2:\"as\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-22 18:59:07\";s:12:\"english_name\";s:8:\"Assamese\";s:11:\"native_name\";s:21:\"অসমীয়া\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/as.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"as\";i:2;s:3:\"asm\";i:3;s:3:\"asm\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:0:\"\";}}s:2:\"az\";a:8:{s:8:\"language\";s:2:\"az\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-06 00:09:27\";s:12:\"english_name\";s:11:\"Azerbaijani\";s:11:\"native_name\";s:16:\"Azərbaycan dili\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/az.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"az\";i:2;s:3:\"aze\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:5:\"Davam\";}}s:3:\"azb\";a:8:{s:8:\"language\";s:3:\"azb\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-09-12 20:34:31\";s:12:\"english_name\";s:17:\"South Azerbaijani\";s:11:\"native_name\";s:29:\"گؤنئی آذربایجان\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/azb.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"az\";i:3;s:3:\"azb\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:3:\"bel\";a:8:{s:8:\"language\";s:3:\"bel\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-23 04:36:52\";s:12:\"english_name\";s:10:\"Belarusian\";s:11:\"native_name\";s:29:\"Беларуская мова\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.3/bel.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"be\";i:2;s:3:\"bel\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:20:\"Працягнуць\";}}s:5:\"bg_BG\";a:8:{s:8:\"language\";s:5:\"bg_BG\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-06 09:18:57\";s:12:\"english_name\";s:9:\"Bulgarian\";s:11:\"native_name\";s:18:\"Български\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/bg_BG.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"bg\";i:2;s:3:\"bul\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"Напред\";}}s:5:\"bn_BD\";a:8:{s:8:\"language\";s:5:\"bn_BD\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-04 16:58:43\";s:12:\"english_name\";s:7:\"Bengali\";s:11:\"native_name\";s:15:\"বাংলা\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/bn_BD.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"bn\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:23:\"এগিয়ে চল.\";}}s:2:\"bo\";a:8:{s:8:\"language\";s:2:\"bo\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-09-05 09:44:12\";s:12:\"english_name\";s:7:\"Tibetan\";s:11:\"native_name\";s:21:\"བོད་ཡིག\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/bo.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"bo\";i:2;s:3:\"tib\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:24:\"མུ་མཐུད།\";}}s:5:\"bs_BA\";a:8:{s:8:\"language\";s:5:\"bs_BA\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-09-04 20:20:28\";s:12:\"english_name\";s:7:\"Bosnian\";s:11:\"native_name\";s:8:\"Bosanski\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/bs_BA.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"bs\";i:2;s:3:\"bos\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:7:\"Nastavi\";}}s:2:\"ca\";a:8:{s:8:\"language\";s:2:\"ca\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-05 11:34:47\";s:12:\"english_name\";s:7:\"Catalan\";s:11:\"native_name\";s:7:\"Català\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/ca.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ca\";i:2;s:3:\"cat\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continua\";}}s:3:\"ceb\";a:8:{s:8:\"language\";s:3:\"ceb\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-03-02 17:25:51\";s:12:\"english_name\";s:7:\"Cebuano\";s:11:\"native_name\";s:7:\"Cebuano\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/ceb.zip\";s:3:\"iso\";a:2:{i:2;s:3:\"ceb\";i:3;s:3:\"ceb\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:7:\"Padayun\";}}s:5:\"cs_CZ\";a:8:{s:8:\"language\";s:5:\"cs_CZ\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-12 08:46:26\";s:12:\"english_name\";s:5:\"Czech\";s:11:\"native_name\";s:12:\"Čeština‎\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/cs_CZ.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"cs\";i:2;s:3:\"ces\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:11:\"Pokračovat\";}}s:2:\"cy\";a:8:{s:8:\"language\";s:2:\"cy\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:49:29\";s:12:\"english_name\";s:5:\"Welsh\";s:11:\"native_name\";s:7:\"Cymraeg\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/cy.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"cy\";i:2;s:3:\"cym\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Parhau\";}}s:5:\"da_DK\";a:8:{s:8:\"language\";s:5:\"da_DK\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-28 00:33:54\";s:12:\"english_name\";s:6:\"Danish\";s:11:\"native_name\";s:5:\"Dansk\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/da_DK.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"da\";i:2;s:3:\"dan\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"Forts&#230;t\";}}s:5:\"de_CH\";a:8:{s:8:\"language\";s:5:\"de_CH\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:40:03\";s:12:\"english_name\";s:20:\"German (Switzerland)\";s:11:\"native_name\";s:17:\"Deutsch (Schweiz)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/de_CH.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"de\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Weiter\";}}s:5:\"de_DE\";a:8:{s:8:\"language\";s:5:\"de_DE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-18 13:57:42\";s:12:\"english_name\";s:6:\"German\";s:11:\"native_name\";s:7:\"Deutsch\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/de_DE.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"de\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Weiter\";}}s:12:\"de_DE_formal\";a:8:{s:8:\"language\";s:12:\"de_DE_formal\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-18 13:57:53\";s:12:\"english_name\";s:15:\"German (Formal)\";s:11:\"native_name\";s:13:\"Deutsch (Sie)\";s:7:\"package\";s:71:\"https://downloads.wordpress.org/translation/core/4.7.3/de_DE_formal.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"de\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Weiter\";}}s:14:\"de_CH_informal\";a:8:{s:8:\"language\";s:14:\"de_CH_informal\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:39:59\";s:12:\"english_name\";s:30:\"German (Switzerland, Informal)\";s:11:\"native_name\";s:21:\"Deutsch (Schweiz, Du)\";s:7:\"package\";s:73:\"https://downloads.wordpress.org/translation/core/4.7.3/de_CH_informal.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"de\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Weiter\";}}s:3:\"dzo\";a:8:{s:8:\"language\";s:3:\"dzo\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-06-29 08:59:03\";s:12:\"english_name\";s:8:\"Dzongkha\";s:11:\"native_name\";s:18:\"རྫོང་ཁ\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/dzo.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"dz\";i:2;s:3:\"dzo\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:0:\"\";}}s:2:\"el\";a:8:{s:8:\"language\";s:2:\"el\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-21 10:37:42\";s:12:\"english_name\";s:5:\"Greek\";s:11:\"native_name\";s:16:\"Ελληνικά\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/el.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"el\";i:2;s:3:\"ell\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:16:\"Συνέχεια\";}}s:5:\"en_AU\";a:8:{s:8:\"language\";s:5:\"en_AU\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-27 00:40:28\";s:12:\"english_name\";s:19:\"English (Australia)\";s:11:\"native_name\";s:19:\"English (Australia)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/en_AU.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"en\";i:2;s:3:\"eng\";i:3;s:3:\"eng\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:5:\"en_CA\";a:8:{s:8:\"language\";s:5:\"en_CA\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:49:34\";s:12:\"english_name\";s:16:\"English (Canada)\";s:11:\"native_name\";s:16:\"English (Canada)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/en_CA.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"en\";i:2;s:3:\"eng\";i:3;s:3:\"eng\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:5:\"en_NZ\";a:8:{s:8:\"language\";s:5:\"en_NZ\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:30\";s:12:\"english_name\";s:21:\"English (New Zealand)\";s:11:\"native_name\";s:21:\"English (New Zealand)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/en_NZ.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"en\";i:2;s:3:\"eng\";i:3;s:3:\"eng\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:5:\"en_ZA\";a:8:{s:8:\"language\";s:5:\"en_ZA\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:53:43\";s:12:\"english_name\";s:22:\"English (South Africa)\";s:11:\"native_name\";s:22:\"English (South Africa)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/en_ZA.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"en\";i:2;s:3:\"eng\";i:3;s:3:\"eng\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:5:\"en_GB\";a:8:{s:8:\"language\";s:5:\"en_GB\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-28 03:10:25\";s:12:\"english_name\";s:12:\"English (UK)\";s:11:\"native_name\";s:12:\"English (UK)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/en_GB.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"en\";i:2;s:3:\"eng\";i:3;s:3:\"eng\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continue\";}}s:2:\"eo\";a:8:{s:8:\"language\";s:2:\"eo\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:47:07\";s:12:\"english_name\";s:9:\"Esperanto\";s:11:\"native_name\";s:9:\"Esperanto\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/eo.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"eo\";i:2;s:3:\"epo\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Daŭrigi\";}}s:5:\"es_AR\";a:8:{s:8:\"language\";s:5:\"es_AR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:41:31\";s:12:\"english_name\";s:19:\"Spanish (Argentina)\";s:11:\"native_name\";s:21:\"Español de Argentina\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_AR.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_CO\";a:8:{s:8:\"language\";s:5:\"es_CO\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:37\";s:12:\"english_name\";s:18:\"Spanish (Colombia)\";s:11:\"native_name\";s:20:\"Español de Colombia\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_CO.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_VE\";a:8:{s:8:\"language\";s:5:\"es_VE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:53:56\";s:12:\"english_name\";s:19:\"Spanish (Venezuela)\";s:11:\"native_name\";s:21:\"Español de Venezuela\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_VE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_ES\";a:8:{s:8:\"language\";s:5:\"es_ES\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-15 12:53:17\";s:12:\"english_name\";s:15:\"Spanish (Spain)\";s:11:\"native_name\";s:8:\"Español\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_ES.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"es\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_GT\";a:8:{s:8:\"language\";s:5:\"es_GT\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:37\";s:12:\"english_name\";s:19:\"Spanish (Guatemala)\";s:11:\"native_name\";s:21:\"Español de Guatemala\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_GT.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_CL\";a:8:{s:8:\"language\";s:5:\"es_CL\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-28 20:09:49\";s:12:\"english_name\";s:15:\"Spanish (Chile)\";s:11:\"native_name\";s:17:\"Español de Chile\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/es_CL.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_PE\";a:8:{s:8:\"language\";s:5:\"es_PE\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-09-09 09:36:22\";s:12:\"english_name\";s:14:\"Spanish (Peru)\";s:11:\"native_name\";s:17:\"Español de Perú\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/es_PE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"es_MX\";a:8:{s:8:\"language\";s:5:\"es_MX\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:42:28\";s:12:\"english_name\";s:16:\"Spanish (Mexico)\";s:11:\"native_name\";s:19:\"Español de México\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/es_MX.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"es\";i:2;s:3:\"spa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:2:\"et\";a:8:{s:8:\"language\";s:2:\"et\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-27 16:37:11\";s:12:\"english_name\";s:8:\"Estonian\";s:11:\"native_name\";s:5:\"Eesti\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/et.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"et\";i:2;s:3:\"est\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Jätka\";}}s:2:\"eu\";a:8:{s:8:\"language\";s:2:\"eu\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:33\";s:12:\"english_name\";s:6:\"Basque\";s:11:\"native_name\";s:7:\"Euskara\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/eu.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"eu\";i:2;s:3:\"eus\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Jarraitu\";}}s:5:\"fa_IR\";a:8:{s:8:\"language\";s:5:\"fa_IR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-02 15:21:03\";s:12:\"english_name\";s:7:\"Persian\";s:11:\"native_name\";s:10:\"فارسی\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/fa_IR.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"fa\";i:2;s:3:\"fas\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:10:\"ادامه\";}}s:2:\"fi\";a:8:{s:8:\"language\";s:2:\"fi\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:42:25\";s:12:\"english_name\";s:7:\"Finnish\";s:11:\"native_name\";s:5:\"Suomi\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/fi.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"fi\";i:2;s:3:\"fin\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:5:\"Jatka\";}}s:5:\"fr_CA\";a:8:{s:8:\"language\";s:5:\"fr_CA\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-03 21:08:25\";s:12:\"english_name\";s:15:\"French (Canada)\";s:11:\"native_name\";s:19:\"Français du Canada\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/fr_CA.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"fr\";i:2;s:3:\"fra\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuer\";}}s:5:\"fr_BE\";a:8:{s:8:\"language\";s:5:\"fr_BE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:40:32\";s:12:\"english_name\";s:16:\"French (Belgium)\";s:11:\"native_name\";s:21:\"Français de Belgique\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/fr_BE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"fr\";i:2;s:3:\"fra\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuer\";}}s:5:\"fr_FR\";a:8:{s:8:\"language\";s:5:\"fr_FR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-18 16:05:09\";s:12:\"english_name\";s:15:\"French (France)\";s:11:\"native_name\";s:9:\"Français\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/fr_FR.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"fr\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuer\";}}s:2:\"gd\";a:8:{s:8:\"language\";s:2:\"gd\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-08-23 17:41:37\";s:12:\"english_name\";s:15:\"Scottish Gaelic\";s:11:\"native_name\";s:9:\"Gàidhlig\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/gd.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"gd\";i:2;s:3:\"gla\";i:3;s:3:\"gla\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:15:\"Lean air adhart\";}}s:5:\"gl_ES\";a:8:{s:8:\"language\";s:5:\"gl_ES\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:40:27\";s:12:\"english_name\";s:8:\"Galician\";s:11:\"native_name\";s:6:\"Galego\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/gl_ES.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"gl\";i:2;s:3:\"glg\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:2:\"gu\";a:8:{s:8:\"language\";s:2:\"gu\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-07 18:47:03\";s:12:\"english_name\";s:8:\"Gujarati\";s:11:\"native_name\";s:21:\"ગુજરાતી\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/gu.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"gu\";i:2;s:3:\"guj\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:31:\"ચાલુ રાખવું\";}}s:3:\"haz\";a:8:{s:8:\"language\";s:3:\"haz\";s:7:\"version\";s:5:\"4.4.2\";s:7:\"updated\";s:19:\"2015-12-05 00:59:09\";s:12:\"english_name\";s:8:\"Hazaragi\";s:11:\"native_name\";s:15:\"هزاره گی\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.4.2/haz.zip\";s:3:\"iso\";a:1:{i:3;s:3:\"haz\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:10:\"ادامه\";}}s:5:\"he_IL\";a:8:{s:8:\"language\";s:5:\"he_IL\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-29 21:21:10\";s:12:\"english_name\";s:6:\"Hebrew\";s:11:\"native_name\";s:16:\"עִבְרִית\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/he_IL.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"he\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"המשך\";}}s:5:\"hi_IN\";a:8:{s:8:\"language\";s:5:\"hi_IN\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-03 12:18:25\";s:12:\"english_name\";s:5:\"Hindi\";s:11:\"native_name\";s:18:\"हिन्दी\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/hi_IN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"hi\";i:2;s:3:\"hin\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"जारी\";}}s:2:\"hr\";a:8:{s:8:\"language\";s:2:\"hr\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-29 13:53:21\";s:12:\"english_name\";s:8:\"Croatian\";s:11:\"native_name\";s:8:\"Hrvatski\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/hr.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"hr\";i:2;s:3:\"hrv\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:7:\"Nastavi\";}}s:5:\"hu_HU\";a:8:{s:8:\"language\";s:5:\"hu_HU\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:48:39\";s:12:\"english_name\";s:9:\"Hungarian\";s:11:\"native_name\";s:6:\"Magyar\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/hu_HU.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"hu\";i:2;s:3:\"hun\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:10:\"Folytatás\";}}s:2:\"hy\";a:8:{s:8:\"language\";s:2:\"hy\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-12-03 16:21:10\";s:12:\"english_name\";s:8:\"Armenian\";s:11:\"native_name\";s:14:\"Հայերեն\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/hy.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"hy\";i:2;s:3:\"hye\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:20:\"Շարունակել\";}}s:5:\"id_ID\";a:8:{s:8:\"language\";s:5:\"id_ID\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-06 16:02:41\";s:12:\"english_name\";s:10:\"Indonesian\";s:11:\"native_name\";s:16:\"Bahasa Indonesia\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/id_ID.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"id\";i:2;s:3:\"ind\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Lanjutkan\";}}s:5:\"is_IS\";a:8:{s:8:\"language\";s:5:\"is_IS\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-16 13:36:46\";s:12:\"english_name\";s:9:\"Icelandic\";s:11:\"native_name\";s:9:\"Íslenska\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/is_IS.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"is\";i:2;s:3:\"isl\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Áfram\";}}s:5:\"it_IT\";a:8:{s:8:\"language\";s:5:\"it_IT\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-17 11:59:56\";s:12:\"english_name\";s:7:\"Italian\";s:11:\"native_name\";s:8:\"Italiano\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/it_IT.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"it\";i:2;s:3:\"ita\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Continua\";}}s:2:\"ja\";a:8:{s:8:\"language\";s:2:\"ja\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-13 05:03:32\";s:12:\"english_name\";s:8:\"Japanese\";s:11:\"native_name\";s:9:\"日本語\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/ja.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"ja\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"続ける\";}}s:5:\"ka_GE\";a:8:{s:8:\"language\";s:5:\"ka_GE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:40:24\";s:12:\"english_name\";s:8:\"Georgian\";s:11:\"native_name\";s:21:\"ქართული\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/ka_GE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ka\";i:2;s:3:\"kat\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:30:\"გაგრძელება\";}}s:3:\"kab\";a:8:{s:8:\"language\";s:3:\"kab\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:39:13\";s:12:\"english_name\";s:6:\"Kabyle\";s:11:\"native_name\";s:9:\"Taqbaylit\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/kab.zip\";s:3:\"iso\";a:2:{i:2;s:3:\"kab\";i:3;s:3:\"kab\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Kemmel\";}}s:2:\"km\";a:8:{s:8:\"language\";s:2:\"km\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-12-07 02:07:59\";s:12:\"english_name\";s:5:\"Khmer\";s:11:\"native_name\";s:27:\"ភាសាខ្មែរ\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/km.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"km\";i:2;s:3:\"khm\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"បន្ត\";}}s:5:\"ko_KR\";a:8:{s:8:\"language\";s:5:\"ko_KR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:39:53\";s:12:\"english_name\";s:6:\"Korean\";s:11:\"native_name\";s:9:\"한국어\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/ko_KR.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ko\";i:2;s:3:\"kor\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"계속\";}}s:3:\"ckb\";a:8:{s:8:\"language\";s:3:\"ckb\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:48:25\";s:12:\"english_name\";s:16:\"Kurdish (Sorani)\";s:11:\"native_name\";s:13:\"كوردی‎\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/ckb.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ku\";i:3;s:3:\"ckb\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:30:\"به‌رده‌وام به‌\";}}s:2:\"lo\";a:8:{s:8:\"language\";s:2:\"lo\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-12 09:59:23\";s:12:\"english_name\";s:3:\"Lao\";s:11:\"native_name\";s:21:\"ພາສາລາວ\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/lo.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"lo\";i:2;s:3:\"lao\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:18:\"ຕໍ່​ໄປ\";}}s:5:\"lt_LT\";a:8:{s:8:\"language\";s:5:\"lt_LT\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:34\";s:12:\"english_name\";s:10:\"Lithuanian\";s:11:\"native_name\";s:15:\"Lietuvių kalba\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/lt_LT.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"lt\";i:2;s:3:\"lit\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Tęsti\";}}s:2:\"lv\";a:8:{s:8:\"language\";s:2:\"lv\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-17 20:40:40\";s:12:\"english_name\";s:7:\"Latvian\";s:11:\"native_name\";s:16:\"Latviešu valoda\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/lv.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"lv\";i:2;s:3:\"lav\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Turpināt\";}}s:5:\"mk_MK\";a:8:{s:8:\"language\";s:5:\"mk_MK\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:41\";s:12:\"english_name\";s:10:\"Macedonian\";s:11:\"native_name\";s:31:\"Македонски јазик\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/mk_MK.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"mk\";i:2;s:3:\"mkd\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:16:\"Продолжи\";}}s:5:\"ml_IN\";a:8:{s:8:\"language\";s:5:\"ml_IN\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-27 03:43:32\";s:12:\"english_name\";s:9:\"Malayalam\";s:11:\"native_name\";s:18:\"മലയാളം\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/ml_IN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ml\";i:2;s:3:\"mal\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:18:\"തുടരുക\";}}s:2:\"mn\";a:8:{s:8:\"language\";s:2:\"mn\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-12 07:29:35\";s:12:\"english_name\";s:9:\"Mongolian\";s:11:\"native_name\";s:12:\"Монгол\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/mn.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"mn\";i:2;s:3:\"mon\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:24:\"Үргэлжлүүлэх\";}}s:2:\"mr\";a:8:{s:8:\"language\";s:2:\"mr\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:42:37\";s:12:\"english_name\";s:7:\"Marathi\";s:11:\"native_name\";s:15:\"मराठी\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/mr.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"mr\";i:2;s:3:\"mar\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:25:\"सुरु ठेवा\";}}s:5:\"ms_MY\";a:8:{s:8:\"language\";s:5:\"ms_MY\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-05 09:45:10\";s:12:\"english_name\";s:5:\"Malay\";s:11:\"native_name\";s:13:\"Bahasa Melayu\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/ms_MY.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ms\";i:2;s:3:\"msa\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Teruskan\";}}s:5:\"my_MM\";a:8:{s:8:\"language\";s:5:\"my_MM\";s:7:\"version\";s:6:\"4.1.16\";s:7:\"updated\";s:19:\"2015-03-26 15:57:42\";s:12:\"english_name\";s:17:\"Myanmar (Burmese)\";s:11:\"native_name\";s:15:\"ဗမာစာ\";s:7:\"package\";s:65:\"https://downloads.wordpress.org/translation/core/4.1.16/my_MM.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"my\";i:2;s:3:\"mya\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:54:\"ဆက်လက်လုပ်ဆောင်ပါ။\";}}s:5:\"nb_NO\";a:8:{s:8:\"language\";s:5:\"nb_NO\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:42:31\";s:12:\"english_name\";s:19:\"Norwegian (Bokmål)\";s:11:\"native_name\";s:13:\"Norsk bokmål\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/nb_NO.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"nb\";i:2;s:3:\"nob\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Fortsett\";}}s:5:\"ne_NP\";a:8:{s:8:\"language\";s:5:\"ne_NP\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:48:31\";s:12:\"english_name\";s:6:\"Nepali\";s:11:\"native_name\";s:18:\"नेपाली\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/ne_NP.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ne\";i:2;s:3:\"nep\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:43:\"जारी राख्नुहोस्\";}}s:5:\"nl_NL\";a:8:{s:8:\"language\";s:5:\"nl_NL\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-03 13:02:03\";s:12:\"english_name\";s:5:\"Dutch\";s:11:\"native_name\";s:10:\"Nederlands\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/nl_NL.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"nl\";i:2;s:3:\"nld\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Doorgaan\";}}s:12:\"nl_NL_formal\";a:8:{s:8:\"language\";s:12:\"nl_NL_formal\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-16 13:24:21\";s:12:\"english_name\";s:14:\"Dutch (Formal)\";s:11:\"native_name\";s:20:\"Nederlands (Formeel)\";s:7:\"package\";s:71:\"https://downloads.wordpress.org/translation/core/4.7.3/nl_NL_formal.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"nl\";i:2;s:3:\"nld\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Doorgaan\";}}s:5:\"nl_BE\";a:8:{s:8:\"language\";s:5:\"nl_BE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-21 11:39:51\";s:12:\"english_name\";s:15:\"Dutch (Belgium)\";s:11:\"native_name\";s:20:\"Nederlands (België)\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/nl_BE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"nl\";i:2;s:3:\"nld\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Doorgaan\";}}s:5:\"nn_NO\";a:8:{s:8:\"language\";s:5:\"nn_NO\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:40:57\";s:12:\"english_name\";s:19:\"Norwegian (Nynorsk)\";s:11:\"native_name\";s:13:\"Norsk nynorsk\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/nn_NO.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"nn\";i:2;s:3:\"nno\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Hald fram\";}}s:3:\"oci\";a:8:{s:8:\"language\";s:3:\"oci\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-02 13:47:38\";s:12:\"english_name\";s:7:\"Occitan\";s:11:\"native_name\";s:7:\"Occitan\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/oci.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"oc\";i:2;s:3:\"oci\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Contunhar\";}}s:5:\"pa_IN\";a:8:{s:8:\"language\";s:5:\"pa_IN\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-16 05:19:43\";s:12:\"english_name\";s:7:\"Punjabi\";s:11:\"native_name\";s:18:\"ਪੰਜਾਬੀ\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/pa_IN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"pa\";i:2;s:3:\"pan\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:25:\"ਜਾਰੀ ਰੱਖੋ\";}}s:5:\"pl_PL\";a:8:{s:8:\"language\";s:5:\"pl_PL\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-17 10:14:23\";s:12:\"english_name\";s:6:\"Polish\";s:11:\"native_name\";s:6:\"Polski\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/pl_PL.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"pl\";i:2;s:3:\"pol\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Kontynuuj\";}}s:2:\"ps\";a:8:{s:8:\"language\";s:2:\"ps\";s:7:\"version\";s:6:\"4.1.16\";s:7:\"updated\";s:19:\"2015-03-29 22:19:48\";s:12:\"english_name\";s:6:\"Pashto\";s:11:\"native_name\";s:8:\"پښتو\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.1.16/ps.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ps\";i:2;s:3:\"pus\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:19:\"دوام ورکړه\";}}s:5:\"pt_PT\";a:8:{s:8:\"language\";s:5:\"pt_PT\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-20 09:35:42\";s:12:\"english_name\";s:21:\"Portuguese (Portugal)\";s:11:\"native_name\";s:10:\"Português\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/pt_PT.zip\";s:3:\"iso\";a:1:{i:1;s:2:\"pt\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:5:\"pt_BR\";a:8:{s:8:\"language\";s:5:\"pt_BR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-16 03:50:08\";s:12:\"english_name\";s:19:\"Portuguese (Brazil)\";s:11:\"native_name\";s:20:\"Português do Brasil\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/pt_BR.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"pt\";i:2;s:3:\"por\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuar\";}}s:3:\"rhg\";a:8:{s:8:\"language\";s:3:\"rhg\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-03-16 13:03:18\";s:12:\"english_name\";s:8:\"Rohingya\";s:11:\"native_name\";s:8:\"Ruáinga\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/rhg.zip\";s:3:\"iso\";a:1:{i:3;s:3:\"rhg\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:0:\"\";}}s:5:\"ro_RO\";a:8:{s:8:\"language\";s:5:\"ro_RO\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-06 22:32:58\";s:12:\"english_name\";s:8:\"Romanian\";s:11:\"native_name\";s:8:\"Română\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/ro_RO.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ro\";i:2;s:3:\"ron\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Continuă\";}}s:5:\"ru_RU\";a:8:{s:8:\"language\";s:5:\"ru_RU\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-13 19:43:03\";s:12:\"english_name\";s:7:\"Russian\";s:11:\"native_name\";s:14:\"Русский\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/ru_RU.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ru\";i:2;s:3:\"rus\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:20:\"Продолжить\";}}s:3:\"sah\";a:8:{s:8:\"language\";s:3:\"sah\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-21 02:06:41\";s:12:\"english_name\";s:5:\"Sakha\";s:11:\"native_name\";s:14:\"Сахалыы\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/sah.zip\";s:3:\"iso\";a:2:{i:2;s:3:\"sah\";i:3;s:3:\"sah\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"Салҕаа\";}}s:5:\"si_LK\";a:8:{s:8:\"language\";s:5:\"si_LK\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-12 06:00:52\";s:12:\"english_name\";s:7:\"Sinhala\";s:11:\"native_name\";s:15:\"සිංහල\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/si_LK.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"si\";i:2;s:3:\"sin\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:44:\"දිගටම කරගෙන යන්න\";}}s:5:\"sk_SK\";a:8:{s:8:\"language\";s:5:\"sk_SK\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-02 14:28:53\";s:12:\"english_name\";s:6:\"Slovak\";s:11:\"native_name\";s:11:\"Slovenčina\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/sk_SK.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"sk\";i:2;s:3:\"slk\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"Pokračovať\";}}s:5:\"sl_SI\";a:8:{s:8:\"language\";s:5:\"sl_SI\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-08 17:57:45\";s:12:\"english_name\";s:9:\"Slovenian\";s:11:\"native_name\";s:13:\"Slovenščina\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/sl_SI.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"sl\";i:2;s:3:\"slv\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:8:\"Nadaljuj\";}}s:2:\"sq\";a:8:{s:8:\"language\";s:2:\"sq\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-29 18:17:50\";s:12:\"english_name\";s:8:\"Albanian\";s:11:\"native_name\";s:5:\"Shqip\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/sq.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"sq\";i:2;s:3:\"sqi\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"Vazhdo\";}}s:5:\"sr_RS\";a:8:{s:8:\"language\";s:5:\"sr_RS\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:41:03\";s:12:\"english_name\";s:7:\"Serbian\";s:11:\"native_name\";s:23:\"Српски језик\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/sr_RS.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"sr\";i:2;s:3:\"srp\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:14:\"Настави\";}}s:5:\"sv_SE\";a:8:{s:8:\"language\";s:5:\"sv_SE\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-18 12:21:25\";s:12:\"english_name\";s:7:\"Swedish\";s:11:\"native_name\";s:7:\"Svenska\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/sv_SE.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"sv\";i:2;s:3:\"swe\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:9:\"Fortsätt\";}}s:3:\"szl\";a:8:{s:8:\"language\";s:3:\"szl\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-09-24 19:58:14\";s:12:\"english_name\";s:8:\"Silesian\";s:11:\"native_name\";s:17:\"Ślōnskŏ gŏdka\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/szl.zip\";s:3:\"iso\";a:1:{i:3;s:3:\"szl\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:13:\"Kōntynuować\";}}s:5:\"ta_IN\";a:8:{s:8:\"language\";s:5:\"ta_IN\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-27 03:22:47\";s:12:\"english_name\";s:5:\"Tamil\";s:11:\"native_name\";s:15:\"தமிழ்\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/ta_IN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ta\";i:2;s:3:\"tam\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:24:\"தொடரவும்\";}}s:2:\"te\";a:8:{s:8:\"language\";s:2:\"te\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:47:39\";s:12:\"english_name\";s:6:\"Telugu\";s:11:\"native_name\";s:18:\"తెలుగు\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/te.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"te\";i:2;s:3:\"tel\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:30:\"కొనసాగించు\";}}s:2:\"th\";a:8:{s:8:\"language\";s:2:\"th\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2017-01-26 15:48:43\";s:12:\"english_name\";s:4:\"Thai\";s:11:\"native_name\";s:9:\"ไทย\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/th.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"th\";i:2;s:3:\"tha\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:15:\"ต่อไป\";}}s:2:\"tl\";a:8:{s:8:\"language\";s:2:\"tl\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-12-30 02:38:08\";s:12:\"english_name\";s:7:\"Tagalog\";s:11:\"native_name\";s:7:\"Tagalog\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.2/tl.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"tl\";i:2;s:3:\"tgl\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:10:\"Magpatuloy\";}}s:5:\"tr_TR\";a:8:{s:8:\"language\";s:5:\"tr_TR\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-02-17 11:46:52\";s:12:\"english_name\";s:7:\"Turkish\";s:11:\"native_name\";s:8:\"Türkçe\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/tr_TR.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"tr\";i:2;s:3:\"tur\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:5:\"Devam\";}}s:5:\"tt_RU\";a:8:{s:8:\"language\";s:5:\"tt_RU\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-11-20 20:20:50\";s:12:\"english_name\";s:5:\"Tatar\";s:11:\"native_name\";s:19:\"Татар теле\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/tt_RU.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"tt\";i:2;s:3:\"tat\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:17:\"дәвам итү\";}}s:3:\"tah\";a:8:{s:8:\"language\";s:3:\"tah\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-03-06 18:39:39\";s:12:\"english_name\";s:8:\"Tahitian\";s:11:\"native_name\";s:10:\"Reo Tahiti\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/translation/core/4.7.2/tah.zip\";s:3:\"iso\";a:3:{i:1;s:2:\"ty\";i:2;s:3:\"tah\";i:3;s:3:\"tah\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:0:\"\";}}s:5:\"ug_CN\";a:8:{s:8:\"language\";s:5:\"ug_CN\";s:7:\"version\";s:5:\"4.7.2\";s:7:\"updated\";s:19:\"2016-12-05 09:23:39\";s:12:\"english_name\";s:6:\"Uighur\";s:11:\"native_name\";s:9:\"Uyƣurqə\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.2/ug_CN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ug\";i:2;s:3:\"uig\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:26:\"داۋاملاشتۇرۇش\";}}s:2:\"uk\";a:8:{s:8:\"language\";s:2:\"uk\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-15 23:25:27\";s:12:\"english_name\";s:9:\"Ukrainian\";s:11:\"native_name\";s:20:\"Українська\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/uk.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"uk\";i:2;s:3:\"ukr\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:20:\"Продовжити\";}}s:2:\"ur\";a:8:{s:8:\"language\";s:2:\"ur\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-30 07:08:17\";s:12:\"english_name\";s:4:\"Urdu\";s:11:\"native_name\";s:8:\"اردو\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/ur.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"ur\";i:2;s:3:\"urd\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:19:\"جاری رکھیں\";}}s:5:\"uz_UZ\";a:8:{s:8:\"language\";s:5:\"uz_UZ\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-22 15:46:29\";s:12:\"english_name\";s:5:\"Uzbek\";s:11:\"native_name\";s:11:\"O‘zbekcha\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/uz_UZ.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"uz\";i:2;s:3:\"uzb\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:11:\"Davom etish\";}}s:2:\"vi\";a:8:{s:8:\"language\";s:2:\"vi\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-23 04:31:11\";s:12:\"english_name\";s:10:\"Vietnamese\";s:11:\"native_name\";s:14:\"Tiếng Việt\";s:7:\"package\";s:61:\"https://downloads.wordpress.org/translation/core/4.7.3/vi.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"vi\";i:2;s:3:\"vie\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:12:\"Tiếp tục\";}}s:5:\"zh_CN\";a:8:{s:8:\"language\";s:5:\"zh_CN\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-01-26 15:54:45\";s:12:\"english_name\";s:15:\"Chinese (China)\";s:11:\"native_name\";s:12:\"简体中文\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/zh_CN.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"zh\";i:2;s:3:\"zho\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"继续\";}}s:5:\"zh_HK\";a:8:{s:8:\"language\";s:5:\"zh_HK\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-09 05:40:16\";s:12:\"english_name\";s:19:\"Chinese (Hong Kong)\";s:11:\"native_name\";s:16:\"香港中文版	\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/zh_HK.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"zh\";i:2;s:3:\"zho\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"繼續\";}}s:5:\"zh_TW\";a:8:{s:8:\"language\";s:5:\"zh_TW\";s:7:\"version\";s:5:\"4.7.3\";s:7:\"updated\";s:19:\"2017-03-20 03:14:21\";s:12:\"english_name\";s:16:\"Chinese (Taiwan)\";s:11:\"native_name\";s:12:\"繁體中文\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/translation/core/4.7.3/zh_TW.zip\";s:3:\"iso\";a:2:{i:1;s:2:\"zh\";i:2;s:3:\"zho\";}s:7:\"strings\";a:1:{s:8:\"continue\";s:6:\"繼續\";}}}', 'no'),
-(1604, '_transient_doing_cron', '1490326194.8621730804443359375000', 'yes'),
 (1608, 'wordfence_syncAttackDataAttempts', '0', 'no'),
 (1609, 'wordfence_syncingAttackData', '0', 'no'),
-(1610, 'wordfence_lastSyncAttackData', '1490326368', 'no');
+(1610, 'wordfence_lastSyncAttackData', '1490326368', 'no'),
+(1613, '_transient_timeout_ewww_image_optimizer_images_reoptimized', '1490332334', 'no'),
+(1614, '_transient_ewww_image_optimizer_images_reoptimized', 'zero', 'no'),
+(1616, '_site_transient_timeout_theme_roots', '1490330536', 'no'),
+(1617, '_site_transient_theme_roots', 'a:4:{s:3:\"dux\";s:7:\"/themes\";s:13:\"twentyfifteen\";s:7:\"/themes\";s:15:\"twentyseventeen\";s:7:\"/themes\";s:13:\"twentysixteen\";s:7:\"/themes\";}', 'no');
+INSERT INTO `wp_options` (`option_id`, `option_name`, `option_value`, `autoload`) VALUES
+(1618, '_site_transient_update_plugins', 'O:8:\"stdClass\":4:{s:12:\"last_checked\";i:1490328738;s:8:\"response\";a:1:{s:23:\"wordfence/wordfence.php\";O:8:\"stdClass\":8:{s:2:\"id\";s:5:\"25305\";s:4:\"slug\";s:9:\"wordfence\";s:6:\"plugin\";s:23:\"wordfence/wordfence.php\";s:11:\"new_version\";s:5:\"6.3.5\";s:3:\"url\";s:40:\"https://wordpress.org/plugins/wordfence/\";s:7:\"package\";s:58:\"https://downloads.wordpress.org/plugin/wordfence.6.3.5.zip\";s:6:\"tested\";s:5:\"4.7.3\";s:13:\"compatibility\";O:8:\"stdClass\":1:{s:6:\"scalar\";O:8:\"stdClass\":1:{s:6:\"scalar\";b:0;}}}}s:12:\"translations\";a:0:{}s:9:\"no_update\";a:17:{s:29:\"a3-lazy-load/a3-lazy-load.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:5:\"56211\";s:4:\"slug\";s:12:\"a3-lazy-load\";s:6:\"plugin\";s:29:\"a3-lazy-load/a3-lazy-load.php\";s:11:\"new_version\";s:5:\"1.7.1\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/a3-lazy-load/\";s:7:\"package\";s:55:\"https://downloads.wordpress.org/plugin/a3-lazy-load.zip\";s:14:\"upgrade_notice\";s:84:\"Maintenance Update. 2 Tweaks for full compatibility with WordPress major version 4.5\";}s:19:\"akismet/akismet.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:2:\"15\";s:4:\"slug\";s:7:\"akismet\";s:6:\"plugin\";s:19:\"akismet/akismet.php\";s:11:\"new_version\";s:3:\"3.3\";s:3:\"url\";s:38:\"https://wordpress.org/plugins/akismet/\";s:7:\"package\";s:54:\"https://downloads.wordpress.org/plugin/akismet.3.3.zip\";}s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"9653\";s:4:\"slug\";s:23:\"baidu-sitemap-generator\";s:6:\"plugin\";s:41:\"baidu-sitemap-generator/baidu_sitemap.php\";s:11:\"new_version\";s:5:\"1.6.5\";s:3:\"url\";s:54:\"https://wordpress.org/plugins/baidu-sitemap-generator/\";s:7:\"package\";s:66:\"https://downloads.wordpress.org/plugin/baidu-sitemap-generator.zip\";}s:31:\"wpdiscuz/class.WpdiscuzCore.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"55672\";s:4:\"slug\";s:8:\"wpdiscuz\";s:6:\"plugin\";s:31:\"wpdiscuz/class.WpdiscuzCore.php\";s:11:\"new_version\";s:5:\"4.0.6\";s:3:\"url\";s:39:\"https://wordpress.org/plugins/wpdiscuz/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/wpdiscuz.4.0.6.zip\";}s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"24611\";s:4:\"slug\";s:25:\"crayon-syntax-highlighter\";s:6:\"plugin\";s:45:\"crayon-syntax-highlighter/crayon_wp.class.php\";s:11:\"new_version\";s:5:\"2.8.4\";s:3:\"url\";s:56:\"https://wordpress.org/plugins/crayon-syntax-highlighter/\";s:7:\"package\";s:68:\"https://downloads.wordpress.org/plugin/crayon-syntax-highlighter.zip\";}s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"21157\";s:4:\"slug\";s:21:\"db-cache-reloaded-fix\";s:6:\"plugin\";s:43:\"db-cache-reloaded-fix/db-cache-reloaded.php\";s:11:\"new_version\";s:3:\"2.3\";s:3:\"url\";s:52:\"https://wordpress.org/plugins/db-cache-reloaded-fix/\";s:7:\"package\";s:64:\"https://downloads.wordpress.org/plugin/db-cache-reloaded-fix.zip\";}s:29:\"easy-wp-smtp/easy-wp-smtp.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"40147\";s:4:\"slug\";s:12:\"easy-wp-smtp\";s:6:\"plugin\";s:29:\"easy-wp-smtp/easy-wp-smtp.php\";s:11:\"new_version\";s:5:\"1.2.4\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/easy-wp-smtp/\";s:7:\"package\";s:55:\"https://downloads.wordpress.org/plugin/easy-wp-smtp.zip\";}s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"32121\";s:4:\"slug\";s:20:\"ewww-image-optimizer\";s:6:\"plugin\";s:45:\"ewww-image-optimizer/ewww-image-optimizer.php\";s:11:\"new_version\";s:5:\"3.2.7\";s:3:\"url\";s:51:\"https://wordpress.org/plugins/ewww-image-optimizer/\";s:7:\"package\";s:69:\"https://downloads.wordpress.org/plugin/ewww-image-optimizer.3.2.7.zip\";}s:9:\"hello.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"3564\";s:4:\"slug\";s:11:\"hello-dolly\";s:6:\"plugin\";s:9:\"hello.php\";s:11:\"new_version\";s:3:\"1.6\";s:3:\"url\";s:42:\"https://wordpress.org/plugins/hello-dolly/\";s:7:\"package\";s:58:\"https://downloads.wordpress.org/plugin/hello-dolly.1.6.zip\";}s:22:\"hyper-cache/plugin.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"2993\";s:4:\"slug\";s:11:\"hyper-cache\";s:6:\"plugin\";s:22:\"hyper-cache/plugin.php\";s:11:\"new_version\";s:5:\"3.2.6\";s:3:\"url\";s:42:\"https://wordpress.org/plugins/hyper-cache/\";s:7:\"package\";s:54:\"https://downloads.wordpress.org/plugin/hyper-cache.zip\";}s:41:\"quotmarks-replacer/quotmarks-replacer.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:4:\"8602\";s:4:\"slug\";s:18:\"quotmarks-replacer\";s:6:\"plugin\";s:41:\"quotmarks-replacer/quotmarks-replacer.php\";s:11:\"new_version\";s:6:\"2.6.18\";s:3:\"url\";s:49:\"https://wordpress.org/plugins/quotmarks-replacer/\";s:7:\"package\";s:68:\"https://downloads.wordpress.org/plugin/quotmarks-replacer.2.6.18.zip\";s:14:\"upgrade_notice\";s:109:\"Compatibility check for 4.6 and 4.7, nothing new, just bump version to tell everyone this plugin still works.\";}s:33:\"seo-image/seo-friendly-images.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:4:\"2572\";s:4:\"slug\";s:9:\"seo-image\";s:6:\"plugin\";s:33:\"seo-image/seo-friendly-images.php\";s:11:\"new_version\";s:5:\"3.0.5\";s:3:\"url\";s:40:\"https://wordpress.org/plugins/seo-image/\";s:7:\"package\";s:52:\"https://downloads.wordpress.org/plugin/seo-image.zip\";}s:25:\"tablepress/tablepress.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:5:\"32125\";s:4:\"slug\";s:10:\"tablepress\";s:6:\"plugin\";s:25:\"tablepress/tablepress.php\";s:11:\"new_version\";s:3:\"1.8\";s:3:\"url\";s:41:\"https://wordpress.org/plugins/tablepress/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/tablepress.1.8.zip\";s:14:\"upgrade_notice\";s:92:\"This update is a stability, maintenance, and compatibility release. Updating is recommended.\";}s:29:\"wp-mail-smtp/wp_mail_smtp.php\";O:8:\"stdClass\":7:{s:2:\"id\";s:3:\"951\";s:4:\"slug\";s:12:\"wp-mail-smtp\";s:6:\"plugin\";s:29:\"wp-mail-smtp/wp_mail_smtp.php\";s:11:\"new_version\";s:6:\"0.10.1\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/wp-mail-smtp/\";s:7:\"package\";s:62:\"https://downloads.wordpress.org/plugin/wp-mail-smtp.0.10.1.zip\";s:14:\"upgrade_notice\";s:47:\"Addition of Pepipost and cleanup of admin page.\";}s:29:\"wp-postviews/wp-postviews.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:3:\"370\";s:4:\"slug\";s:12:\"wp-postviews\";s:6:\"plugin\";s:29:\"wp-postviews/wp-postviews.php\";s:11:\"new_version\";s:4:\"1.74\";s:3:\"url\";s:43:\"https://wordpress.org/plugins/wp-postviews/\";s:7:\"package\";s:60:\"https://downloads.wordpress.org/plugin/wp-postviews.1.74.zip\";}s:35:\"wp-fastest-cache/wpFastestCache.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"42995\";s:4:\"slug\";s:16:\"wp-fastest-cache\";s:6:\"plugin\";s:35:\"wp-fastest-cache/wpFastestCache.php\";s:11:\"new_version\";s:7:\"0.8.6.7\";s:3:\"url\";s:47:\"https://wordpress.org/plugins/wp-fastest-cache/\";s:7:\"package\";s:67:\"https://downloads.wordpress.org/plugin/wp-fastest-cache.0.8.6.7.zip\";}s:33:\"wp-user-avatar/wp-user-avatar.php\";O:8:\"stdClass\":6:{s:2:\"id\";s:5:\"37680\";s:4:\"slug\";s:14:\"wp-user-avatar\";s:6:\"plugin\";s:33:\"wp-user-avatar/wp-user-avatar.php\";s:11:\"new_version\";s:5:\"2.0.8\";s:3:\"url\";s:45:\"https://wordpress.org/plugins/wp-user-avatar/\";s:7:\"package\";s:57:\"https://downloads.wordpress.org/plugin/wp-user-avatar.zip\";}}}', 'no'),
+(1620, '_transient_timeout_settings_errors', '1490328783', 'no'),
+(1621, '_transient_settings_errors', 'a:1:{i:0;a:4:{s:7:\"setting\";s:7:\"general\";s:4:\"code\";s:16:\"settings_updated\";s:7:\"message\";s:18:\"设置已保存。\";s:4:\"type\";s:7:\"updated\";}}', 'no');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_postmeta`
+--
 
 DROP TABLE IF EXISTS `wp_postmeta`;
-CREATE TABLE IF NOT EXISTS `wp_postmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_postmeta` (
+  `meta_id` bigint(20) UNSIGNED NOT NULL,
   `post_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext ,
-  PRIMARY KEY (`meta_id`),
-  KEY `post_id` (`post_id`),
-  KEY `meta_key` (`meta_key`(191))
-) ENGINE=InnoDB AUTO_INCREMENT=791 DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_postmeta`
+--
 
 INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUES
 (1, 2, '_wp_page_template', 'default'),
@@ -1629,9 +1761,15 @@ INSERT INTO `wp_postmeta` (`meta_id`, `post_id`, `meta_key`, `meta_value`) VALUE
 (775, 296, 'views', '0'),
 (776, 296, '_my_custom_css', '');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_posts`
+--
+
 DROP TABLE IF EXISTS `wp_posts`;
-CREATE TABLE IF NOT EXISTS `wp_posts` (
-  `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_posts` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
   `post_author` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `post_date` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `post_date_gmt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -1653,13 +1791,12 @@ CREATE TABLE IF NOT EXISTS `wp_posts` (
   `menu_order` int(11) NOT NULL DEFAULT '0',
   `post_type` varchar(20)  NOT NULL DEFAULT 'post',
   `post_mime_type` varchar(100)  NOT NULL DEFAULT '',
-  `comment_count` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  KEY `post_name` (`post_name`(191)),
-  KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
-  KEY `post_parent` (`post_parent`),
-  KEY `post_author` (`post_author`)
-) ENGINE=InnoDB AUTO_INCREMENT=305 DEFAULT CHARSET=utf8 ;
+  `comment_count` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_posts`
+--
 
 INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post_content`, `post_title`, `post_excerpt`, `post_status`, `comment_status`, `ping_status`, `post_password`, `post_name`, `to_ping`, `pinged`, `post_modified`, `post_modified_gmt`, `post_content_filtered`, `post_parent`, `guid`, `menu_order`, `post_type`, `post_mime_type`, `comment_count`) VALUES
 (1, 1, '2017-03-13 21:57:02', '2017-03-13 13:57:02', '其实有个自己的网站的想法已经很久了，从上大学的时候，网站就开始逐渐兴起，也看到了好多有意思的网站，在惊羡他们的设计和创意的同时，也萌生了一个小冲动：我什么时候有个自己的网站？\r\n\r\n当然，此时的我还是一个完完全全的low货，三年衡中经历除了让我脸皮变厚、性格变坚强之外，似乎一无所长（当然，后来发现，其实衡中给予我的远远不止这些），而且经历了一次高考的失败之后，就对学习这种事情失去了兴趣，然后大学四年就在游戏和睡觉中度过了。\r\n\r\n而经历了一系列波折之后，大学毕业的时候还是选择了考研，当时做这个决定的时候不得不承认是有跟风的嫌疑的，但是更重要的是觉得不考研找不到工作啊！和室友们从9月份开学之后开始复习考研（当时是感觉有点晚了，但是我和我的舍友都是吊炸天的那种，所以也并没有心虚？），最后经历了3个多月“魔鬼”般的复习之后，考了374分，在当时不算高但也不算低了。\r\n\r\n考过研的人应该知道，出分了并不是大学生涯的结束，还得做毕设呢，然后歪打正着的就开始做“龙马部落”（其实就是一个wiki网站），这也是我和前端缘分的开始。\r\n\r\n本科毕设其实蛮水的，稍微应付一下就过了，但是由于我毕设经历的原因，我经导师推荐，被安排到一家创业公司工作（<a href=\"http://www.meezao.com/\" target=\"_blank\">蜜枣网</a>)。\r\n\r\n蜜枣网是2014年创办的（应该是），主要做零售业数据精确营销的，但是公司正式员工是没有前端leader的，所以在进公司实习之后基本上属于自学（在此感谢田博和楠哥两位前辈在我进公司之初的指导），在具备了一些前端基础知识之后，当初的那个小冲动又涌上心头。\r\n\r\n之所以决定要做个人博客，是因为看到了很多大牛的博客，<a href=\"http://www.liaoxuefeng.com/\" target=\"_blank\">廖雪峰</a>，<a href=\"http://www.zhangxinxu.com/\" target=\"_blank\">张鑫旭</a>，<a href=\"http://www.ruanyifeng.com/home.html\" target=\"_blank\">阮一峰</a>，<a href=\"http://www.yanshiba.com/\" target=\"_blank\">燕十八</a>，空闲之余会翻一翻他们的博客，看看当前一些比较新的技术和前端一些代码技巧（最近看张鑫旭看的比较多），感觉个人博客的话在知识积累的方面会更加出色（相比微信公众号？），同时还可以看到其他人的评论，对自己的成长也是个帮助。\r\n\r\n后来决定要做个人博客之后，开始尝试着自己写网站了，大概是这样的：\r\n<img class=\"alignnone wp-image-19\" src=\"http://merrier.com/wp-content/uploads/2017/03/QQ20170314-113922@2x-300x148.png\" alt=\"\" width=\"685\" height=\"338\" />\r\n\r\n其实一开始小算盘打得挺好的，打算搞一个纯前端的展示型博客，用github.io托管，然而当我去看教程的时候才发现便宜没好货（况且还是免费的），如果用github.io，必须根目录下有一个index.html文件，这对于我的目录结构可是一个巨大的挑战啊，所以最终自己写网站的这个念想就中止了。\r\n\r\n然后就打算用现成的模板了，当前最著名的莫属wordpress了，同时我也看到好多同学用wordpress搭了自己的博客，整体上感觉还不错，所以最后决定用wordpress搭了。', 'Merrier的淘宝小屋？', '', 'publish', 'open', 'open', '', 'first_page', '', '', '2017-03-18 10:28:05', '2017-03-18 02:28:05', '', 0, 'http://merrier.com/?p=1', 0, 'post', '', 1),
@@ -1950,27 +2087,37 @@ INSERT INTO `wp_posts` (`ID`, `post_author`, `post_date`, `post_date_gmt`, `post
 (303, 1, '2017-03-24 11:09:13', '2017-03-24 03:09:13', '<h1>2017-3-16</h1>\r\n<h2>461-<a href=\"https://leetcode.com/problems/hamming-distance/#/description\" target=\"_blank\">Hamming distance</a></h2>\r\n我的想法：一开始还想怎么取余，后来才发现js里也有取余运算符，就是\"^\"，然后我就想是不是可以将取余之后的数遍历相加，其实结果是正确的，但是有点太死板了\r\n\r\n理想答案：将0用\"\"replace，然后取新字符串的长度；同时学到的是，原来js的toString()方法中的参数是进制，之前一直都不知道我擦。。java解法：<a href=\"http://www.cnblogs.com/grandyang/p/6201215.html\" target=\"_blank\">戳我一下</a>\r\n<h1>2017-3-17</h1>\r\n<h2>476-<a href=\"https://leetcode.com/problems/number-complement/#/description\">Number Complement</a></h2>\r\n我的想法：这道题看上去很简单，主要思路依然是取余操作，以数字5为例，二进制表示为“101”，其结果应该为“101”^“111”，也就是数字和相同位数的“全1”二进制数的取余，然后问题就是如何确定这个位数，我的想法是用Math.ceil(Math.log(num)/Math.log(2))，这样就可以取到位数了，但是取到位数之后还要取2得对数，这怎么求？\r\n\r\n理想答案：其实取位数不需要那么复杂，直接num.toString(2).length就可以了，然后查了一下，js中Math有pow(x,y)方法，可以计算x为底，y为幂的指数，这样就可以了。\r\n<h2>339-Nested List Weight Sum</h2>\r\n加锁了，没钱\r\n<h2>500-<a href=\"https://leetcode.com/problems/keyboard-row/#/description\" target=\"_blank\">Keyboard Row</a></h2>\r\n我的想法：一开始打算设置三个数组，然后再写个方法，对数组中的每个元素遍历执行该方法，但是想想都麻烦啊靠\r\n\r\n理想答案：果不其然，正则表达式万能无敌出人意料和意料之中\r\n<h1>2017-3-21</h1>\r\n<h2>359-Logger Rate Limiter</h2>\r\n加锁了\r\n<h2>412-Fizz Buzz</h2>\r\n其实这道题在日常写代码中经常碰到，就是整除的问题，然而如何更快更简单的得出答案却很难，如果用js的话，我确实没想到什么好的办法\r\n\r\n我的想法：先声明一个空数组，然后对空数组进行循环赋值，对i的值进行判断，当能整除15时就是\"FizzBuzz\"，以此类推，但是需要注意的是数组下标从零开始，某些值可能会需要-1或者+1\r\n\r\n理想答案：没有找到关于js的理想答案，但是看排名第一的java答案，发现其实可以不用\"%\"也可以\r\n\r\n<img class=\"alignnone wp-image-283\" src=\"http://merrier.com/wp-content/uploads/2017/03/QQ20170321-111445@2x-294x300.png\" alt=\"\" width=\"407\" height=\"415\" />\r\n\r\n关于这一经典问题，还有一些扩展问题，可以<a href=\"http://www.cnblogs.com/inday/p/my-object-C-sharp-fizzbuzzwhizz.html\" target=\"_blank\">点击这里</a>查看）\r\n<h2>344-Reverse String</h2>\r\n字符串翻转问题\r\n\r\n我的想法：因为字符串在js中也有一些数组的属性，所以很容易进行遍历赋值\r\n\r\n理想答案：没找到关于js的\r\n<h2>346-Moving Average from Data Stream</h2>\r\n加锁了\r\n<h2>496-Next Greater Element I</h2>\r\n我的想法：就是按照题目所说的进行遍历判断，然而我看提示是stack，但是我仍然没有想到更好的用stack实现的方案，而看过网上的解法之后感觉js好像没有办法实现线性复杂度的解法\r\n\r\n理想答案：使用栈，从后往前遍历nums[i]，每当栈不为空的时候，一直出栈直到遇到比nums[i]大的数字停止。设立一个map&lt;int, int&gt; m，存储nums中每一个元素以及它对应的下一个最大元素构成的映射。如果停止后栈为空就将m[nums[i]]标记为-1，否则就写栈的栈顶元素；最后将findNums中出现的每一个元素对应的map的值放入result数组中返回\r\n<h2>463-Island Perimeter</h2>\r\n我的想法：直接遍历，然后考虑所有情况进行判断加几，应该可以求出来，只不过并没有发现其中的规律\r\n\r\n理想答案：其实规律很好发现，可以将“陆地”加入的过程分解开一步一步看，就会发现其中的规律，可以根据陆地的上面一格和左边一格有没有陆地来进行区分，如果有，就是在加了4条边的基础上再减去两条边，因为有两条边重合了，导致减少了两条边\r\n<h2>266-Palindrome Permutation</h2>\r\n为什么加锁的题这么多\r\n<h2>292-Nim Game</h2>\r\n我承认这是我第一次和理想答案一样，所以就不分开描述了，其实举几个例子就能发现其中的规律了，因为这道题的前提是你先走，而且你和对方都可以走1到3步，所以加入像他说的那样，最后剩4个了然后你先走的话，你肯定不会赢；而迭代之后就是，只要n不是4的倍数，你就可以在行动完之后让剩下的棋子是4的倍数然后让对方先走，这样你就可以保证最后剩下4个棋子的时候让对方先走。所以，只要一开始棋子的个数就是4的倍数的话，你就没有办法赢，因为对方也会采取最优策略。\r\n<h2>485-Max Consecutive Ones</h2>\r\n这个应该是简化版的最长子序列问题吧\r\n\r\n我的想法：有一个存储结果值的变量result（初始值为0），还有一个变量相当于计数器num（初始值为0），对数组进行遍历，遇到1就将计数器加1，遇到0的话先将结果值赋值为Math.max(result,num)；最后需要注意的是返回的仍然是Math.max(result,num)，因为需要考虑输入为单纯的1或0时；\r\n\r\n理想答案：果然java大神多啊，其实思路差不多，只不过可以将其简化一下而已\r\n<h2>293-Flip Game</h2>\r\n锁\r\n<h2>136-Single Number</h2>\r\n重点是线性复杂度，不能有额外内存占用\r\n\r\n我的想法：我的想法过于复杂（复杂度应该是指数级的），看提示是哈希表和二进制，但是二进制我想到的是异或，哈希表就不知道怎么用js实现了\r\n\r\n理想答案：知道答案的我泪流满面，因为<strong>异或运算是可交换的，而且A XOR A = 0</strong>，所以对于实例{2,1,4,5,2,4,1}就会有这样的结果：\r\n<pre><code>(2^1^4^5^2^4^1) =&gt; ((2^2)^(1^1)^(4^4)^(5)) =&gt; (0^0^0^5) =&gt; 5</code></pre>\r\n就把只出现了一次的元素给找出来了，算法复杂度为O(n)，且不需要额外空间\r\n<h2>448-Find All Numbers Disappeared in an Array</h2>\r\n依然是线性复杂度，不能有额外内存占用\r\n\r\n我的想法：用一个全部数字都有的数组进行匹配，如果在完整数组里面有这个数字，就把它移除，最后剩下的就是丢失的数字；然而复杂度太高，而且占用了额外内存\r\n\r\n理想答案：利用nums[nums[i] -1] = -nums[nums[i]-1]，这样可以将出现过的数字所在位置的数字变为负数，最后判断哪个位置是正的，就是从来没出现过的数字，对于实例[2,3,1,3]来说，出现过的数字为1，2，3；所以就需要将数组中索引值为0，1，2的数字变成负的，所以处理后的结果是[-2,-3,-1,3]，再对这个数组进行遍历判断，如果大于零就说明没出现过，所以第四个数字是3（正数），所以就是4没出现过\r\n<h2>520-Detect Capital</h2>\r\n我的想法：一开始觉得正则表达式肯定可以做，但是不会写；看完python的答案后，感觉js的indexOf和toUpperCase()、toLowerCase()应该可以做\r\n\r\n理想答案：java基本上使用正则表达式，python有现成的方法，而js按照我那个思路应该是最佳答案\r\n<h2>104-Maximum Depth of Binary Tree</h2>\r\n我的想法：首先，我都不知道js如何实现一个二叉树，然后感觉这应该是深度优先遍历能解决的问题，所以就去看了答案\r\n\r\n理想答案：用栈缓存最大高度，希望有人能够用js实现以下深度优先遍历\r\n<h2>243-Shortest Word Distance</h2>\r\n锁\r\n<h2>389-Find the Difference</h2>\r\n看到有些答案是用异或做的，而我的想法是遍历短字符串，然后将新字符串中的对应字母替换成空字符，最后返回替换完毕之后的字符串，这个想法是由几天前那个妙用replace()方法的js答案想到的\r\n<h2>371-Sum of Two Integers</h2>\r\n题目最容易读懂，但是基本上一点思路都没有，想到用计算机理解的那样去做，也就是位操作，但是具体怎么做就不知道了；应该是计算机基础没学好，否则应该很容易想出来吧（关于位操作的更多总结，可以查看我的另一篇文章：<a href=\"http://merrier.com/archives/287\">一些位操作的技巧</a>）\r\n<h1>2017-3-22</h1>\r\n<h2>226-Invert Binary Tree</h2>\r\n看见这种二叉树的算法题就头疼，做了几道关于二叉树的题后发现，掌握二叉树的遍历方法之后解类似的问题会变得很简单，而且要逐渐培养自己的递归思维和动态规划思维（从leetcode的tags可以看到，动态规划思维可以解答很多问题）\r\n<h2>258-Add Digits</h2>\r\n我的想法：没找到什么规律，然后看提示是Math，还是没有什么想法\r\n\r\n理想答案：主要思路是对9取余，因为用到了一个很重要的定理，<strong>九余数定理</strong>：一个数N 各位数字的和 对9 取余等于 这个数对 9取余\r\n<h2>492-Construct the Rectangle</h2>\r\n我的想法：一开始打算求根值，然后在根值附近找整数，但是好像对于质数来说根本行不通\r\n\r\n理想答案：我的想法太狭隘了，应该再多想一步，就是从根值开始向下找，直到找到能整除的那个数字\r\n<h2>283-Move Zeroes</h2>\r\n我的想法：遍历数组，如果碰到0，就把这个0从数组中删除，然后再push一个0到尾部，需要注意的是需要有一个变量用来存储有几个不是0的元素被遍历到了，因为这会影响到下一次循环的判断\r\n\r\n理想答案：看了java的1ms答案，他的思路是遍历数组，然后当遍历到一个不是0的值得时候就进行交换，而交换的位置需要进行存储，并且每次碰到不是0的值就将该值加1，因为交换会使0的位置加1\r\n<h2>530-Minimum Absolute Difference in BST</h2>\r\n求最小临近距离，看java的答案是先赋一个int型最大值，然后再用Math.min方法，然而js怎么做就不知道了；关于二叉树算法题的js实现有点麻烦，而且网上的代码有点繁杂并且思路很乱，有时间的话我会总结一篇关于二叉树的各种算法题的js实现和解释的。\r\n<h2>506-Relative Ranks</h2>\r\n我的想法：我最先想到的就是先把整个数组排序，然后进行替换取值，但是难点是如何记住一开始每个数值的位置，可能还需要开辟额外的空间来存储index\r\n\r\n理想答案：看java的答案，好像java有现成的数组排序方法， js可以用array的sort方法，然后用二维数组分别存储数值和index（python更简单，内置方法很适合算法实现），在写js答案的过程中发现js初始化一个二维数组真的好麻烦。\r\n<pre class=\"lang:js decode:true\" title=\"Leetcode-Relative Ranks\">function arraySort(nums){\r\n    var nums_new = [],\r\n        n = nums.length;\r\n    \r\n    for(var a=0;a&lt;n;a++){\r\n        nums_new[a]=[[],[]];\r\n    }\r\n    \r\n    for(var i=0;i&lt;n;i++){\r\n        nums_new[i][0] = nums[i];\r\n        nums_new[i][1] = i;\r\n        \r\n        for(var j=0;j&lt;n-1-i;j++){\r\n            if(nums_new[j][0]&gt;nums_new[j+1][0]){\r\n                var temp = nums_new[j+1];\r\n                nums_new[j+1] = nums_new[j];\r\n                nums_new[j] = temp;\r\n            }\r\n        }\r\n    }\r\n    return nums_new;\r\n}\r\n\r\nvar findRelativeRanks = function(nums) {\r\n    \r\n    var nums_new = arraySort(nums),\r\n        result = new Array(nums.length);\r\n    \r\n    for(var k=0,n=nums_new.length;k&lt;n;k++){\r\n        if(k===0){\r\n            result[nums_new[0][1]] = \"Gold Medal\";\r\n        }else if(k==1){\r\n            result[nums_new[1][1]] = \"Silver Medal\";\r\n        }else if(k==2){\r\n            result[nums_new[2][1]] = \"Bronze Medal\";\r\n        }else{\r\n            result[nums_new[k][1]] = k+1 + \"\";\r\n        }\r\n    }\r\n    return result;\r\n};</pre>\r\n<h2>167-Two Sum II - Input array is sorted</h2>\r\n我的想法：从最右边找到比target得数，然后从这个数的index值开始向左进行数组遍历，看两个数的和与target相比如何，如果相加大于target，就将index值--，再进行遍历\r\n\r\n理想答案：利用二分查找，left=0，right=numbers.length-1；然后分别进行向左和向右的遍历\r\n<h2>455-Assign Cookies</h2>\r\n我的想法：一开始打算遍历小孩数组，然后再判断cookie的size能不能满足小孩的需要；后来感觉还是应该以cookie为第一层遍历，然后满足了某个小孩之后再将小孩的指针+1（这都是在两个数组排好序的前提下，js需要用sort方法）\r\n\r\n理想答案：和我的想法差不多（不知道为什么总是提示Time Limit Exceeded，js代码如下）\r\n<pre class=\"lang:js decode:true\">var findContentChildren = function(g, s) {\r\n    var i=0,m=g.length,n=s.length;\r\n    \r\n    for(var j=0;j&lt;n,i&lt;m;j++){\r\n        if(g[i]&lt;=s[j]){\r\n            i++;\r\n        }\r\n    }\r\n    return i;\r\n};</pre>\r\n<h2>453-Minimum Moves to Equal Array Elements</h2>\r\n我的想法：我承认一开始被这道题骗了，我还在傻呵呵的列式子，后来才感觉不对劲，因为其实可以将这个过程逆过来，因为每次都将n-1项加1，其实就相当于从最终结果开始每次都将1项-1，直到所有项都等于数组中的最小值\r\n\r\n理想答案：好像和我的思路一样，只不过js中求数组中的最小值需要用到一些技巧（Math.min.apply(null,arr)）\r\n<h2>383-Ransom Note</h2>\r\n我的想法：我又想到了replace方法，首先对ransomNote进行遍历，如果ransomNote中的字母在magazine中不存在的话，就直接返回false；如果找到了，就将找到的那个字母替换为\"\"，并赋给magazine（因为replace不会改变原数组），这样的话，如果遍历完毕之后magazine的长度大于等于0（等于0也可以满足，此时ransomNote和magazine长度相同并且所含字母的种类和个数相同），此时就应该返回true\r\n\r\n理想答案：依然没有js实现方案，看其他语言好像和我的思路大同小异\r\n<h2>404-Sum of Left Leaves</h2>\r\n这不知道是我第几道不会做的二叉树题了，思路是有，就是递归嘛，但是就是不会写。看完java的答案后写了一下js的版本（主要是要找到叶子节点）：\r\n<pre class=\"lang:js decode:true \">var sumOfLeftLeaves = function(root) {\r\n    if(root === null) {return 0;}\r\n    var ans = 0;\r\n    if(root.left !== null) {\r\n        if(root.left.left === null &amp;&amp; root.left.right === null) {\r\n            ans += root.left.val;\r\n        }else {\r\n            ans += sumOfLeftLeaves(root.left);\r\n        }\r\n    }\r\n    ans += sumOfLeftLeaves(root.right);\r\n    return ans;\r\n};</pre>\r\n<h2>349-Intersection of Two Arrays</h2>\r\n我的想法：既然找相同的数字，我觉得应该先把两个数组排序吧，然后再双层遍历？感觉用二分查找应该能简化，但是两个数组如何进行二分查找呢？\r\n\r\n理想答案：看别人的答案的话我只看懂了用两个指针的方法，复杂度为O(nlogn)，用哈希表那个方法没看懂什么意思，所以就用js实现一下两个指针的方法吧（果然需要先将两个数组排序，而且重点是删除重复元素）；而且这个题还有个bug就是题目明明说result可以以任何顺序，但是不是升序的答案根本提交不了……\r\n<pre class=\"lang:js decode:true \">var intersection = function(nums1, nums2) {\r\n        var nums1_n = nums1.sort(),\r\n            nums2_n = nums2.sort(),\r\n            i = 0,\r\n            j = 0,\r\n            result = [];\r\n        while (i &lt; nums1.length &amp;&amp; j &lt; nums2.length) {\r\n            if (nums1_n[i] &lt; nums2_n[j]) {\r\n                i++;\r\n            } else if (nums1_n[i] &gt; nums2_n[j]) {\r\n                j++;\r\n            } else {\r\n                if(result.indexOf(nums1_n[i]) == -1){\r\n                    result.push(nums1_n[i]);\r\n                }\r\n                i++;\r\n                j++;\r\n            }\r\n        }\r\n        return result.sort();\r\n};</pre>\r\n<h2>252-Meeting Rooms</h2>\r\n锁\r\n<h2>122-Best Time to Buy and Sell Stock II</h2>\r\n知道了原理之后就很好做了，假如价格数组为[3,1,4,6,2,5,8]，从中可以发现，如果今天的价格比明天的价格便宜，我就今天买然后明天卖掉就可以了，只需要这一个判断就可以，因为不需要在手中呆多过1天1，拿数组中的[2,5,8]举例，你就会发现这个规律\r\n<h2>387-First Unique Character in a String</h2>\r\n我的想法：遍历两次，实在想不出好方法了\r\n\r\n理想答案：看有一个人用java可以实现18ms的速度，用两个指针-&gt;slow来只想当前字符，fast来浏览整个字符串，但是最后还是没看懂；后来看到了用ASCII码记录下出现的字母，然后在进行比较的方法，用js实现如下：\r\n<pre class=\"lang:js decode:true \">/**\r\n * @param {string} s\r\n * @return {number}\r\n */\r\nvar firstUniqChar = function(s) {\r\n    var freq = new Array(26),\r\n        a = \'a\'.charCodeAt();\r\n    for(var i = 0; i &lt; s.length; i ++) {\r\n        if (freq [s[i].charCodeAt() - a] === undefined) {\r\n            freq [s[i].charCodeAt() - a] = 1;\r\n        } else {\r\n            freq [s[i].charCodeAt() - a]++;\r\n        }\r\n    }\r\n    for(var k = 0; k &lt; s.length; k ++){\r\n        if(freq [s[k].charCodeAt() - a] == 1){\r\n            return k;\r\n        }\r\n    }\r\n    return -1;\r\n};</pre>\r\n<h2>171-Excel Sheet Column Number</h2>\r\n我的想法：这道题其实蛮简单的，学过多进制的人很容易就想到了，很类似于多进制转换（比如十六进制转换成十进制），同时结合ASCII码就可以很快得出答案：\r\n<pre class=\"lang:js decode:true \">/**\r\n * @param {string} s\r\n * @return {number}\r\n */\r\nvar titleToNumber = function(s) {\r\n    var result = 0;\r\n    for(var i=0,n=s.length;i&lt;n;i++){\r\n        result += Math.pow(26,n-i-1)*(s[i].charCodeAt() - 64);\r\n    }\r\n    return result;\r\n};</pre>\r\n<h2>256-Paint House</h2>\r\n锁\r\n<h2>504-Base 7</h2>\r\n我的想法：这种多进制的转换道理我都懂，可是如何用式子表达出来就不会了，包括循环的结束条件以及正负号的处理\r\n\r\n理想答案：看完答案的我哭晕在厕所，因为其实js中的toString()方法已经解决了所有关于进制转换的问题；当然，也可以用递归去解，用js实现如下（需要注意在某些地方需要将数字转换成字符串，否则就会是两个数字相加，结果肯定不对，在js里数字转换成字符串最简单的方法就是将数字和\"\"相加）：\r\n<pre class=\"lang:js decode:true\">/**\r\n * @param {number} num\r\n * @return {string}\r\n */\r\nvar convertToBase7 = function(num) {\r\n    return num&gt;=0 ? \"\" + (num&gt;=7 ? convertToBase7(Math.floor(num/7)) + \"\" + num%7 : num) : \'-\'+convertToBase7(-num);\r\n};</pre>\r\n<h2>237-Delete Node in a Linked List</h2>\r\n我的想法：这应该是是我碰到的第一道链表算法题，但是我竟然连题都没弄懂，因为参数只给了一个node，这个node到底是链表本体呢还是要删的那个元素的value呢，反正也是第一道题，我就直接看答案了\r\n\r\n理想答案：因为题目已假设删除的不是尾部的元素，所以只需要将值和next与下一个节点相等就可以了（由于这道题过于简单，就不贴代码了，简单到有人说这道题实在太蠢了）\r\n<h2>100-Same Tree</h2>\r\n我的想法：题目很简短，应该可以递归做，就是假如根节点值相同，就看root.left和root.right是否都相同\r\n\r\n理想答案：需要先判断两个数都为null时应该返回true\r\n<h2>169-Maiority Element</h2>\r\n我的想法：这道题有种似曾相识的感觉，好像曾经做过一道类似的题，应该还是用二维数组来做，一维用来存储数字，另一维用来计数，然后进行按计数值得排序就可以得到\"多单元\"了（看答案还有另一种思路，就是因为该元素出现次数不少于n/2次，所以如果将数组排序，第n/2个元素肯定是该元素了）\r\n\r\n理想答案：有一个人的想法很巧妙，因为题目中规定\"多单元\"是出现不少于n/2次的元素，所以可以先将指针设为num[0]，同时有一个计数变量，然后对数组中剩下的n-1个元素进行遍历，如果该元素和\"多单元\"相同，就将计数器++，否则--；当计数器为0时，证明之前的那些元素都不是\"多单元\"，就将指针指向当前元素，同时将count++，相当于开始新一轮检测=&gt;穆尔投票算法（有一个网友总结了6种c++方法，并进行了解释，有兴趣的同学可以点击题目去瞅瞅）\r\n<h2>242-Valid Anagram</h2>\r\n我的想法：一开始打算将字符串进行排序之后比较，然而不知道怎么更快速的对字符串进行排序\r\n\r\n理想答案：其中一个思路是将字母转换成数字（ASCII码），然后用一个新的数组进行存储s数组的数字，然后在相同的位置减去t数组的数字；当这些都完成后，再对新数组进行遍历，当遇到一个不是0的数字时就说明有一处不同，就直接返回false；最后假如没有不是0的数字就返回true\r\n<h2>409-Longest Palindrome</h2>\r\n我的想法：应该可以先统计某一字母个数为偶数和某一字母个数为奇数的数量，然后偶数字母个数加上是否有奇数字母个数（没有就加0，有就加1）\r\n\r\n理想答案：由于没有js的标准答案，所以只能看其他语言的大概思路，基本上思路和我的想法相同，只不过是简化代码的问题。\r\n<h2>541-Reverse String II</h2>\r\n我的想法：既然交换元素是和k有关，而且移动的步数也和k有关，所以可以进行循环交换，每次移动2k步，然后判断条件就是不能移动出数组\r\n\r\n理想答案：有的思路是再写一个交换元素的函数，其实交换可以在遍历过程中进行，主要是循环结束的判断可能需要画个草图进行确定。\r\n\r\n&nbsp;', '记录下我的Leetcode坑爹之路', '', 'inherit', 'closed', 'closed', '', '190-revision-v1', '', '', '2017-03-24 11:09:13', '2017-03-24 03:09:13', '', 190, 'http://merrier.com/archives/303', 0, 'revision', '', 0),
 (304, 1, '2017-03-24 11:12:54', '2017-03-24 03:12:54', '<h1>写在前面</h1>\r\n因为刷leetcode的时候，发现会经常用到数组，因为JS中没有明确的栈和队列，所以需要用数组进行模拟，在刷算法题的过程中碰到了好多关于数组的计算方法，所以就打算对算法中经常用的数组方法进行总结，可能会对刚开始用JS刷Leetcode的码农有好处，如果你有任何补充，请留言评论或直接给我发邮件。\r\n<h2>1.排序</h2>\r\n我做了两年前端，竟然连js的数组排序方法都不知道，真是惭愧，js数组对象排序有内置方法sort():\r\n<pre class=\"lang:js decode:true\" title=\"排序\">1、简单数组简单排序\r\n    var arrSimple=new Array(1,8,7,6);\r\n    arrSimple.sort();  //[1,6,7,8]\r\n2、简单数组自定义排序\r\n    var arrSimple2=new Array(1,8,7,6);\r\n    arrSimple2.sort(function(a,b){return b-a});  //[8,7,6,1]\r\n    //解释：a,b表示数组中的任意两个元素，若return &gt; 0 b前a后；reutrn &lt; 0 a前b后；a=b时存在浏览器兼容\r\n    //简化一下：a-b输出从小到大排序，b-a输出从大到小排序。</pre>\r\n<h2>2.删除重复的元素只保留一个（两种实现思路）</h2>\r\n<pre class=\"lang:js decode:true \" title=\"删除重复元素只保留一个\">//方法一：遍历要删除的数组arr, 把元素分别放入另一个数组tmp中，在判断该元素在arr中不存在才允许放入tmp中用到两个函数：for ...in 和 indexOf()\r\nvar test = [2,4,4,5,\"a\",\"a\"];\r\nfunction unique1(arr){\r\n    // 遍历arr，把元素分别放入tmp数组(不存在才放)\r\n    var tmp = new Array();\r\n    for(var i in arr){\r\n    //该元素在tmp内部不存在才允许追加\r\n        if(tmp.indexOf(arr[i])==-1){\r\n            tmp.push(arr[i]);\r\n        }\r\n    }\r\n    return tmp;\r\n}\r\nunique1(test);  //[2,4,5,\"a\"]\r\n\r\n//方法二：把目标数组arr的元素值和键的位置调换 自动就把重复的元素给删除掉了，调换后的样子：array(\'qiang\'=&gt;1,\'ming\'=&gt;1,\'tao\'=&gt;1)\r\nfunction unique2(arr){\r\n    var tmp = new Array();\r\n    for(var m in arr){\r\n        tmp[arr[m]]=1;\r\n    }\r\n    //再把键和值的位置再次调换\r\n    var tmparr = new Array();\r\n    for(var n in tmp){\r\n        tmparr.push(n);\r\n    }\r\n    return tmparr;\r\n}\r\nunique2(test);  //[2,4,5,\"a\"]\r\n\r\n//方法三：返回新数组，保证类型不变\r\nfunction unique3(a){\r\n    var hash=[],arr=[];\r\n    for (var i = 0; i &lt; a.length; i++) {\r\n        hash[a[i]]!=null;\r\n        if(!hash[a[i]]){\r\n            arr.push(a[i]);\r\n            hash[a[i]]=true;\r\n        }\r\n    }\r\n    console.log(arr);\r\n}\r\nunique3(test);//[2, 4, 5, \"a\"]</pre>\r\n<h2>3.获取数组中的最大值和最小值</h2>\r\n可以用传统的遍历，也可以用math\r\n<pre class=\"lang:js decode:true  \" title=\"获取数组中的最大值和最小值\">var arr = [54,65,43,21,12,34,45,58,97,24];\r\n\r\n//方法一、字符串拼接法\r\n//利用toString和join把数组转换为字符串，再和Math的max和min方法分别进行拼接，最后执行eval方法\r\nvar maxN = eval(\"Math.max(\" + arr.toString() + \")\");\r\nvar minN = eval(\"Math.min(\" + arr.toString() + \")\");\r\n//或者\r\nvar maxN = eval(\"Math.max(\" + arr.join() + \")\");\r\nvar minN = eval(\"Math.min(\" + arr.join() + \")\");\r\n\r\n//方法二、排序法\r\n//先把数组从小到大排序，数组第一个即为最小值，最后一个即为最大值\r\narr.sort(function(a,b){return a-b;});\r\nvar minN = arr[0];\r\nvar maxN = arr[arr.length-1];\r\n\r\n//方法三、假设法\r\n//假设数组第一个为最大（或最小值），和后边进行比较，若后边的值比最大值大（或比最小值小），则替换最大值（或最小值）\r\nvar maxN = arr[0];\r\nvar minN = arr[0];\r\nfor(var i=1;i&lt;arr.length;i++){\r\n    var cur = arr[i];\r\n    cur&gt;maxN ? maxN=cur : null;\r\n    cur&lt;minN ? minN=cur : null;\r\n}\r\n\r\n//方法四、Math的max和min方法\r\n//使用apply方法使数组可以作为传递的参数\r\nvar maxN = Math.max.apply(null,arr);\r\nvar minN = Math.min.apply(null,arr);\r\n//多维数组可以这样做：\r\nvar a=[1,2,3,[5,6],[1,4,8]];\r\nvar ta=a.join(\",\").split(\",\");//转化为一维数组\r\nvar maxN = Math.max.apply(null,ta);//最大值\r\nvar minN = Math.min.apply(null,ta);//最小值\r\n\r\n//扩展：增加原型方法，同时为了避免其他库也实现了同名的原型方法，可以在生成函数之前进行重名判断\r\nif (typeof Array.prototype[\'max\'] == \'undefined\') {\r\n    Array.prototype.max = function() {\r\n        return Math.max.apply({},this);\r\n    }\r\n}\r\nif (typeof Array.prototype[\'min\'] == \'undefined\') {\r\n    Array.prototype.min = function() {\r\n        return Math.min.apply({},this);\r\n    }\r\n}</pre>\r\n&nbsp;', 'JS中数组方法总结', '', 'inherit', 'closed', 'closed', '', '296-revision-v1', '', '', '2017-03-24 11:12:54', '2017-03-24 03:12:54', '', 296, 'http://merrier.com/archives/304', 0, 'revision', '', 0);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_termmeta`
+--
+
 DROP TABLE IF EXISTS `wp_termmeta`;
-CREATE TABLE IF NOT EXISTS `wp_termmeta` (
-  `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_termmeta` (
+  `meta_id` bigint(20) UNSIGNED NOT NULL,
   `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext ,
-  PRIMARY KEY (`meta_id`),
-  KEY `term_id` (`term_id`),
-  KEY `meta_key` (`meta_key`(191))
+  `meta_value` longtext
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_terms`
+--
+
 DROP TABLE IF EXISTS `wp_terms`;
-CREATE TABLE IF NOT EXISTS `wp_terms` (
-  `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_terms` (
+  `term_id` bigint(20) UNSIGNED NOT NULL,
   `name` varchar(200)  NOT NULL DEFAULT '',
   `slug` varchar(200)  NOT NULL DEFAULT '',
-  `term_group` bigint(10) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`term_id`),
-  KEY `slug` (`slug`(191)),
-  KEY `name` (`name`(191))
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 ;
+  `term_group` bigint(10) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_terms`
+--
 
 INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (1, '其他', 'uncategorized', 0),
@@ -2026,14 +2173,22 @@ INSERT INTO `wp_terms` (`term_id`, `name`, `slug`, `term_group`) VALUES
 (54, '计算机基础', '%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%9f%ba%e7%a1%80', 0),
 (55, '数组', '%e6%95%b0%e7%bb%84', 0);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_term_relationships`
+--
+
 DROP TABLE IF EXISTS `wp_term_relationships`;
-CREATE TABLE IF NOT EXISTS `wp_term_relationships` (
+CREATE TABLE `wp_term_relationships` (
   `object_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `term_order` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`object_id`,`term_taxonomy_id`),
-  KEY `term_taxonomy_id` (`term_taxonomy_id`)
+  `term_order` int(11) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_term_relationships`
+--
 
 INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_order`) VALUES
 (1, 9, 0),
@@ -2166,18 +2321,25 @@ INSERT INTO `wp_term_relationships` (`object_id`, `term_taxonomy_id`, `term_orde
 (296, 51, 0),
 (296, 55, 0);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_term_taxonomy`
+--
+
 DROP TABLE IF EXISTS `wp_term_taxonomy`;
-CREATE TABLE IF NOT EXISTS `wp_term_taxonomy` (
-  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_term_taxonomy` (
+  `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL,
   `term_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `taxonomy` varchar(32)  NOT NULL DEFAULT '',
   `description` longtext  NOT NULL,
   `parent` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
-  `count` bigint(20) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`term_taxonomy_id`),
-  UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
-  KEY `taxonomy` (`taxonomy`)
-) ENGINE=InnoDB AUTO_INCREMENT=56 DEFAULT CHARSET=utf8 ;
+  `count` bigint(20) NOT NULL DEFAULT '0'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_term_taxonomy`
+--
 
 INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `description`, `parent`, `count`) VALUES
 (1, 1, 'category', '', 0, 0),
@@ -2233,16 +2395,23 @@ INSERT INTO `wp_term_taxonomy` (`term_taxonomy_id`, `term_id`, `taxonomy`, `desc
 (54, 54, 'post_tag', '', 0, 1),
 (55, 55, 'post_tag', '', 0, 2);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_usermeta`
+--
+
 DROP TABLE IF EXISTS `wp_usermeta`;
-CREATE TABLE IF NOT EXISTS `wp_usermeta` (
-  `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_usermeta` (
+  `umeta_id` bigint(20) UNSIGNED NOT NULL,
   `user_id` bigint(20) UNSIGNED NOT NULL DEFAULT '0',
   `meta_key` varchar(255)  DEFAULT NULL,
-  `meta_value` longtext ,
-  PRIMARY KEY (`umeta_id`),
-  KEY `user_id` (`user_id`),
-  KEY `meta_key` (`meta_key`(191))
-) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8 ;
+  `meta_value` longtext
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_usermeta`
+--
 
 INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALUES
 (1, 1, 'nickname', 'merrier'),
@@ -2276,7 +2445,7 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 (31, 1, 'closedpostboxes_tablepress_edit', 'a:0:{}'),
 (32, 1, 'metaboxhidden_tablepress_edit', 'a:0:{}'),
 (33, 1, 'jetpack_tracks_anon_id', 'AZEKWx42il6yVCvVcKlGS4Cv'),
-(34, 1, 'session_tokens', 'a:18:{s:64:\"b1433b2c00964d7e8ac50776e88c9f038a720f706aa9bfe2e8b02155a21a4b71\";a:4:{s:10:\"expiration\";i:1490946022;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489736422;}s:64:\"12998d5a32cb73c9e4a9794b9a9d69275ef414be76e3b108eb01685deeb97280\";a:4:{s:10:\"expiration\";i:1490970321;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489760721;}s:64:\"1137ef6d0377d52abbec96c2fe101263239da1832d1dcc6a8fe8c7a736da9120\";a:4:{s:10:\"expiration\";i:1490970368;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489760768;}s:64:\"2ce30645ef68c316321d1bb4c38ea9d581a1bd415dd8550cf1c17ea3e76afa0f\";a:4:{s:10:\"expiration\";i:1490970816;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489761216;}s:64:\"878dc806be86c2e4bfed7e886e382ed8eb318bef99dcf10a4fc3805317652602\";a:4:{s:10:\"expiration\";i:1491100822;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891222;}s:64:\"a3411cbd006f70604df0f357877d8a2fa507e7ffa003127f8a95366ec14bfb6a\";a:4:{s:10:\"expiration\";i:1491101268;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891668;}s:64:\"4f947209fad146dd59745802c365e6e3a0d499d5cb210581ce44760af9729300\";a:4:{s:10:\"expiration\";i:1491101384;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891784;}s:64:\"9c97405d5b85d0bb280a5729ebefc0dd7393034aea78188392adaba59aa62cdc\";a:4:{s:10:\"expiration\";i:1491104825;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489895225;}s:64:\"ec19d6979e385a91432b6feae99248b4fbcfee990947e83558be6d71d8852665\";a:4:{s:10:\"expiration\";i:1491188047;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978447;}s:64:\"735c08b1ea2cf22a7b3bf1c216c37329ca54e7b8a41b27ea9a247feecefded9b\";a:4:{s:10:\"expiration\";i:1491188331;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978731;}s:64:\"f87162f1bcaafde43a175d87fb8541eca50cc525eee5beae5d7eda8023d41f6a\";a:4:{s:10:\"expiration\";i:1491188387;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978787;}s:64:\"91ee4601dd67755260e5ccfa20ed6971c14a55488099010b71279d6d13d2ce8a\";a:4:{s:10:\"expiration\";i:1491309447;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490099847;}s:64:\"d43a68457e19787b0af6a56e628532ddf51214cc143d42e5ee90cc42298af302\";a:4:{s:10:\"expiration\";i:1490447479;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490274679;}s:64:\"6fb39c67f666400441b9fc9a516b479b21c2d1cdd0fdf97b6417f027eb4aabc5\";a:4:{s:10:\"expiration\";i:1491484281;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490274681;}s:64:\"3a442b961c331ae762d498cd4be8e75b907e3e238fbcee6bd593b4ac8114578d\";a:4:{s:10:\"expiration\";i:1491535291;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490325691;}s:64:\"a1db2318c5653d18e6cb245522ffad89d8e589d7f42eee2fae2dff8bf93c4e04\";a:4:{s:10:\"expiration\";i:1491535803;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326203;}s:64:\"ee79798fa7dd9043d79c82edb33c6f53b5a1b5fe8eb738b331237b51e0ce3b5d\";a:4:{s:10:\"expiration\";i:1491535857;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326257;}s:64:\"ade3f32e645c8faafb67b9de2728355124aaa8af1018ea41d02c453167fd0c57\";a:4:{s:10:\"expiration\";i:1491535986;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326386;}}'),
+(34, 1, 'session_tokens', 'a:19:{s:64:\"b1433b2c00964d7e8ac50776e88c9f038a720f706aa9bfe2e8b02155a21a4b71\";a:4:{s:10:\"expiration\";i:1490946022;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489736422;}s:64:\"12998d5a32cb73c9e4a9794b9a9d69275ef414be76e3b108eb01685deeb97280\";a:4:{s:10:\"expiration\";i:1490970321;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489760721;}s:64:\"1137ef6d0377d52abbec96c2fe101263239da1832d1dcc6a8fe8c7a736da9120\";a:4:{s:10:\"expiration\";i:1490970368;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489760768;}s:64:\"2ce30645ef68c316321d1bb4c38ea9d581a1bd415dd8550cf1c17ea3e76afa0f\";a:4:{s:10:\"expiration\";i:1490970816;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489761216;}s:64:\"878dc806be86c2e4bfed7e886e382ed8eb318bef99dcf10a4fc3805317652602\";a:4:{s:10:\"expiration\";i:1491100822;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891222;}s:64:\"a3411cbd006f70604df0f357877d8a2fa507e7ffa003127f8a95366ec14bfb6a\";a:4:{s:10:\"expiration\";i:1491101268;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891668;}s:64:\"4f947209fad146dd59745802c365e6e3a0d499d5cb210581ce44760af9729300\";a:4:{s:10:\"expiration\";i:1491101384;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489891784;}s:64:\"9c97405d5b85d0bb280a5729ebefc0dd7393034aea78188392adaba59aa62cdc\";a:4:{s:10:\"expiration\";i:1491104825;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489895225;}s:64:\"ec19d6979e385a91432b6feae99248b4fbcfee990947e83558be6d71d8852665\";a:4:{s:10:\"expiration\";i:1491188047;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978447;}s:64:\"735c08b1ea2cf22a7b3bf1c216c37329ca54e7b8a41b27ea9a247feecefded9b\";a:4:{s:10:\"expiration\";i:1491188331;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978731;}s:64:\"f87162f1bcaafde43a175d87fb8541eca50cc525eee5beae5d7eda8023d41f6a\";a:4:{s:10:\"expiration\";i:1491188387;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1489978787;}s:64:\"91ee4601dd67755260e5ccfa20ed6971c14a55488099010b71279d6d13d2ce8a\";a:4:{s:10:\"expiration\";i:1491309447;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490099847;}s:64:\"d43a68457e19787b0af6a56e628532ddf51214cc143d42e5ee90cc42298af302\";a:4:{s:10:\"expiration\";i:1490447479;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490274679;}s:64:\"6fb39c67f666400441b9fc9a516b479b21c2d1cdd0fdf97b6417f027eb4aabc5\";a:4:{s:10:\"expiration\";i:1491484281;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490274681;}s:64:\"3a442b961c331ae762d498cd4be8e75b907e3e238fbcee6bd593b4ac8114578d\";a:4:{s:10:\"expiration\";i:1491535291;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490325691;}s:64:\"a1db2318c5653d18e6cb245522ffad89d8e589d7f42eee2fae2dff8bf93c4e04\";a:4:{s:10:\"expiration\";i:1491535803;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326203;}s:64:\"ee79798fa7dd9043d79c82edb33c6f53b5a1b5fe8eb738b331237b51e0ce3b5d\";a:4:{s:10:\"expiration\";i:1491535857;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326257;}s:64:\"ade3f32e645c8faafb67b9de2728355124aaa8af1018ea41d02c453167fd0c57\";a:4:{s:10:\"expiration\";i:1491535986;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490326386;}s:64:\"e1dfa3a3892d8158ae338ed15a5ccd105d626c2db3b26cd4debcf40675a9381e\";a:4:{s:10:\"expiration\";i:1491538334;s:2:\"ip\";s:9:\"127.0.0.1\";s:2:\"ua\";s:120:\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36\";s:5:\"login\";i:1490328734;}}'),
 (35, 1, 'a3_lazy_load-plugin_framework_global_box-opened', '1'),
 (36, 1, 'a3_lazy_load-a3_lazy_load_global_settings', 'a:7:{i:0;s:20:\"lazy_load_enable_box\";i:1;s:23:\"a3l_apply_to_images_box\";i:2;s:23:\"a3l_apply_to_videos_box\";i:3;s:32:\"a3l_script_load_optimization_box\";i:4;s:33:\"a3l_wordpress_mobile_template_box\";i:5;s:22:\"a3l_settings_style_box\";i:6;s:27:\"a3l_image_load_theshold_box\";}'),
 (37, 2, 'nickname', 'zhouyue'),
@@ -2304,9 +2473,15 @@ INSERT INTO `wp_usermeta` (`umeta_id`, `user_id`, `meta_key`, `meta_value`) VALU
 (59, 3, 'wp_capabilities', 'a:1:{s:10:\"subscriber\";b:1;}'),
 (60, 3, 'wp_user_level', '0');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_users`
+--
+
 DROP TABLE IF EXISTS `wp_users`;
-CREATE TABLE IF NOT EXISTS `wp_users` (
-  `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_users` (
+  `ID` bigint(20) UNSIGNED NOT NULL,
   `user_login` varchar(60)  NOT NULL DEFAULT '',
   `user_pass` varchar(255)  NOT NULL DEFAULT '',
   `user_nicename` varchar(50)  NOT NULL DEFAULT '',
@@ -2315,112 +2490,150 @@ CREATE TABLE IF NOT EXISTS `wp_users` (
   `user_registered` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `user_activation_key` varchar(255)  NOT NULL DEFAULT '',
   `user_status` int(11) NOT NULL DEFAULT '0',
-  `display_name` varchar(250)  NOT NULL DEFAULT '',
-  PRIMARY KEY (`ID`),
-  KEY `user_login_key` (`user_login`),
-  KEY `user_nicename` (`user_nicename`),
-  KEY `user_email` (`user_email`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 ;
+  `display_name` varchar(250)  NOT NULL DEFAULT ''
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ;
+
+--
+-- 转存表中的数据 `wp_users`
+--
 
 INSERT INTO `wp_users` (`ID`, `user_login`, `user_pass`, `user_nicename`, `user_email`, `user_url`, `user_registered`, `user_activation_key`, `user_status`, `display_name`) VALUES
 (1, 'merrier', '$P$B7Z2.rScyvLtp86LEfr8VE4RT7Ad6R.', 'merrier', '953075999@qq.com', '', '2017-03-13 13:57:02', '1489896755:$P$B/Kg5XGuA3UW8.gxedBboVQvJBjKn5/', 0, 'merrier'),
 (2, 'zhouyue', '$P$BOMaPOrcMn60rxvMFrRA36UxeFGA0k/', 'zhouyue', 'zyue0119@163.com', '', '2017-03-19 02:31:25', '', 0, 'zhouyue'),
 (3, 'zhouyue', '$P$BNBMNiEoHns5XKPVS13oQiX5..wttM.', 'zhouyue', 'zyue0119@163.com', '', '2017-03-19 02:31:31', '', 0, 'zhouyue');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wc_comments_subscription`
+--
+
 DROP TABLE IF EXISTS `wp_wc_comments_subscription`;
-CREATE TABLE IF NOT EXISTS `wp_wc_comments_subscription` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wc_comments_subscription` (
+  `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
   `subscribtion_id` int(11) NOT NULL,
   `post_id` int(11) NOT NULL,
   `subscribtion_type` varchar(255) NOT NULL,
   `activation_key` varchar(255) NOT NULL,
   `confirm` tinyint(4) DEFAULT '0',
-  `subscription_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`),
-  KEY `subscribtion_id` (`subscribtion_id`),
-  KEY `post_id` (`post_id`),
-  KEY `confirm` (`confirm`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+  `subscription_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wc_comments_subscription`
+--
 
 INSERT INTO `wp_wc_comments_subscription` (`id`, `email`, `subscribtion_id`, `post_id`, `subscribtion_type`, `activation_key`, `confirm`, `subscription_date`) VALUES
 (1, '953075999@qq.com', 204, 204, 'post', '6c06a9e74019c238bdbaeee473951a95', 1, '2017-03-18 03:24:51'),
 (2, '953075999@qq.com', 219, 219, 'all_comment', 'ae93fa72b198fd2088bc870c09d75ff5', 1, '2017-03-18 08:27:24'),
 (3, '953075999@qq.com', 224, 224, 'post', '5f24b02a068ef72311d0b2184c3ee689', 1, '2017-03-18 08:51:50');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wc_phrases`
+--
+
 DROP TABLE IF EXISTS `wp_wc_phrases`;
-CREATE TABLE IF NOT EXISTS `wp_wc_phrases` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wc_phrases` (
+  `id` int(11) NOT NULL,
   `phrase_key` varchar(255) NOT NULL,
-  `phrase_value` text NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `phrase_key` (`phrase_key`)
+  `phrase_value` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wc_users_voted`
+--
+
 DROP TABLE IF EXISTS `wp_wc_users_voted`;
-CREATE TABLE IF NOT EXISTS `wp_wc_users_voted` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wc_users_voted` (
+  `id` int(11) NOT NULL,
   `user_id` varchar(255) NOT NULL,
   `comment_id` int(11) NOT NULL,
   `vote_type` int(11) DEFAULT NULL,
-  `is_guest` tinyint(1) DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `user_id` (`user_id`),
-  KEY `comment_id` (`comment_id`),
-  KEY `vote_type` (`vote_type`),
-  KEY `is_guest` (`is_guest`)
+  `is_guest` tinyint(1) DEFAULT '0'
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfBadLeechers`
+--
+
 DROP TABLE IF EXISTS `wp_wfBadLeechers`;
-CREATE TABLE IF NOT EXISTS `wp_wfBadLeechers` (
+CREATE TABLE `wp_wfBadLeechers` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eMin`,`IP`)
+  `hits` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfBlockedIPLog`
+--
+
 DROP TABLE IF EXISTS `wp_wfBlockedIPLog`;
-CREATE TABLE IF NOT EXISTS `wp_wfBlockedIPLog` (
+CREATE TABLE `wp_wfBlockedIPLog` (
   `IP` binary(16) NOT NULL,
   `countryCode` varchar(2) NOT NULL,
   `blockCount` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `unixday` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`IP`,`unixday`)
+  `unixday` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfBlocks`
+--
+
 DROP TABLE IF EXISTS `wp_wfBlocks`;
-CREATE TABLE IF NOT EXISTS `wp_wfBlocks` (
+CREATE TABLE `wp_wfBlocks` (
   `IP` binary(16) NOT NULL,
   `blockedTime` bigint(20) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `lastAttempt` int(10) UNSIGNED DEFAULT '0',
   `blockedHits` int(10) UNSIGNED DEFAULT '0',
   `wfsn` tinyint(3) UNSIGNED DEFAULT '0',
-  `permanent` tinyint(3) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`IP`),
-  KEY `k1` (`wfsn`)
+  `permanent` tinyint(3) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfBlocksAdv`
+--
+
 DROP TABLE IF EXISTS `wp_wfBlocksAdv`;
-CREATE TABLE IF NOT EXISTS `wp_wfBlocksAdv` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfBlocksAdv` (
+  `id` int(10) UNSIGNED NOT NULL,
   `blockType` char(2) NOT NULL,
   `blockString` varchar(255) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
   `reason` varchar(255) NOT NULL,
   `totalBlocked` int(10) UNSIGNED DEFAULT '0',
-  `lastBlocked` int(10) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`id`)
+  `lastBlocked` int(10) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfConfig`
+--
+
 DROP TABLE IF EXISTS `wp_wfConfig`;
-CREATE TABLE IF NOT EXISTS `wp_wfConfig` (
+CREATE TABLE `wp_wfConfig` (
   `name` varchar(100) NOT NULL,
   `val` longblob,
-  `autoload` enum('no','yes') NOT NULL DEFAULT 'yes',
-  PRIMARY KEY (`name`)
+  `autoload` enum('no','yes') NOT NULL DEFAULT 'yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfConfig`
+--
 
 INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('actUpdateInterval', '', 'yes'),
@@ -2459,7 +2672,7 @@ INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('configWritingTest', 0x3264393466373238396537356232353834316230613361656665336663623661, 'no'),
 ('configWritingTest_ser', 0x613a313a7b693a303b733a33323a223264393466373238396537356232353834316230613361656665336663623661223b7d, 'no'),
 ('currentCronKey', '', 'yes'),
-('dashboardData', 0x613a343a7b733a393a2267656e657261746564223b693a313439303234303032323b733a333a22746466223b613a323a7b733a393a22636f6d6d756e697479223b693a323830333b733a373a227072656d69756d223b693a333132363b7d733a31303a2261747461636b64617461223b613a333a7b733a333a22323468223b613a32343a7b693a303b613a323a7b733a313a2274223b693a313439303135313630303b733a313a2263223b693a3939393238383b7d693a313b613a323a7b733a313a2274223b693a313439303135353230303b733a313a2263223b693a3939393934313b7d693a323b613a323a7b733a313a2274223b693a313439303135383830303b733a313a2263223b693a313032313331383b7d693a333b613a323a7b733a313a2274223b693a313439303136323430303b733a313a2263223b693a313030303039353b7d693a343b613a323a7b733a313a2274223b693a313439303136363030303b733a313a2263223b693a3939313036393b7d693a353b613a323a7b733a313a2274223b693a313439303136393630303b733a313a2263223b693a313135353336363b7d693a363b613a323a7b733a313a2274223b693a313439303137333230303b733a313a2263223b693a313230363930303b7d693a373b613a323a7b733a313a2274223b693a313439303137363830303b733a313a2263223b693a313232303233353b7d693a383b613a323a7b733a313a2274223b693a313439303138303430303b733a313a2263223b693a313136313230383b7d693a393b613a323a7b733a313a2274223b693a313439303138343030303b733a313a2263223b693a313137353030373b7d693a31303b613a323a7b733a313a2274223b693a313439303138373630303b733a313a2263223b693a313038323239383b7d693a31313b613a323a7b733a313a2274223b693a313439303139313230303b733a313a2263223b693a313133313730323b7d693a31323b613a323a7b733a313a2274223b693a313439303139343830303b733a313a2263223b693a313230303131333b7d693a31333b613a323a7b733a313a2274223b693a313439303139383430303b733a313a2263223b693a313137383336393b7d693a31343b613a323a7b733a313a2274223b693a313439303230323030303b733a313a2263223b693a313038373730353b7d693a31353b613a323a7b733a313a2274223b693a313439303230353630303b733a313a2263223b693a313238323937343b7d693a31363b613a323a7b733a313a2274223b693a313439303230393230303b733a313a2263223b693a313333363430373b7d693a31373b613a323a7b733a313a2274223b693a313439303231323830303b733a313a2263223b693a313333313331333b7d693a31383b613a323a7b733a313a2274223b693a313439303231363430303b733a313a2263223b693a3937393737303b7d693a31393b613a323a7b733a313a2274223b693a313439303232303030303b733a313a2263223b693a313037323939353b7d693a32303b613a323a7b733a313a2274223b693a313439303232333630303b733a313a2263223b693a313033393839343b7d693a32313b613a323a7b733a313a2274223b693a313439303232373230303b733a313a2263223b693a313032333332353b7d693a32323b613a323a7b733a313a2274223b693a313439303233303830303b733a313a2263223b693a313030363036373b7d693a32333b613a323a7b733a313a2274223b693a313439303233343430303b733a313a2263223b693a3936353830373b7d7d733a323a223764223b613a373a7b693a303b613a323a7b733a313a2274223b693a313438393632323430303b733a313a2263223b693a34353733363234343b7d693a313b613a323a7b733a313a2274223b693a313438393730383830303b733a313a2263223b693a34393232373930333b7d693a323b613a323a7b733a313a2274223b693a313438393739353230303b733a313a2263223b693a33353532353032363b7d693a333b613a323a7b733a313a2274223b693a313438393838313630303b733a313a2263223b693a33343337393634383b7d693a343b613a323a7b733a313a2274223b693a313438393936383030303b733a313a2263223b693a33333335313737303b7d693a353b613a323a7b733a313a2274223b693a313439303035343430303b733a313a2263223b693a32383539373537383b7d693a363b613a323a7b733a313a2274223b693a313439303134303830303b733a313a2263223b693a32363637393330313b7d7d733a333a22333064223b613a33303a7b693a303b613a323a7b733a313a2274223b693a313438373633353230303b733a313a2263223b693a35363639393634323b7d693a313b613a323a7b733a313a2274223b693a313438373732313630303b733a313a2263223b693a35343234363632303b7d693a323b613a323a7b733a313a2274223b693a313438373830383030303b733a313a2263223b693a35323235313639313b7d693a333b613a323a7b733a313a2274223b693a313438373839343430303b733a313a2263223b693a34363938313030363b7d693a343b613a323a7b733a313a2274223b693a313438373938303830303b733a313a2263223b693a34353637313635353b7d693a353b613a323a7b733a313a2274223b693a313438383036373230303b733a313a2263223b693a34363838333339393b7d693a363b613a323a7b733a313a2274223b693a313438383135333630303b733a313a2263223b693a34383733383535393b7d693a373b613a323a7b733a313a2274223b693a313438383234303030303b733a313a2263223b693a34343331363834323b7d693a383b613a323a7b733a313a2274223b693a313438383332363430303b733a313a2263223b693a34303435353838343b7d693a393b613a323a7b733a313a2274223b693a313438383431323830303b733a313a2263223b693a34333333313034343b7d693a31303b613a323a7b733a313a2274223b693a313438383439393230303b733a313a2263223b693a34303631323232343b7d693a31313b613a323a7b733a313a2274223b693a313438383538353630303b733a313a2263223b693a33363837383731303b7d693a31323b613a323a7b733a313a2274223b693a313438383637323030303b733a313a2263223b693a33333636303431323b7d693a31333b613a323a7b733a313a2274223b693a313438383735383430303b733a313a2263223b693a33353534393432393b7d693a31343b613a323a7b733a313a2274223b693a313438383834343830303b733a313a2263223b693a33353733303630313b7d693a31353b613a323a7b733a313a2274223b693a313438383933313230303b733a313a2263223b693a32393533323234363b7d693a31363b613a323a7b733a313a2274223b693a313438393031373630303b733a313a2263223b693a33393733303933343b7d693a31373b613a323a7b733a313a2274223b693a313438393130343030303b733a313a2263223b693a34313237393133343b7d693a31383b613a323a7b733a313a2274223b693a313438393139303430303b733a313a2263223b693a34323233333936373b7d693a31393b613a323a7b733a313a2274223b693a313438393237363830303b733a313a2263223b693a34313438373631313b7d693a32303b613a323a7b733a313a2274223b693a313438393336333230303b733a313a2263223b693a34373933363230383b7d693a32313b613a323a7b733a313a2274223b693a313438393434393630303b733a313a2263223b693a34363736303234323b7d693a32323b613a323a7b733a313a2274223b693a313438393533363030303b733a313a2263223b693a34393937363830393b7d693a32333b613a323a7b733a313a2274223b693a313438393632323430303b733a313a2263223b693a34353733363234343b7d693a32343b613a323a7b733a313a2274223b693a313438393730383830303b733a313a2263223b693a34393232373930333b7d693a32353b613a323a7b733a313a2274223b693a313438393739353230303b733a313a2263223b693a33353532353032363b7d693a32363b613a323a7b733a313a2274223b693a313438393838313630303b733a313a2263223b693a33343337393634383b7d693a32373b613a323a7b733a313a2274223b693a313438393936383030303b733a313a2263223b693a33333335313737303b7d693a32383b613a323a7b733a313a2274223b693a313439303035343430303b733a313a2263223b693a32383539373537383b7d693a32393b613a323a7b733a313a2274223b693a313439303134303830303b733a313a2263223b693a32363637393330313b7d7d7d733a393a22636f756e7472696573223b613a313a7b733a323a223764223b613a31303a7b693a303b613a323a7b733a323a226364223b733a323a225255223b733a323a226374223b693a35333038373830363b7d693a313b613a323a7b733a323a226364223b733a323a225553223b733a323a226374223b693a35323734363930333b7d693a323b613a323a7b733a323a226364223b733a323a225541223b733a323a226374223b693a32383232353637393b7d693a333b613a323a7b733a323a226364223b733a323a224652223b733a323a226374223b693a31323538353238393b7d693a343b613a323a7b733a323a226364223b733a323a22494e223b733a323a226374223b693a31303533313537313b7d693a353b613a323a7b733a323a226364223b733a323a225452223b733a323a226374223b693a393833313335303b7d693a363b613a323a7b733a323a226364223b733a323a224252223b733a323a226374223b693a343936353836313b7d693a373b613a323a7b733a323a226364223b733a323a224b52223b733a323a226374223b693a343436303739333b7d693a383b613a323a7b733a323a226364223b733a323a224742223b733a323a226374223b693a343432383736363b7d693a393b613a323a7b733a323a226364223b733a323a225048223b733a323a226374223b693a333736383535313b7d7d7d7d, 'yes'),
+('dashboardData', 0x613a343a7b733a393a2267656e657261746564223b693a313439303332363432303b733a333a22746466223b613a323a7b733a393a22636f6d6d756e697479223b693a323830323b733a373a227072656d69756d223b693a333132353b7d733a31303a2261747461636b64617461223b613a333a7b733a333a22323468223b613a32343a7b693a303b613a323a7b733a313a2274223b693a313439303233383030303b733a313a2263223b693a3931363236383b7d693a313b613a323a7b733a313a2274223b693a313439303234313630303b733a313a2263223b693a3935313931323b7d693a323b613a323a7b733a313a2274223b693a313439303234353230303b733a313a2263223b693a313130353436323b7d693a333b613a323a7b733a313a2274223b693a313439303234383830303b733a313a2263223b693a313334373731383b7d693a343b613a323a7b733a313a2274223b693a313439303235323430303b733a313a2263223b693a313739313236303b7d693a353b613a323a7b733a313a2274223b693a313439303235363030303b733a313a2263223b693a313834313834323b7d693a363b613a323a7b733a313a2274223b693a313439303235393630303b733a313a2263223b693a313635313337353b7d693a373b613a323a7b733a313a2274223b693a313439303236333230303b733a313a2263223b693a313737303432343b7d693a383b613a323a7b733a313a2274223b693a313439303236363830303b733a313a2263223b693a313832343937343b7d693a393b613a323a7b733a313a2274223b693a313439303237303430303b733a313a2263223b693a313831353835363b7d693a31303b613a323a7b733a313a2274223b693a313439303237343030303b733a313a2263223b693a313632393630353b7d693a31313b613a323a7b733a313a2274223b693a313439303237373630303b733a313a2263223b693a313737323536373b7d693a31323b613a323a7b733a313a2274223b693a313439303238313230303b733a313a2263223b693a313739363031393b7d693a31333b613a323a7b733a313a2274223b693a313439303238343830303b733a313a2263223b693a313631343033383b7d693a31343b613a323a7b733a313a2274223b693a313439303238383430303b733a313a2263223b693a313736383738313b7d693a31353b613a323a7b733a313a2274223b693a313439303239323030303b733a313a2263223b693a313735303938333b7d693a31363b613a323a7b733a313a2274223b693a313439303239353630303b733a313a2263223b693a313532313133333b7d693a31373b613a323a7b733a313a2274223b693a313439303239393230303b733a313a2263223b693a313439343634343b7d693a31383b613a323a7b733a313a2274223b693a313439303330323830303b733a313a2263223b693a313434373630323b7d693a31393b613a323a7b733a313a2274223b693a313439303330363430303b733a313a2263223b693a313335303137363b7d693a32303b613a323a7b733a313a2274223b693a313439303331303030303b733a313a2263223b693a313137353439383b7d693a32313b613a323a7b733a313a2274223b693a313439303331333630303b733a313a2263223b693a313139343131393b7d693a32323b613a323a7b733a313a2274223b693a313439303331373230303b733a313a2263223b693a313232353638353b7d693a32333b613a323a7b733a313a2274223b693a313439303332303830303b733a313a2263223b693a313137323534343b7d7d733a323a223764223b613a373a7b693a303b613a323a7b733a313a2274223b693a313438393730383830303b733a313a2263223b693a34393233323433353b7d693a313b613a323a7b733a313a2274223b693a313438393739353230303b733a313a2263223b693a33353532373735353b7d693a323b613a323a7b733a313a2274223b693a313438393838313630303b733a313a2263223b693a33343338323632383b7d693a333b613a323a7b733a313a2274223b693a313438393936383030303b733a313a2263223b693a33333335363333353b7d693a343b613a323a7b733a313a2274223b693a313439303035343430303b733a313a2263223b693a32383630363736363b7d693a353b613a323a7b733a313a2274223b693a313439303134303830303b733a313a2263223b693a32363731363839353b7d693a363b613a323a7b733a313a2274223b693a313439303232373230303b733a313a2263223b693a33353430363339323b7d7d733a333a22333064223b613a33303a7b693a303b613a323a7b733a313a2274223b693a313438373732313630303b733a313a2263223b693a35343234363739313b7d693a313b613a323a7b733a313a2274223b693a313438373830383030303b733a313a2263223b693a35323235313935393b7d693a323b613a323a7b733a313a2274223b693a313438373839343430303b733a313a2263223b693a34363938313136363b7d693a333b613a323a7b733a313a2274223b693a313438373938303830303b733a313a2263223b693a34353637313736383b7d693a343b613a323a7b733a313a2274223b693a313438383036373230303b733a313a2263223b693a34363838333538303b7d693a353b613a323a7b733a313a2274223b693a313438383135333630303b733a313a2263223b693a34383733383632333b7d693a363b613a323a7b733a313a2274223b693a313438383234303030303b733a313a2263223b693a34343331373131333b7d693a373b613a323a7b733a313a2274223b693a313438383332363430303b733a313a2263223b693a34303435363132333b7d693a383b613a323a7b733a313a2274223b693a313438383431323830303b733a313a2263223b693a34333333313233383b7d693a393b613a323a7b733a313a2274223b693a313438383439393230303b733a313a2263223b693a34303631323533323b7d693a31303b613a323a7b733a313a2274223b693a313438383538353630303b733a313a2263223b693a33363837393130313b7d693a31313b613a323a7b733a313a2274223b693a313438383637323030303b733a313a2263223b693a33333636313031333b7d693a31323b613a323a7b733a313a2274223b693a313438383735383430303b733a313a2263223b693a33353535303430313b7d693a31333b613a323a7b733a313a2274223b693a313438383834343830303b733a313a2263223b693a33353733313633303b7d693a31343b613a323a7b733a313a2274223b693a313438383933313230303b733a313a2263223b693a32393533323535343b7d693a31353b613a323a7b733a313a2274223b693a313438393031373630303b733a313a2263223b693a33393733313434383b7d693a31363b613a323a7b733a313a2274223b693a313438393130343030303b733a313a2263223b693a34313238303134363b7d693a31373b613a323a7b733a313a2274223b693a313438393139303430303b733a313a2263223b693a34323233343834323b7d693a31383b613a323a7b733a313a2274223b693a313438393237363830303b733a313a2263223b693a34313438383433323b7d693a31393b613a323a7b733a313a2274223b693a313438393336333230303b733a313a2263223b693a34373933373337343b7d693a32303b613a323a7b733a313a2274223b693a313438393434393630303b733a313a2263223b693a34363736313035333b7d693a32313b613a323a7b733a313a2274223b693a313438393533363030303b733a313a2263223b693a34393937383733373b7d693a32323b613a323a7b733a313a2274223b693a313438393632323430303b733a313a2263223b693a34353733373930353b7d693a32333b613a323a7b733a313a2274223b693a313438393730383830303b733a313a2263223b693a34393233323433353b7d693a32343b613a323a7b733a313a2274223b693a313438393739353230303b733a313a2263223b693a33353532373735353b7d693a32353b613a323a7b733a313a2274223b693a313438393838313630303b733a313a2263223b693a33343338323632383b7d693a32363b613a323a7b733a313a2274223b693a313438393936383030303b733a313a2263223b693a33333335363333353b7d693a32373b613a323a7b733a313a2274223b693a313439303035343430303b733a313a2263223b693a32383630363736363b7d693a32383b613a323a7b733a313a2274223b693a313439303134303830303b733a313a2263223b693a32363731363839353b7d693a32393b613a323a7b733a313a2274223b693a313439303232373230303b733a313a2263223b693a33353430363339323b7d7d7d733a393a22636f756e7472696573223b613a313a7b733a323a223764223b613a31303a7b693a303b613a323a7b733a323a226364223b733a323a225553223b733a323a226374223b693a34333531353139383b7d693a313b613a323a7b733a323a226364223b733a323a225255223b733a323a226374223b693a34323834393638383b7d693a323b613a323a7b733a323a226364223b733a323a225541223b733a323a226374223b693a32363430383834303b7d693a333b613a323a7b733a323a226364223b733a323a224652223b733a323a226374223b693a31323234363537313b7d693a343b613a323a7b733a323a226364223b733a323a22494e223b733a323a226374223b693a31303537323639343b7d693a353b613a323a7b733a323a226364223b733a323a225452223b733a323a226374223b693a393835353335373b7d693a363b613a323a7b733a323a226364223b733a323a224252223b733a323a226374223b693a343837383130353b7d693a373b613a323a7b733a323a226364223b733a323a224742223b733a323a226374223b693a343532373737383b7d693a383b613a323a7b733a323a226364223b733a323a224b52223b733a323a226374223b693a343034323930373b7d693a393b613a323a7b733a323a226364223b733a323a224341223b733a323a226374223b693a333838353931393b7d7d7d7d, 'yes'),
 ('debugOn', 0x30, 'yes'),
 ('deleteTablesOnDeact', 0x30, 'yes'),
 ('detectProxyNextCheck', 0x31343930343133333838, 'no'),
@@ -2477,9 +2690,10 @@ INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('firewallEnabled', 0x31, 'yes'),
 ('hasKeyConflict', '', 'yes'),
 ('howGetIPs', '', 'yes'),
-('lastAdminLogin', 0x613a363a7b733a363a22757365724944223b693a313b733a383a22757365726e616d65223b733a373a226d657272696572223b733a393a2266697273744e616d65223b733a303a22223b733a383a226c6173744e616d65223b733a303a22223b733a343a2274696d65223b733a32373a224672692032347468204d6172636820402031313a33333a3036414d223b733a323a224950223b733a393a223132372e302e302e31223b7d, 'yes'),
-('lastDashboardCheck', 0x31343930323430353839, 'yes'),
-('lastNotificationID', 0x39, 'no'),
+('lastAdminLogin', 0x613a363a7b733a363a22757365724944223b693a313b733a383a22757365726e616d65223b733a373a226d657272696572223b733a393a2266697273744e616d65223b733a303a22223b733a383a226c6173744e616d65223b733a303a22223b733a343a2274696d65223b733a32373a224672692032347468204d6172636820402031323a31323a3134504d223b733a323a224950223b733a393a223132372e302e302e31223b7d, 'yes'),
+('lastAttackDataSendTime', 0x313439303332363336382e373839343030, 'yes'),
+('lastDashboardCheck', 0x31343930333238373238, 'yes'),
+('lastNotificationID', 0x3130, 'no'),
 ('lastScanCompleted', 0x6f6b, 'yes'),
 ('lastScanFailureType', '', 'yes'),
 ('lastScheduledScanStart', 0x31343930323838333437, 'yes'),
@@ -2559,11 +2773,12 @@ INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('spamvertizeCheck', 0x30, 'yes'),
 ('ssl_verify', 0x31, 'yes'),
 ('startScansRemotely', 0x30, 'yes'),
-('totalAlertsSent', 0x3139, 'yes'),
-('totalLoginHits', 0x3434, 'yes'),
-('totalLogins', 0x3139, 'yes'),
+('totalAlertsSent', 0x3230, 'yes'),
+('totalLoginHits', 0x3438, 'yes'),
+('totalLogins', 0x3230, 'yes'),
 ('totalScansRun', 0x39, 'yes'),
 ('tourClosed', 0x31, 'yes'),
+('vulnerabilities_plugin', 0x613a313a7b693a303b613a343a7b733a343a22736c7567223b733a393a22776f726466656e6365223b733a393a22746f56657273696f6e223b733a353a22362e332e35223b733a31313a2266726f6d56657273696f6e223b733a353a22362e332e34223b733a31303a2276756c6e657261626c65223b623a303b7d7d, 'yes'),
 ('vulnRegex', 0x2f283f3a776f726466656e63655f746573745f76756c6e5f6d617463687c5c2f74696d7468756d625c2e7068707c5c2f7468756d625c2e7068707c5c2f7468756d62735c2e7068707c5c2f7468756d626e61696c5c2e7068707c5c2f7468756d626e61696c735c2e7068707c5c2f7468756d6e61696c735c2e7068707c5c2f63726f707065725c2e7068707c5c2f70696373697a655c2e7068707c5c2f726573697a65725c2e7068707c636f6e6e6563746f72735c2f75706c6f6164746573745c2e68746d6c7c636f6e6e6563746f72735c2f746573745c2e68746d6c7c6d696e676c65666f72756d616374696f6e7c75706c6f61646966795c2e7068707c616c6c7765626d656e75732d776f726470726573732d6d656e752d706c7567696e7c77702d6379636c652d706c61796c6973747c636f756e742d7065722d6461797c77702d6175746f796f75747562657c7061792d776974682d74776565747c636f6d6d656e742d726174696e675c2f636b2d70726f636573736b61726d615c2e706870292f69, 'yes'),
 ('wafAlertInterval', 0x363030, 'yes'),
 ('wafAlertOnAttacks', 0x31, 'yes'),
@@ -2583,25 +2798,39 @@ INSERT INTO `wp_wfConfig` (`name`, `val`, `autoload`) VALUES
 ('whitelisted', '', 'yes'),
 ('wp_home_url', 0x687474703a2f2f6d6572726965722e627567, 'yes');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfCrawlers`
+--
+
 DROP TABLE IF EXISTS `wp_wfCrawlers`;
-CREATE TABLE IF NOT EXISTS `wp_wfCrawlers` (
+CREATE TABLE `wp_wfCrawlers` (
   `IP` binary(16) NOT NULL,
   `patternSig` binary(16) NOT NULL,
   `status` char(8) NOT NULL,
   `lastUpdate` int(10) UNSIGNED NOT NULL,
-  `PTR` varchar(255) DEFAULT '',
-  PRIMARY KEY (`IP`,`patternSig`)
+  `PTR` varchar(255) DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfFileMods`
+--
+
 DROP TABLE IF EXISTS `wp_wfFileMods`;
-CREATE TABLE IF NOT EXISTS `wp_wfFileMods` (
+CREATE TABLE `wp_wfFileMods` (
   `filenameMD5` binary(16) NOT NULL,
   `filename` varchar(1000) NOT NULL,
   `knownFile` tinyint(3) UNSIGNED NOT NULL,
   `oldMD5` binary(16) NOT NULL,
-  `newMD5` binary(16) NOT NULL,
-  PRIMARY KEY (`filenameMD5`)
+  `newMD5` binary(16) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfFileMods`
+--
 
 INSERT INTO `wp_wfFileMods` (`filenameMD5`, `filename`, `knownFile`, `oldMD5`, `newMD5`) VALUES
 (0x0019a48bf94914dc084a97b82d248c80, 'wp-content/plugins/wordfence/images/flags/be.png', 1, 0x00000000000000000000000000000000, 0x6105f2cdd9a31a2598b6bde2c19e7a07),
@@ -6142,9 +6371,15 @@ INSERT INTO `wp_wfFileMods` (`filenameMD5`, `filename`, `knownFile`, `oldMD5`, `
 (0xffec0e88f393d03be4bafd38bc3e432e, 'wp-content/plugins/baidu-sitemap-generator/1.31/sitemap.html', 1, 0x00000000000000000000000000000000, 0x01deb2e579a0b01cb51b1d18718cd1ae),
 (0xffff3f3f53b86501c697a4fa4a57336b, 'wp-content/plugins/wp-user-avatar/includes/class-wp-user-avatar-admin.php', 1, 0x00000000000000000000000000000000, 0x79f3e39dce1e783e8d39c47d36e2441a);
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfHits`
+--
+
 DROP TABLE IF EXISTS `wp_wfHits`;
-CREATE TABLE IF NOT EXISTS `wp_wfHits` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfHits` (
+  `id` int(10) UNSIGNED NOT NULL,
   `attackLogTime` double(17,6) UNSIGNED NOT NULL,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `IP` binary(16) DEFAULT NULL,
@@ -6158,12 +6393,12 @@ CREATE TABLE IF NOT EXISTS `wp_wfHits` (
   `UA` text,
   `action` varchar(64) NOT NULL DEFAULT '',
   `actionDescription` text,
-  `actionData` text,
-  PRIMARY KEY (`id`),
-  KEY `k1` (`ctime`),
-  KEY `k2` (`IP`,`ctime`),
-  KEY `attackLogTime` (`attackLogTime`)
-) ENGINE=InnoDB AUTO_INCREMENT=96 DEFAULT CHARSET=latin1;
+  `actionData` text
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- 转存表中的数据 `wp_wfHits`
+--
 
 INSERT INTO `wp_wfHits` (`id`, `attackLogTime`, `ctime`, `IP`, `jsRun`, `statusCode`, `isGoogle`, `userID`, `newVisit`, `URL`, `referer`, `UA`, `action`, `actionDescription`, `actionData`) VALUES
 (1, 0.000000, 1489889239.118774, 0x00000000000000000000000000000001, 0, 404, 0, 0, 0, 'http://localhost/merrier/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
@@ -6255,27 +6490,41 @@ INSERT INTO `wp_wfHits` (`id`, `attackLogTime`, `ctime`, `IP`, `jsRun`, `statusC
 (87, 0.000000, 1490326218.322062, 0x00000000000000000000ffff7f000001, 0, 200, 0, 0, 0, 'http://merrier.bug/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
 (88, 0.000000, 1490326218.777873, 0x00000000000000000000ffff7f000001, 0, 200, 0, 0, 0, 'http://merrier.bug/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
 (89, 0.000000, 1490326256.955008, 0x00000000000000000000ffff7f000001, 1, 200, 0, 1, 0, 'http://merrier.bug/wp-login.php', 'http://merrier.bug/wp-login.php', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', 'loginOK', NULL, NULL),
-(90, 1490326368.789400, 1490326368.261248, 0x00000000000000000000ffff7f000001, 1, 200, 0, 1, 0, 'http://merrier.bug/wp-admin/options.php', 'http://merrier.bug/wp-admin/themes.php?page=options-framework', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', 'learned:waf', 'XSS: Cross Site Scripting', '{\"learningMode\":1,\"failedRules\":[9],\"paramKey\":\"cmVxdWVzdC5ib2R5W0RVWF1bc2hhcmVfY29kZV0=\",\"paramValue\":\"PGRpdiBjbGFzcz0iYmRzaGFyZWJ1dHRvbmJveCI+DQo8c3Bhbj7liIbkuqvliLDvvJo8L3NwYW4+DQo8YSBjbGFzcz0iYmRzX3F6b25lIiBkYXRhLWNtZD0icXpvbmUiIHRpdGxlPSLliIbkuqvliLBRUeepuumXtCI+PC9hPg0KPGEgY2xhc3M9ImJkc190c2luYSIgZGF0YS1jbWQ9InRzaW5hIiB0aXRsZT0i5YiG5Lqr5Yiw5paw5rWq5b6u5Y2aIj48L2E+DQo8YSBjbGFzcz0iYmRzX3dlaXhpbiIgZGF0YS1jbWQ9IndlaXhpbiIgdGl0bGU9IuWIhuS6q+WIsOW+ruS\\/oSI+PC9hPg0KPGEgY2xhc3M9ImJkc190cXEiIGRhdGEtY21kPSJ0cXEiIHRpdGxlPSLliIbkuqvliLDohb7orq\\/lvq7ljZoiPjwvYT4NCjxhIGNsYXNzPSJiZHNfc3FxIiBkYXRhLWNtZD0ic3FxIiB0aXRsZT0i5YiG5Lqr5YiwUVHlpb3lj4siPjwvYT4NCjxhIGNsYXNzPSJiZHNfYmRob21lIiBkYXRhLWNtZD0iYmRob21lIiB0aXRsZT0i5YiG5Lqr5Yiw55m+5bqm5paw6aaW6aG1Ij48L2E+DQo8YSBjbGFzcz0iYmRzX3RxZiIgZGF0YS1jbWQ9InRxZiIgdGl0bGU9IuWIhuS6q+WIsOiFvuiur+aci+WPiyI+PC9hPg0KPGEgY2xhc3M9ImJkc195b3VkYW8iIGRhdGEtY21kPSJ5b3VkYW8iIHRpdGxlPSLliIbkuqvliLDmnInpgZPkupHnrJTorrAiPjwvYT4NCjxhIGNsYXNzPSJiZHNfbW9yZSIgZGF0YS1jbWQ9Im1vcmUiPuabtOWkmjwvYT4gPHNwYW4+KDwvc3Bhbj48YSBjbGFzcz0iYmRzX2NvdW50IiBkYXRhLWNtZD0iY291bnQiIHRpdGxlPSLntK\\/orqHliIbkuqsw5qyhIj4wPC9hPjxzcGFuPik8L3NwYW4+DQo8L2Rpdj4NCjxzY3JpcHQ+DQp3aW5kb3cuX2JkX3NoYXJlX2NvbmZpZyA9IHsNCiAgICBjb21tb246IHsNCgkJImJkVGV4dCIgICAgIDogIiIsDQoJCSJiZE1pbmkiICAgICA6ICIyIiwNCgkJImJkTWluaUxpc3QiIDogZmFsc2UsDQoJCSJiZFBpYyIgICAgICA6ICIiLA0KCQkiYmRTdHlsZSIgICAgOiAiMCIsDQoJCSJiZFNpemUiICAgICA6ICIyNCINCiAgICB9LA0KICAgIHNoYXJlOiBbew0KICAgICAgICBiZEN1c3RvbVN0eWxlOiAiaHR0cDovL21lcnJpZXIuY29tL3dwLWNvbnRlbnQvdGhlbWVzL2R1eC9jc3Mvc2hhcmUuY3NzIg0KICAgIH1dDQp9DQp3aXRoKGRvY3VtZW50KTBbKGdldEVsZW1lbnRzQnlUYWdOYW1lKCJoZWFkIilbMF18fGJvZHkpLmFwcGVuZENoaWxkKGNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpKS5zcmM9Imh0dHA6Ly9iZGltZy5zaGFyZS5iYWlkdS5jb20vc3RhdGljL2FwaS9qcy9zaGFyZS5qcz9jZG52ZXJzaW9uPSIrfigtbmV3IERhdGUoKS8zNmU1KV07DQo8L3NjcmlwdD4=\",\"category\":\"xss\",\"ssl\":false,\"fullRequest\":\"UE9TVCAvd3AtYWRtaW4vb3B0aW9ucy5waHAgSFRUUC8xLjEKSG9zdDogbWVycmllci5idWcKQ29ubmVjdGlvbjoga2VlcC1hbGl2ZQpDYWNoZS1Db250cm9sOiBtYXgtYWdlPTAKT3JpZ2luOiBodHRwOi8vbWVycmllci5idWcKVXBncmFkZS1JbnNlY3VyZS1SZXF1ZXN0czogMQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoTWFjaW50b3NoOyBJbnRlbCBNYWMgT1MgWCAxMF8xMl8zKSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvNTYuMC4yOTI0Ljg3IFNhZmFyaS81MzcuMzYKQWNjZXB0OiB0ZXh0L2h0bWwsYXBwbGljYXRpb24veGh0bWwreG1sLGFwcGxpY2F0aW9uL3htbDtxPTAuOSxpbWFnZS93ZWJwLCovKjtxPTAuOApSZWZlcmVyOiBodHRwOi8vbWVycmllci5idWcvd3AtYWRtaW4vdGhlbWVzLnBocD9wYWdlPW9wdGlvbnMtZnJhbWV3b3JrCkFjY2VwdC1FbmNvZGluZzogZ3ppcCwgZGVmbGF0ZQpBY2NlcHQtTGFuZ3VhZ2U6IHpoLUNOLHpoO3E9MC44CkNvb2tpZTogd29yZHByZXNzX2FjOTY5NjYzMTdjOThjNzZjMDMwODk1NDQyYmZmN2U3PSUzQ3JlZGFjdGVkJTNFOyBQSFBTRVNTSUQ9ZDFkYmU2MzQ4MDAwZjliMmQxYmQ2ZGFjYWI1N2VkZDE7IHdvcmRmZW5jZV92ZXJpZmllZEh1bWFuPTU0MTkzYWQ3ODU1MmJiZmNiMzViYjI1YTMxYWE1YjVmOyB3ZndhZi1hdXRoY29va2llLTRmYjIzMGExYTU1NjY3ODk3NmYxY2M4MmRmYzM5OWMxPTElN0NhZG1pbmlzdHJhdG9yJTdDZmJiNWE0NDcxZjExY2JmOGMyNmM3ZDFhZjI2MDIxNWFhOGEwZWJjYWFiMmM1MzM1MzgyMjg5ZjlmMzdiYzNiMjsgd3Atc2V0dGluZ3MtMT1saWJyYXJ5Q29udGVudCUzRGJyb3dzZSUyNmVkaXRvciUzRHRpbnltY2UlMjZwb3N0X2RmdyUzRG9mZiUyNmhpZGV0YiUzRDA7IHdwLXNldHRpbmdzLXRpbWUtMT0xNDkwMzI2MjAzOyB3b3JkcHJlc3NfdGVzdF9jb29raWU9JTNDcmVkYWN0ZWQlM0U7IHdvcmRwcmVzc19sb2dnZWRfaW5fYWM5Njk2NjMxN2M5OGM3NmMwMzA4OTU0NDJiZmY3ZTc9JTNDcmVkYWN0ZWQlM0U7IHdmdnRfMzY1Njg5NzA3OT01OGQ0OTMzZTc4NTkyOwpDb250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL3gtd3d3LWZvcm0tdXJsZW5jb2RlZApDb250ZW50LUxlbmd0aDogOTUxMgoKb3B0aW9uX3BhZ2U9b3B0aW9uc2ZyYW1ld29yayZhY3Rpb249dXBkYXRlJl93cG5vbmNlPWM4OTc4MmRkMjcmX3dwX2h0dHBfcmVmZXJlcj0lMkZ3cC1hZG1pbiUyRnRoZW1lcy5waHAlM0ZwYWdlJTNEb3B0aW9ucy1mcmFtZXdvcmsmRFVYJTVCbG9nb19zcmMlNUQ9aHR0cCUzQSUyRiUyRm1lcnJpZXIuYnVnJTJGd3AtY29udGVudCUyRnVwbG9hZHMlMkYyMDE3JTJGMDMlMkZuYXYtaWNvbi5qcGcmRFVYJTVCbGF5b3V0JTVEPTImRFVYJTVCdGhlbWVfc2tpbiU1RD00NUI2RjcmRFVYJTVCdGhlbWVfc2tpbl9jdXN0b20lNUQ9JkRVWCU1QmNvbm5lY3RvciU1RD0tJkRVWCU1QnNpdGVfd2lkdGglNUQ9MTIwMCZEVVglNUJmbGlua3NfcyU1RD1vbiZEVVglNUJmbGlua3NfaG9tZV9zJTVEPW9uJkRVWCU1QmZsaW5rc19jYXQlNUQ9MjkmRFVYJTVCanF1ZXJ5X2JvbSU1RD1vbiZEVVglNUJncmF2YXRhcl91cmwlNUQ9c3NsJkRVWCU1QmpzX291dGxpbmslNUQ9aGUmRFVYJTVCYnJhbmQlNUQ9JUU2JUFDJUEyJUU4JUJGJThFJUU1JTg1JTg5JUU0JUI4JUI0JTBEJTBBTWVycmllciVFNyU5QSU4NCVFNiVCNyU5OCVFNSVBRSU5RCVFNSVCMCU4RiVFNSVCMSU4QiZEVVglNUJrZXl3b3JkcyU1RD0lRTQlQjglQUElRTQlQkElQkElRTUlOEQlOUElRTUlQUUlQTIlRUYlQkMlOENNZXJyaWVyJUVGJUJDJThDJUU2JUI3JTk4JUU1JUFFJTlEJUU1JUIwJThGJUU1JUIxJThCJUVGJUJDJThDJUU1JTg5JThEJUU3JUFCJUFGJUVGJUJDJThDJUU1JUIwJThGJUU3JTk5JUJEJkRVWCU1QmRlc2NyaXB0aW9uJTVEPSVFNiU5QyVBQyVFNyVBQiU5OSVFNiU5OCVBRiUwOE1lcnJpZXIlRTclOUElODQlRTQlQjglQUElRTQlQkElQkElRTUlOEQlOUElRTUlQUUlQTIlRUYlQkMlOEMlRTYlQUMlQTIlRTglQkYlOEUlRTUlOTAlODQlRTQlQkQlOEQlRTglOEUlODUlRTQlQjglQjQlRTYlOEMlODclRTUlQUYlQkMmRFVYJTVCZm9vdGVyX3NlbyU1RD0lM0NhK2hyZWYlM0QlMjJodHRwJTNBJTJGJTJGbWVycmllci5jb20lMkZzaXRlbWFwX2JhaWR1LnhtbCUyMiUzRSVFNyVCRCU5MSVFNyVBQiU5OSVFNSU5QyVCMCVFNSU5QiVCRSUzQyUyRmElM0UlMEQlMEEmRFVYJTVCc2VhcmNoX2JhaWR1X2NvZGUlNUQ9JkRVWCU1Qm5hdl9maXhlZCU1RD1vbiZEVVglNUJ0YXJnZXRfYmxhbmslNUQ9b24mRFVYJTVCbm90aW5ob21lX3Bvc3QlNUQ9JkRVWCU1QmFqYXhwYWdlciU1RD01JkRVWCU1Qmxpc3RfdHlwZSU1RD10aHVtYl9pZl9oYXMmRFVYJTVCbGlzdF9jb21tZW50c19yJTVEPW9uJkRVWCU1QnRodW1ibGlua19zJTVEPW9uJkRVWCU1QnBvc3RfcGx1Z2luJTVEJTVCdmlldyU1RD1vbiZEVVglNUJwb3N0X3BsdWdpbiU1RCU1QmNvbW0lNUQ9b24mRFVYJTVCcG9zdF9wbHVnaW4lNUQlNUJkYXRlJTVEPW9uJkRVWCU1QnBvc3RfcGx1Z2luJTVEJTVCYXV0aG9yJTVEPW9uJkRVWCU1QnBvc3RfcGx1Z2luJTVEJTVCY2F0JTVEPW9uJkRVWCU1QmF1dGhvcl9saW5rJTVEPW9uJkRVWCU1QnRodW1ibmFpbF9zcmMlNUQ9b24mRFVYJTVCc2hhcmVfcyU1RD1vbiZEVVglNUJzaGFyZV9jb2RlJTVEPSUzQ2RpditjbGFzcyUzRCUyMmJkc2hhcmVidXR0b25ib3glMjIlM0UlMEQlMEElM0NzcGFuJTNFJUU1JTg4JTg2JUU0JUJBJUFCJUU1JTg4JUIwJUVGJUJDJTlBJTNDJTJGc3BhbiUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfcXpvbmUlMjIrZGF0YS1jbWQlM0QlMjJxem9uZSUyMit0aXRsZSUzRCUyMiVFNSU4OCU4NiVFNCVCQSVBQiVFNSU4OCVCMFFRJUU3JUE5JUJBJUU5JTk3JUI0JTIyJTNFJTNDJTJGYSUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfdHNpbmElMjIrZGF0YS1jbWQlM0QlMjJ0c2luYSUyMit0aXRsZSUzRCUyMiVFNSU4OCU4NiVFNCVCQSVBQiVFNSU4OCVCMCVFNiU5NiVCMCVFNiVCNSVBQSVFNSVCRSVBRSVFNSU4RCU5QSUyMiUzRSUzQyUyRmElM0UlMEQlMEElM0NhK2NsYXNzJTNEJTIyYmRzX3dlaXhpbiUyMitkYXRhLWNtZCUzRCUyMndlaXhpbiUyMit0aXRsZSUzRCUyMiVFNSU4OCU4NiVFNCVCQSVBQiVFNSU4OCVCMCVFNSVCRSVBRSVFNCVCRiVBMSUyMiUzRSUzQyUyRmElM0UlMEQlMEElM0NhK2NsYXNzJTNEJTIyYmRzX3RxcSUyMitkYXRhLWNtZCUzRCUyMnRxcSUyMit0aXRsZSUzRCUyMiVFNSU4OCU4NiVFNCVCQSVBQiVFNSU4OCVCMCVFOCU4NSVCRSVFOCVBRSVBRiVFNSVCRSVBRSVFNSU4RCU5QSUyMiUzRSUzQyUyRmElM0UlMEQlMEElM0NhK2NsYXNzJTNEJTIyYmRzX3NxcSUyMitkYXRhLWNtZCUzRCUyMnNxcSUyMit0aXRsZSUzRCUyMiVFNSU4OCU4NiVFNCVCQSVBQiVFNSU4OCVCMFFRJUU1JUE1JUJEJUU1JThGJThCJTIyJTNFJTNDJTJGYSUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfYmRob21lJTIyK2RhdGEtY21kJTNEJTIyYmRob21lJTIyK3RpdGxlJTNEJTIyJUU1JTg4JTg2JUU0JUJBJUFCJUU1JTg4JUIwJUU3JTk5JUJFJUU1JUJBJUE2JUU2JTk2JUIwJUU5JUE2JTk2JUU5JUExJUI1JTIyJTNFJTNDJTJGYSUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfdHFmJTIyK2RhdGEtY21kJTNEJTIydHFmJTIyK3RpdGxlJTNEJTIyJUU1JTg4JTg2JUU0JUJBJUFCJUU1JTg4JUIwJUU4JTg1JUJFJUU4JUFFJUFGJUU2JTlDJThCJUU1JThGJThCJTIyJTNFJTNDJTJGYSUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfeW91ZGFvJTIyK2RhdGEtY21kJTNEJTIyeW91ZGFvJTIyK3RpdGxlJTNEJTIyJUU1JTg4JTg2JUU0JUJBJUFCJUU1JTg4JUIwJUU2JTlDJTg5JUU5JTgxJTkzJUU0JUJBJTkxJUU3JUFDJTk0JUU4JUFFJUIwJTIyJTNFJTNDJTJGYSUzRSUwRCUwQSUzQ2ErY2xhc3MlM0QlMjJiZHNfbW9yZSUyMitkYXRhLWNtZCUzRCUyMm1vcmUlMjIlM0UlRTYlOUIlQjQlRTUlQTQlOUElM0MlMkZhJTNFKyUzQ3NwYW4lM0UlMjglM0MlMkZzcGFuJTNFJTNDYStjbGFzcyUzRCUyMmJkc19jb3VudCUyMitkYXRhLWNtZCUzRCUyMmNvdW50JTIyK3RpdGxlJTNEJTIyJUU3JUI0JUFGJUU4JUFFJUExJUU1JTg4JTg2JUU0JUJBJUFCMCVFNiVBQyVBMSUyMiUzRTAlM0MlMkZhJTNFJTNDc3BhbiUzRSUyOSUzQyUyRnNwYW4lM0UlMEQlMEElM0MlMkZkaXYlM0UlMEQlMEElM0NzY3JpcHQlM0UlMEQlMEF3aW5kb3cuX2JkX3NoYXJlX2NvbmZpZyslM0QrJTdCJTBEJTBBKysrK2NvbW1vbiUzQSslN0IlMEQlMEElMDklMDklMjJiZFRleHQlMjIrKysrKyUzQSslMjIlMjIlMkMlMEQlMEElMDklMDklMjJiZE1pbmklMjIrKysrKyUzQSslMjIyJTIyJTJDJTBEJTBBJTA5JTA5JTIyYmRNaW5pTGlzdCUyMislM0ErZmFsc2UlMkMlMEQlMEElMDklMDklMjJiZFBpYyUyMisrKysrKyUzQSslMjIlMjIlMkMlMEQlMEElMDklMDklMjJiZFN0eWxlJTIyKysrKyUzQSslMjIwJTIyJTJDJTBEJTBBJTA5JTA5JTIyYmRTaXplJTIyKysrKyslM0ErJTIyMjQlMjIlMEQlMEErKysrJTdEJTJDJTBEJTBBKysrK3NoYXJlJTNBKyU1QiU3QiUwRCUwQSsrKysrKysrYmRDdXN0b21TdHlsZSUzQSslMjJodHRwJTNBJTJGJTJGbWVycmllci5jb20lMkZ3cC1jb250ZW50JTJGdGhlbWVzJTJGZHV4JTJGY3NzJTJGc2hhcmUuY3NzJTIyJTBEJTBBKysrKyU3RCU1RCUwRCUwQSU3RCUwRCUwQXdpdGglMjhkb2N1bWVudCUyOTAlNUIlMjhnZXRFbGVtZW50c0J5VGFnTmFtZSUyOCUyMmhlYWQlMjIlMjklNUIwJTVEJTdDJTdDYm9keSUyOS5hcHBlbmRDaGlsZCUyOGNyZWF0ZUVsZW1lbnQlMjglMjJzY3JpcHQlMjIlMjklMjkuc3JjJTNEJTIyaHR0cCUzQSUyRiUyRmJkaW1nLnNoYXJlLmJhaWR1LmNvbSUyRnN0YXRpYyUyRmFwaSUyRmpzJTJGc2hhcmUuanMlM0ZjZG52ZXJzaW9uJTNEJTIyJTJCJTdFJTI4LW5ldytEYXRlJTI4JTI5JTJGMzZlNSUyOSU1RCUzQiUwRCUwQSUzQyUyRnNjcmlwdCUzRSZEVVglNUJwb3N0X3ByZXZuZXh0X3MlNUQ9b24mRFVYJTVCcG9zdF9hdXRob3JkZXNjX3MlNUQ9b24mRFVYJTVCcG9zdF9yZWxhdGVkX3MlNUQ9b24mRFVYJTVCcmVsYXRlZF90aXRsZSU1RD0lRTclOUIlQjglRTUlODUlQjMlRTYlOEUlQTglRTglOEQlOTAmRFVYJTVCcG9zdF9yZWxhdGVkX24lNUQ9OCZEVVglNUJwb3N0X2Zyb21fcyU1RD1vbiZEVVglNUJwb3N0X2Zyb21faDElNUQ9JUU2JTlEJUE1JUU2JUJBJTkwJUVGJUJDJTlBJkRVWCU1QnBvc3RfZnJvbV9saW5rX3MlNUQ9b24mRFVYJTVCcG9zdF9wX2luZGVudF9zJTVEPW9uJkRVWCU1QnBvc3RfY29weXJpZ2h0X3MlNUQ9b24mRFVYJTVCcG9zdF9jb3B5cmlnaHQlNUQ9JUU4JUJEJUFDJUU4JUJEJUJEJUU4JUFGJUI3JUU2JUIzJUE4JUU2JTk4JThFJUU2JTlEJUE1JUU4JTg3JUFBJUVGJUJDJTlBJkRVWCU1QnNpdGVfa2V5d29yZHNfZGVzY3JpcHRpb25fcyU1RD1vbiZEVVglNUJuYXZwYWdlX2Rlc2MlNUQ9JUU4JUJGJTk5JUU5JTg3JThDJUU2JTk4JUFGJUU0JUI4JTgwJUU0JUJBJTlCJUU1JUJFJTg4JUU2JTlDJTg5JUU3JTk0JUE4JUU3JTlBJTg0JUU3JUJEJTkxJUU3JUFCJTk5JUVGJUJDJThDJUU2JUFDJUEyJUU4JUJGJThFJUU1JTlDJUE4JUU4JUFGJTg0JUU4JUFFJUJBJUU0JUI4JUFEJUU1JTg4JTg2JUU0JUJBJUFCJUU1JTg1JUI2JUU0JUJCJTk2JUU3JUJEJTkxJUU3JUFCJTk5JkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjMyJTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjI3JTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjI0JTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjI1JTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjIzJTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjIxJTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjI2JTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjIyJTVEPW9uJkRVWCU1Qm5hdnBhZ2VfY2F0cyU1RCU1QjI4JTVEPW9uJkRVWCU1QnVzZXJfcGFnZV9zJTVEPW9uJkRVWCU1QnVzZXJfb25fbm90aWNlX3MlNUQ9b24mRFVYJTVCdXNlcl9wYWdlJTVEPTkxJkRVWCU1QnVzZXJfcnAlNUQ9NzMmRFVYJTVCdG91Z2FvX3MlNUQ9b24mRFVYJTVCdG91Z2FvX21haWxfc2VuZCU1RD1vbiZEVVglNUJ0b3VnYW9fbWFpbF90byU1RD05NTMwNzU5OTklNDBxcS5jb20mRFVYJTVCbWluaWNhdF9zJTVEPW9uJkRVWCU1Qm1pbmljYXRfaG9tZV9zJTVEPW9uJkRVWCU1Qm1pbmljYXRfaG9tZV90aXRsZSU1RD0lRTQlQkIlOEElRTYlOTclQTUlRTklOTclQjIlRTglODElOEEmRFVYJTVCbWluaWNhdCU1RD05JkRVWCU1QmZvb3Rlcl9icmFuZF9zJTVEPW9uJkRVWCU1QmZvb3Rlcl9icmFuZF90aXRsZSU1RD1NZXJyaWVyJUU0JUI4JTgwJUU3JTlCJUI0JUU1JTlDJUE4JUU1JThBJUFBJUU1JThBJTlCJkRVWCU1QmZvb3Rlcl9icmFuZF9idG5fdGV4dF8xJTVEPVFRJUU4JTgxJTk0JUU3JUIzJUJCJkRVWCU1QmZvb3Rlcl9icmFuZF9idG5faHJlZl8xJTVEPWh0dHAlM0ElMkYlMkZ3cGEucXEuY29tJTJGbXNncmQlM0Z2JTNEMyUyNnVpbiUzRDk1MzA3NTk5OSUyNnNpdGUlM0RxcSUyNm1lbnUlM0R5ZXMmRFVYJTVCZm9vdGVyX2JyYW5kX2J0bl9ibGFua18xJTVEPW9uJkRVWCU1QmZvb3Rlcl9icmFuZF9idG5fdGV4dF8yJTVEPSVFOSU4MiVBRSVFNCVCQiVCNiVFOCU4MSU5NCVFNyVCMyVCQiZEVVglNUJmb290ZXJfYnJhbmRfYnRuX2hyZWZfMiU1RD1tYWlsdG8lM0E5NTMwNzU5OTklNDBxcS5jb20mRFVYJTVCZm9vdGVyX2JyYW5kX2J0bl9ibGFua18yJTVEPW9uJkRVWCU1QnNpdGVfbm90aWNlX3MlNUQ9b24mRFVYJTVCc2l0ZV9ub3RpY2VfdGl0bGUlNUQ9JTA4JUU1JTkwJTkwJUU4JUExJTgwJUU2JThFJUE4JUU4JThEJTkwJkRVWCU1QnNpdGVfbm90aWNlX2NhdCU1RD0xOCZEVVglNUJmb2N1c3NsaWRlX3NvcnQlNUQ9MSsyKzMrNCs1JkRVWCU1QmZvY3Vzc2xpZGVfdGl0bGVfMSU1RD14aXUlRTQlQjglQkIlRTklQTIlOTgrLSslRTUlQTQlQTclRTUlODklOEQlRTclQUIlQUYmRFVYJTVCZm9jdXNzbGlkZV9ocmVmXzElNUQ9aHR0cCUzQSUyRiUyRnd3dy5kYXFpYW5kdWFuLmNvbSUyRnRoZW1lJTJGeGl1JkRVWCU1QmZvY3Vzc2xpZGVfYmxhbmtfMSU1RD1vbiZEVVglNUJmb2N1c3NsaWRlX3NyY18xJTVEPWh0dHAlM0ElMkYlMkZ3d3cuZGFxaWFuZHVhbi5jb20lMkZ3cC1jb250ZW50JTJGdXBsb2FkcyUyRjIwMTQlMkYxMSUyRmhzLXhpdS5qcGcmRFVYJTVCZm9jdXNzbGlkZV90aXRsZV8yJTVEPXhpdSVFNCVCOCVCQiVFOSVBMiU5OCstKyVFNSVBNCVBNyVFNSU4OSU4RCVFNyVBQiVBRiZEVVglNUJmb2N1c3NsaWRlX2hyZWZfMiU1RD1odHRwJTNBJTJGJTJGd3d3LmRhcWlhbmR1YW4uY29tJTJGdGhlbWUlMkZ4aXUmRFVYJTVCZm9jdXNzbGlkZV9ibGFua18yJTVEPW9uJkRVWCU1QmZvY3Vzc2xpZGVfc3JjXzIlNUQ9aHR0cCUzQSUyRiUyRnd3dy5kYXFpYW5kdWFuLmNvbSUyRndwLWNvbnRlbnQlMkZ1cGxvYWRzJTJGMjAxNCUyRjExJTJGaHMteGl1LmpwZyZEVVglNUJmb2N1c3NsaWRlX3RpdGxlXzMlNUQ9eGl1JUU0JUI4JUJCJUU5JUEyJTk4Ky0rJUU1JUE0JUE3JUU1JTg5JThEJUU3JUFCJUFGJkRVWCU1QmZvY3Vzc2xpZGVfaHJlZl8zJTVEPWh0dHAlM0ElMkYlMkZ3d3cuZGFxaWFuZHVhbi5jb20lMkZ0aGVtZSUyRnhpdSZEVVglNUJmb2N1c3NsaWRlX2JsYW5rXzMlNUQ9b24mRFVYJTVCZm9jdXNzbGlkZV9zcmNfMyU1RD1odHRwJTNBJTJGJTJGd3d3LmRhcWlhbmR1YW4uY29tJTJGd3AtY29udGVudCUyRnVwbG9hZHMlMkYyMDE0JTJGMTElMkZocy14aXUuanBnJkRVWCU1QmZvY3Vzc2xpZGVfdGl0bGVfNCU1RD14aXUlRTQlQjglQkIlRTklQTIlOTgrLSslRTUlQTQlQTclRTUlODklOEQlRTclQUIlQUYmRFVYJTVCZm9jdXNzbGlkZV9ocmVmXzQlNUQ9aHR0cCUzQSUyRiUyRnd3dy5kYXFpYW5kdWFuLmNvbSUyRnRoZW1lJTJGeGl1JkRVWCU1QmZvY3Vzc2xpZGVfYmxhbmtfNCU1RD1vbiZEVVglNUJmb2N1c3NsaWRlX3NyY180JTVEPWh0dHAlM0ElMkYlMkZ3d3cuZGFxaWFuZHVhbi5jb20lMkZ3cC1jb250ZW50JTJGdXBsb2FkcyUyRjIwMTQlMkYxMSUyRmhzLXhpdS5qcGcmRFVYJTVCZm9jdXNzbGlkZV90aXRsZV81JTVEPXhpdSVFNCVCOCVCQiVFOSVBMiU5OCstKyVFNSVBNCVBNyVFNSU4OSU4RCVFNyVBQiVBRiZEVVglNUJmb2N1c3NsaWRlX2hyZWZfNSU1RD1odHRwJTNBJTJGJTJGd3d3LmRhcWlhbmR1YW4uY29tJTJGdGhlbWUlMkZ4aXUmRFVYJTVCZm9jdXNzbGlkZV9ibGFua181JTVEPW9uJkRVWCU1QmZvY3Vzc2xpZGVfc3JjXzUlNUQ9aHR0cCUzQSUyRiUyRnd3dy5kYXFpYW5kdWFuLmNvbSUyRndwLWNvbnRlbnQlMkZ1cGxvYWRzJTJGMjAxNCUyRjExJTJGaHMteGl1LmpwZyZEVVglNUJzaWRlcm9sbF9pbmRleF9zJTVEPW9uJkRVWCU1QnNpZGVyb2xsX2luZGV4JTVEPTErMiZEVVglNUJzaWRlcm9sbF9saXN0X3MlNUQ9b24mRFVYJTVCc2lkZXJvbGxfbGlzdCU1RD0xKzImRFVYJTVCc2lkZXJvbGxfcG9zdF9zJTVEPW9uJkRVWCU1QnNpZGVyb2xsX3Bvc3QlNUQ9MSsyJkRVWCU1QnBvc3RfbGlua19leGNlcnB0X3MlNUQ9b24mRFVYJTVCcG9zdF9saW5rX3NpbmdsZV9zJTVEPW9uJkRVWCU1QnBvc3RfbGlua19ibGFua19zJTVEPW9uJkRVWCU1QnBvc3RfbGlua19ub2ZvbGxvd19zJTVEPW9uJkRVWCU1QnBvc3RfbGlua19oMSU1RD0lRTclOUIlQjQlRTglQkUlQkUlRTklOTMlQkUlRTYlOEUlQTUmRFVYJTVCcmVhZHdhbGxfbGltaXRfdGltZSU1RD0yMDAmRFVYJTVCcmVhZHdhbGxfbGltaXRfbnVtYmVyJTVEPTIwMCZEVVglNUJwYWdlX21lbnUlNUQlNUI4MiU1RD1vbiZEVVglNUJwYWdlX21lbnUlNUQlNUI4NCU1RD1vbiZEVVglNUJwYWdlX21lbnUlNUQlNUI4NiU1RD1vbiZEVVglNUJwYWdlX21lbnUlNUQlNUI5NiU1RD1vbiZEVVglNUJwYWdlX21lbnUlNUQlNUIxMDAlNUQ9b24mRFVYJTVCcGFnZV9saW5rc19jYXQlNUQlNUIyOSU1RD1vbiZEVVglNUJpbmRleF9saXN0X3RpdGxlJTVEPSVFNiU5QyU4MCVFNiU5NiVCMCVFNSU4RiU5MSVFNSVCOCU4MyZEVVglNUJpbmRleF9saXN0X3RpdGxlX3IlNUQ9JTNDYStocmVmJTNEJTIyJUU5JTkzJUJFJUU2JThFJUE1JUU1JTlDJUIwJUU1JTlEJTgwJTIyJTNFJUU3JUE3JUJCJUU1JThBJUE4JUU3JUFCJUFGJTNDJTJGYSUzRSUzQ2EraHJlZiUzRCUyMiVFOSU5MyVCRSVFNiU4RSVBNSVFNSU5QyVCMCVFNSU5RCU4MCUyMiUzRUpTJTNDJTJGYSUzRSUzQ2EraHJlZiUzRCUyMiVFOSU5MyVCRSVFNiU4RSVBNSVFNSU5QyVCMCVFNSU5RCU4MCUyMiUzRUNTUyUzQyUyRmElM0UlM0NhK2hyZWYlM0QlMjIlRTklOTMlQkUlRTYlOEUlQTUlRTUlOUMlQjAlRTUlOUQlODAlMjIlM0VIVE1MJTNDJTJGYSUzRSZEVVglNUJjb21tZW50X3RpdGxlJTVEPSVFOCVBRiU4NCVFOCVBRSVCQSZEVVglNUJjb21tZW50X3RleHQlNUQ9JUU0JUJEJUEwJUU3JTlBJTg0JUU4JUFGJTg0JUU4JUFFJUJBJUU1JThGJUFGJUU0JUJCJUE1JUU0JUI4JTgwJUU5JTkyJTg4JUU4JUE3JTgxJUU4JUExJTgwJkRVWCU1QmNvbW1lbnRfc3VibWl0X3RleHQlNUQ9JUU2JThGJTkwJUU0JUJBJUE0JUU4JUFGJTg0JUU4JUFFJUJBJkRVWCU1QndlaWJvJTVEPWh0dHAlM0ElMkYlMkZ3ZWliby5jb20lMkZ1JTJGMzIwNjIzMTU3MyZEVVglNUJ0cXElNUQ9aHR0cCUzQSUyRiUyRnQucXEuY29tJTJGdzk1MzA3NTk5OSZEVVglNUJ0d2l0dGVyJTVEPSZEVVglNUJmYWNlYm9vayU1RD0mRFVYJTVCd2VjaGF0JTVEPXc5NTMwNzU5OTkmRFVYJTVCd2VjaGF0X3FyJTVEPWh0dHAlM0ElMkYlMkZtZXJyaWVyLmJ1ZyUyRndwLWNvbnRlbnQlMkZ1cGxvYWRzJTJGMjAxNyUyRjAzJTJGcXItd2VjaGF0LmpwZyZEVVglNUJmZWVkJTVEPWh0dHAlM0ElMkYlMkZtZXJyaWVyLmNvbSUyRmZlZWQlMkYmRFVYJTVCYWRzX3Bvc3RfZm9vdGVyX3ByZXRpdGxlJTVEPSVFOSU5OCVCRiVFOSU4NyU4QyVFNyU5OSVCRSVFNyVBNyU4MCZEVVglNUJhZHNfcG9zdF9mb290ZXJfdGl0bGUlNUQ9JkRVWCU1QmFkc19wb3N0X2Zvb3Rlcl9saW5rJTVEPSZEVVglNUJhZHNfcG9zdF9mb290ZXJfbGlua19ibGFuayU1RD1vbiZEVVglNUJhZHNfaW5kZXhfMDElNUQ9JkRVWCU1QmFkc19pbmRleF8wMV9tJTVEPSZEVVglNUJhZHNfaW5kZXhfMDIlNUQ9JkRVWCU1QmFkc19pbmRleF8wMl9tJTVEPSZEVVglNUJhZHNfcG9zdF8wMSU1RD0mRFVYJTVCYWRzX3Bvc3RfMDFfbSU1RD0mRFVYJTVCYWRzX3Bvc3RfMDIlNUQ9JkRVWCU1QmFkc19wb3N0XzAyX20lNUQ9JkRVWCU1QmFkc19wb3N0XzAzJTVEPSZEVVglNUJhZHNfcG9zdF8wM19tJTVEPSZEVVglNUJhZHNfY2F0XzAxJTVEPSZEVVglNUJhZHNfY2F0XzAxX20lNUQ9JkRVWCU1QmFkc190YWdfMDElNUQ9JkRVWCU1QmFkc190YWdfMDFfbSU1RD0mRFVYJTVCYWRzX3NlYXJjaF8wMSU1RD0mRFVYJTVCYWRzX3NlYXJjaF8wMV9tJTVEPSZEVVglNUJmY29kZSU1RD0mRFVYJTVCY3NzY29kZSU1RD0mRFVYJTVCaGVhZGNvZGUlNUQ9JkRVWCU1QmZvb3Rjb2RlJTVEPSZEVVglNUJ0cmFja2NvZGUlNUQ9JnVwZGF0ZT0lRTQlQkYlOUQlRTUlQUQlOTglRTglQUUlQkUlRTclQkQlQUU=\"}'),
+(90, 1490326368.789400, 1490326368.261248, 0x00000000000000000000ffff7f000001, 1, 200, 0, 1, 0, 'http://merrier.bug/wp-admin/options.php', 'http://merrier.bug/wp-admin/themes.php?page=options-framework', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', 'learned:waf', 'XSS: Cross Site Scripting', '{\"learningMode\":1,\"failedRules\":[9],\"paramKey\":\"cmVxdWVzdC5ib2R5W0RVWF1bc2hhcmVfY29kZV0=\",\"paramValue\":\"PGRpdiBjbGFzcz0iYmRzaGFyZWJ1dHRvbmJveCI+DQo8c3Bhbj7liIbkuqvliLDvvJo8L3NwYW4+DQo8YSBjbGFzcz0iYmRzX3F6b25lIiBkYXRhLWNtZD0icXpvbmUiIHRpdGxlPSLliIbkuqvliLBRUeepuumXtCI+PC9hPg0KPGEgY2xhc3M9ImJkc190c2luYSIgZGF0YS1jbWQ9InRzaW5hIiB0aXRsZT0i5YiG5Lqr5Yiw5paw5rWq5b6u5Y2aIj48L2E+DQo8YSBjbGFzcz0iYmRzX3dlaXhpbiIgZGF0YS1jbWQ9IndlaXhpbiIgdGl0bGU9IuWIhuS6q+WIsOW+ruS\\/oSI+PC9hPg0KPGEgY2xhc3M9ImJkc190cXEiIGRhdGEtY21kPSJ0cXEiIHRpdGxlPSLliIbkuqvliLDohb7orq\\/lvq7ljZoiPjwvYT4NCjxhIGNsYXNzPSJiZHNfc3FxIiBkYXRhLWNtZD0ic3FxIiB0aXRsZT0i5YiG5Lqr5YiwUVHlpb3lj4siPjwvYT4NCjxhIGNsYXNzPSJiZHNfYmRob21lIiBkYXRhLWNtZD0iYmRob21lIiB0aXRsZT0i5YiG5Lqr5Yiw55m+5bqm5paw6aaW6aG1Ij48L2E+DQo8YSBjbGFzcz0iYmRzX3RxZiIgZGF0YS1jbWQ9InRxZiIgdGl0bGU9IuWIhuS6q+WIsOiFvuiur+aci+WPiyI+PC9hPg0KPGEgY2xhc3M9ImJkc195b3VkYW8iIGRhdGEtY21kPSJ5b3VkYW8iIHRpdGxlPSLliIbkuqvliLDmnInpgZPkupHnrJTorrAiPjwvYT4NCjxhIGNsYXNzPSJiZHNfbW9yZSIgZGF0YS1jbWQ9Im1vcmUiPuabtOWkmjwvYT4gPHNwYW4+KDwvc3Bhbj48YSBjbGFzcz0iYmRzX2NvdW50IiBkYXRhLWNtZD0iY291bnQiIHRpdGxlPSLntK\\/orqHliIbkuqsw5qyhIj4wPC9hPjxzcGFuPik8L3NwYW4+DQo8L2Rpdj4NCjxzY3JpcHQ+DQp3aW5kb3cuX2JkX3NoYXJlX2NvbmZpZyA9IHsNCiAgICBjb21tb246IHsNCgkJImJkVGV4dCIgICAgIDogIiIsDQoJCSJiZE1pbmkiICAgICA6ICIyIiwNCgkJImJkTWluaUxpc3QiIDogZmFsc2UsDQoJCSJiZFBpYyIgICAgICA6ICIiLA0KCQkiYmRTdHlsZSIgICAgOiAiMCIsDQoJCSJiZFNpemUiICAgICA6ICIyNCINCiAgICB9LA0KICAgIHNoYXJlOiBbew0KICAgICAgICBiZEN1c3RvbVN0eWxlOiAiaHR0cDovL21lcnJpZXIuY29tL3dwLWNvbnRlbnQvdGhlbWVzL2R1eC9jc3Mvc2hhcmUuY3NzIg0KICAgIH1dDQp9DQp3aXRoKGRvY3VtZW50KTBbKGdldEVsZW1lbnRzQnlUYWdOYW1lKCJoZWFkIilbMF18fGJvZHkpLmFwcGVuZENoaWxkKGNyZWF0ZUVsZW1lbnQoInNjcmlwdCIpKS5zcmM9Imh0dHA6Ly9iZGltZy5zaGFyZS5iYWlkdS5jb20vc3RhdGljL2FwaS9qcy9zaGFyZS5qcz9jZG52ZXJzaW9uPSIrfigtbmV3IERhdGUoKS8zNmU1KV07DQo8L3NjcmlwdD4=\",\"category\":\"xss\",\"ssl\":false}'),
 (91, 0.000000, 1490326376.406970, 0x00000000000000000000ffff7f000001, 0, 200, 0, 0, 0, 'http://merrier.bug/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
 (92, 0.000000, 1490326383.846596, 0x00000000000000000000ffff7f000001, 0, 200, 0, 0, 0, 'http://merrier.bug/', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
 (93, 0.000000, 1490326386.745023, 0x00000000000000000000ffff7f000001, 0, 200, 0, 1, 0, 'http://merrier.com/wp-content/themes/dux/action/log.php', 'http://merrier.bug/', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', 'loginOK', NULL, NULL),
 (94, 0.000000, 1490326410.381084, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
-(95, 0.000000, 1490326418.029775, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL);
+(95, 0.000000, 1490326418.029775, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
+(96, 0.000000, 1490328715.768134, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
+(97, 0.000000, 1490328717.395067, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.com/wp-login.php', '', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL),
+(98, 0.000000, 1490328734.084960, 0x00000000000000000000ffff7f000001, 1, 200, 0, 1, 0, 'http://merrier.bug/wp-login.php', 'http://merrier.com/wp-login.php', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', 'loginOK', NULL, NULL),
+(99, 0.000000, 1490328754.900106, 0x00000000000000000000ffff7f000001, 1, 200, 0, 0, 0, 'http://merrier.online/wp-login.php?redirect_to=http%3A%2F%2Fmerrier.bug%2Fwp-admin%2Foptions-general.php%3Fsettings-updated%3Dtrue&reauth=1', 'http://merrier.bug/wp-admin/options-general.php', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36', '', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfHoover`
+--
 
 DROP TABLE IF EXISTS `wp_wfHoover`;
-CREATE TABLE IF NOT EXISTS `wp_wfHoover` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfHoover` (
+  `id` int(10) UNSIGNED NOT NULL,
   `owner` text,
   `host` text,
   `path` text,
-  `hostKey` binary(4) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `k2` (`hostKey`)
+  `hostKey` binary(4) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfIssues`
+--
+
 DROP TABLE IF EXISTS `wp_wfIssues`;
-CREATE TABLE IF NOT EXISTS `wp_wfIssues` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfIssues` (
+  `id` int(10) UNSIGNED NOT NULL,
   `time` int(10) UNSIGNED NOT NULL,
   `status` varchar(10) NOT NULL,
   `type` varchar(20) NOT NULL,
@@ -6284,9 +6533,12 @@ CREATE TABLE IF NOT EXISTS `wp_wfIssues` (
   `ignoreC` char(32) NOT NULL,
   `shortMsg` varchar(255) NOT NULL,
   `longMsg` text,
-  `data` text,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+  `data` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfIssues`
+--
 
 INSERT INTO `wp_wfIssues` (`id`, `time`, `status`, `type`, `severity`, `ignoreP`, `ignoreC`, `shortMsg`, `longMsg`, `data`) VALUES
 (27, 1490288442, 'new', 'knownfile', 1, '532994254f37ad862bf3f3f8c831046d', '8f0a59e0d7f04ac8169e36f23e42c70c', 'WordPress core file modified: readme.html', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:11:\"readme.html\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}'),
@@ -6294,12 +6546,21 @@ INSERT INTO `wp_wfIssues` (`id`, `time`, `status`, `type`, `severity`, `ignoreP`
 (29, 1490288478, 'new', 'knownfile', 1, 'cfc7e8cc02e9211ae94c20050e439a4e', 'fcd5147ab2315606517847d40b4610c8', 'WordPress core file modified: wp-includes/class-smtp.php', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:26:\"wp-includes/class-smtp.php\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}'),
 (30, 1490288481, 'new', 'knownfile', 1, '686011a450e7c2dc201a6f146ab35d6b', 'cfa9b141dde6d52483089b7b78933e2d', 'WordPress core file modified: wp-includes/formatting.php', 'This WordPress core file has been modified and differs from the original file distributed with this version of WordPress.', 'a:5:{s:4:\"file\";s:26:\"wp-includes/formatting.php\";s:5:\"cType\";s:4:\"core\";s:7:\"canDiff\";b:1;s:6:\"canFix\";b:1;s:9:\"canDelete\";b:0;}');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfKnownFileList`
+--
+
 DROP TABLE IF EXISTS `wp_wfKnownFileList`;
-CREATE TABLE IF NOT EXISTS `wp_wfKnownFileList` (
-  `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
-  `path` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3527 DEFAULT CHARSET=utf8;
+CREATE TABLE `wp_wfKnownFileList` (
+  `id` int(11) UNSIGNED NOT NULL,
+  `path` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfKnownFileList`
+--
 
 INSERT INTO `wp_wfKnownFileList` (`id`, `path`) VALUES
 (1, 'index.php'),
@@ -9833,26 +10094,42 @@ INSERT INTO `wp_wfKnownFileList` (`id`, `path`) VALUES
 (3525, 'wp-trackback.php'),
 (3526, 'xmlrpc.php');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfLeechers`
+--
+
 DROP TABLE IF EXISTS `wp_wfLeechers`;
-CREATE TABLE IF NOT EXISTS `wp_wfLeechers` (
+CREATE TABLE `wp_wfLeechers` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eMin`,`IP`)
+  `hits` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfLockedOut`
+--
+
 DROP TABLE IF EXISTS `wp_wfLockedOut`;
-CREATE TABLE IF NOT EXISTS `wp_wfLockedOut` (
+CREATE TABLE `wp_wfLockedOut` (
   `IP` binary(16) NOT NULL,
   `blockedTime` bigint(20) NOT NULL,
   `reason` varchar(255) NOT NULL,
   `lastAttempt` int(10) UNSIGNED DEFAULT '0',
-  `blockedHits` int(10) UNSIGNED DEFAULT '0',
-  PRIMARY KEY (`IP`)
+  `blockedHits` int(10) UNSIGNED DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfLocs`
+--
+
 DROP TABLE IF EXISTS `wp_wfLocs`;
-CREATE TABLE IF NOT EXISTS `wp_wfLocs` (
+CREATE TABLE `wp_wfLocs` (
   `IP` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
   `failed` tinyint(3) UNSIGNED NOT NULL,
@@ -9861,13 +10138,18 @@ CREATE TABLE IF NOT EXISTS `wp_wfLocs` (
   `countryName` varchar(255) DEFAULT '',
   `countryCode` char(2) DEFAULT '',
   `lat` float(10,7) DEFAULT '0.0000000',
-  `lon` float(10,7) DEFAULT '0.0000000',
-  PRIMARY KEY (`IP`)
+  `lon` float(10,7) DEFAULT '0.0000000'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfLogins`
+--
+
 DROP TABLE IF EXISTS `wp_wfLogins`;
-CREATE TABLE IF NOT EXISTS `wp_wfLogins` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfLogins` (
+  `id` int(10) UNSIGNED NOT NULL,
   `hitID` int(11) DEFAULT NULL,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `fail` tinyint(3) UNSIGNED NOT NULL,
@@ -9875,11 +10157,12 @@ CREATE TABLE IF NOT EXISTS `wp_wfLogins` (
   `username` varchar(255) NOT NULL,
   `userID` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) DEFAULT NULL,
-  `UA` text,
-  PRIMARY KEY (`id`),
-  KEY `k1` (`IP`,`fail`),
-  KEY `hitID` (`hitID`)
-) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+  `UA` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfLogins`
+--
 
 INSERT INTO `wp_wfLogins` (`id`, `hitID`, `ctime`, `fail`, `action`, `username`, `userID`, `IP`, `UA`) VALUES
 (1, 8, 1489890439.207793, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
@@ -9917,104 +10200,109 @@ INSERT INTO `wp_wfLogins` (`id`, `hitID`, `ctime`, `fail`, `action`, `username`,
 (33, 79, 1490325691.487477, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
 (34, 86, 1490326203.519215, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
 (35, 89, 1490326257.049978, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
-(36, 93, 1490326386.868491, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36');
+(36, 93, 1490326386.868491, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36'),
+(37, 98, 1490328734.216316, 0, 'loginOK', 'merrier', 1, 0x00000000000000000000ffff7f000001, 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfNet404s`
+--
 
 DROP TABLE IF EXISTS `wp_wfNet404s`;
-CREATE TABLE IF NOT EXISTS `wp_wfNet404s` (
+CREATE TABLE `wp_wfNet404s` (
   `sig` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
-  `URI` varchar(1000) NOT NULL,
-  PRIMARY KEY (`sig`),
-  KEY `k1` (`ctime`)
+  `URI` varchar(1000) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfNotifications`
+--
+
 DROP TABLE IF EXISTS `wp_wfNotifications`;
-CREATE TABLE IF NOT EXISTS `wp_wfNotifications` (
+CREATE TABLE `wp_wfNotifications` (
   `id` varchar(32) NOT NULL DEFAULT '',
   `new` tinyint(3) UNSIGNED NOT NULL DEFAULT '1',
   `category` varchar(255) NOT NULL,
   `priority` int(11) NOT NULL DEFAULT '1000',
   `ctime` int(10) UNSIGNED NOT NULL,
   `html` text NOT NULL,
-  `links` text NOT NULL,
-  PRIMARY KEY (`id`)
+  `links` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- 转存表中的数据 `wp_wfNotifications`
+--
+
 INSERT INTO `wp_wfNotifications` (`id`, `new`, `category`, `priority`, `ctime`, `html`, `links`) VALUES
-('site-AEAAAAA', 1, 'wfplugin_scan', 500, 1490288551, '<a href=\"http://merrier.com/wp-admin/admin.php?page=WordfenceScan\">4 issues found in most recent scan</a>', '[]');
+('site-AEAAAAA', 1, 'wfplugin_scan', 500, 1490288551, '<a href=\"http://merrier.com/wp-admin/admin.php?page=WordfenceScan\">4 issues found in most recent scan</a>', '[]'),
+('site-BIAAAAA', 1, 'wfplugin_updates', 1000, 1490328739, '<a href=\"http://merrier.bug/wp-admin/update-core.php\">An update is available for 1 plugin</a>', '[]');
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfReverseCache`
+--
 
 DROP TABLE IF EXISTS `wp_wfReverseCache`;
-CREATE TABLE IF NOT EXISTS `wp_wfReverseCache` (
+CREATE TABLE `wp_wfReverseCache` (
   `IP` binary(16) NOT NULL,
   `host` varchar(255) NOT NULL,
-  `lastUpdate` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`IP`)
+  `lastUpdate` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfScanners`
+--
 
 DROP TABLE IF EXISTS `wp_wfScanners`;
-CREATE TABLE IF NOT EXISTS `wp_wfScanners` (
+CREATE TABLE `wp_wfScanners` (
   `eMin` int(10) UNSIGNED NOT NULL,
   `IP` binary(16) NOT NULL,
-  `hits` smallint(5) UNSIGNED NOT NULL,
-  PRIMARY KEY (`eMin`,`IP`)
+  `hits` smallint(5) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfSNIPCache`
+--
+
 DROP TABLE IF EXISTS `wp_wfSNIPCache`;
-CREATE TABLE IF NOT EXISTS `wp_wfSNIPCache` (
-  `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfSNIPCache` (
+  `id` int(10) UNSIGNED NOT NULL,
   `IP` varchar(45) NOT NULL DEFAULT '',
   `expiration` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `body` varchar(255) NOT NULL DEFAULT '',
   `count` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  `type` int(10) UNSIGNED NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`),
-  KEY `expiration` (`expiration`),
-  KEY `IP` (`IP`),
-  KEY `type` (`type`)
+  `type` int(10) UNSIGNED NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfStatus`
+--
+
 DROP TABLE IF EXISTS `wp_wfStatus`;
-CREATE TABLE IF NOT EXISTS `wp_wfStatus` (
-  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+CREATE TABLE `wp_wfStatus` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `ctime` double(17,6) UNSIGNED NOT NULL,
   `level` tinyint(3) UNSIGNED NOT NULL,
   `type` char(5) NOT NULL,
-  `msg` varchar(1000) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `k1` (`ctime`),
-  KEY `k2` (`type`)
-) ENGINE=InnoDB AUTO_INCREMENT=1012 DEFAULT CHARSET=utf8;
+  `msg` varchar(1000) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- 转存表中的数据 `wp_wfStatus`
+--
 
 INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
-(1, 1489820277.077812, 1, 'info', 'Scheduled Wordfence scan starting at Saturday 18th of March 2017 02:57:57 PM'),
-(2, 1489820277.860961, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(3, 1489820277.868782, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(4, 1489820280.004543, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(5, 1489820282.156732, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(6, 1489820284.295074, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(7, 1489820286.442141, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(8, 1489820290.172069, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(9, 1489820290.179890, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(10, 1489820290.182440, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
-(11, 1489820290.185785, 1, 'info', 'Contacting Wordfence to initiate scan'),
-(12, 1489820296.724835, 2, 'info', 'Getting plugin list from WordPress'),
-(13, 1489820296.827014, 2, 'info', 'Found 26 plugins'),
-(14, 1489820296.829792, 2, 'info', 'Getting theme list from WordPress'),
-(15, 1489820296.867805, 2, 'info', 'Found 4 themes'),
-(16, 1489820296.882087, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(17, 1489820379.683049, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(18, 1489820379.689251, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(19, 1489820463.768509, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(20, 1489820463.774483, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository'),
-(21, 1489820463.774910, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(22, 1489820463.775316, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(23, 1489820463.777783, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(24, 1489820463.780184, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
-(25, 1489820465.388720, 2, 'info', '500 files indexed'),
-(26, 1489820465.628987, 2, 'info', '1000 files indexed'),
-(27, 1489820465.834074, 2, 'info', '1500 files indexed'),
-(28, 1489820466.062350, 2, 'info', '2000 files indexed'),
-(29, 1489820466.254128, 2, 'info', '2500 files indexed'),
 (30, 1489820466.427689, 2, 'info', '3000 files indexed'),
 (31, 1489820466.603577, 2, 'info', '3500 files indexed'),
 (32, 1489820466.788556, 2, 'info', '4000 files indexed'),
@@ -10079,13 +10367,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (91, 1489820541.397004, 2, 'info', 'Analyzed 5500 files containing 73.84 MB of data so far'),
 (92, 1489820542.321842, 2, 'info', 'Analyzed 5600 files containing 76.4 MB of data so far'),
 (93, 1489820542.650733, 2, 'info', 'Analyzed 5688 files containing 77.95 MB of data.'),
-(94, 1489820542.651236, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
-(95, 1489820542.655745, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
-(96, 1489820542.658602, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
-(97, 1489820542.681042, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
-(98, 1489820542.687437, 10, 'info', 'SUM_ENDOK:Check for publicly accessible configuration files, backup files and logs'),
-(99, 1489820542.694523, 10, 'info', 'SUM_START:Scanning file contents for infections and vulnerabilities'),
-(100, 1489820542.697383, 10, 'info', 'SUM_START:Scanning files for URLs in Google\'s Safe Browsing List'),
 (101, 1489820569.659783, 2, 'info', 'Starting scan of file contents'),
 (102, 1489820571.552971, 2, 'info', 'Scanned contents of 33 additional files at 31.95 per second'),
 (103, 1489820572.557049, 2, 'info', 'Scanned contents of 54 additional files at 26.51 per second'),
@@ -10101,63 +10382,26 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (113, 1489820580.382033, 2, 'info', 'Checking 17 URLs from 7 sources.'),
 (114, 1489820585.898451, 2, 'info', 'Done URL check.'),
 (115, 1489820585.905518, 2, 'info', 'Done file contents scan'),
-(116, 1489820585.908578, 10, 'info', 'SUM_ENDOK:Scanning file contents for infections and vulnerabilities'),
-(117, 1489820585.911684, 10, 'info', 'SUM_ENDOK:Scanning files for URLs in Google\'s Safe Browsing List'),
-(118, 1489820585.917174, 10, 'info', 'SUM_START:Scanning for publicly accessible quarantined files'),
-(119, 1489820585.917563, 10, 'info', 'SUM_ENDOK:Scanning for publicly accessible quarantined files'),
-(120, 1489820585.922873, 10, 'info', 'SUM_START:Scanning posts for URLs in Google\'s Safe Browsing List'),
 (121, 1489820585.947725, 2, 'info', 'Examining URLs found in posts we scanned for dangerous websites'),
 (122, 1489820585.948435, 2, 'info', 'Checking 20 host keys against Wordfence scanning servers.'),
 (123, 1489820591.600454, 2, 'info', 'Done host key check.'),
 (124, 1489820591.602403, 2, 'info', 'Done examining URLs'),
-(125, 1489820591.607313, 10, 'info', 'SUM_ENDOK:Scanning posts for URLs in Google\'s Safe Browsing List'),
-(126, 1489820592.446595, 10, 'info', 'SUM_START:Scanning comments for URLs in Google\'s Safe Browsing List'),
 (127, 1489820592.454184, 2, 'info', 'Checking 1 host keys against Wordfence scanning servers.'),
 (128, 1489820601.444604, 2, 'info', 'Done host key check.'),
-(129, 1489820601.449990, 10, 'info', 'SUM_ENDOK:Scanning comments for URLs in Google\'s Safe Browsing List'),
-(130, 1489820601.456084, 10, 'info', 'SUM_START:Scanning for weak passwords'),
 (131, 1489820601.456812, 2, 'info', 'Starting password strength check on 1 users.'),
-(132, 1489820601.739302, 10, 'info', 'SUM_ENDOK:Scanning for weak passwords'),
-(133, 1489820601.746016, 10, 'info', 'SUM_START:Scanning DNS for unauthorized changes'),
 (134, 1489820601.746486, 2, 'info', 'Starting DNS scan for merrier.com'),
 (135, 1489820603.210727, 2, 'info', 'Scanning DNS A record for merrier.com'),
-(136, 1489820603.613388, 10, 'info', 'SUM_ENDOK:Scanning DNS for unauthorized changes'),
-(137, 1489820603.620059, 10, 'info', 'SUM_START:Scanning to check available disk space'),
 (138, 1489820603.620532, 2, 'info', 'Total disk space: 232.6406GB -- Free disk space: 89.8685GB'),
 (139, 1489820603.621005, 2, 'info', 'The disk has 92025.30 MB space available'),
-(140, 1489820603.621433, 10, 'info', 'SUM_ENDOK:Scanning to check available disk space'),
-(141, 1489820603.627011, 10, 'info', 'SUM_START:Scanning for old themes, plugins and core files'),
-(142, 1489820605.400071, 10, 'info', 'SUM_ENDOK:Scanning for old themes, plugins and core files'),
-(143, 1489820605.406794, 10, 'info', 'SUM_START:Scanning for admin users not created through WordPress'),
-(144, 1489820605.412692, 10, 'info', 'SUM_ENDOK:Scanning for admin users not created through WordPress'),
 (145, 1489820605.430973, 1, 'info', '-------------------'),
 (146, 1489820605.431343, 1, 'info', 'Scan Complete. Scanned 5688 files, 26 plugins, 4 themes, 29 pages, 2 comments and 13231 records in 5 minutes 28 seconds.'),
-(147, 1489820605.431690, 10, 'info', 'SUM_FINAL:Scan complete. You have 3 new issues to fix. See below.'),
 (148, 1489820610.890588, 2, 'info', 'Wordfence used 40.81MB of memory for scan. Server peak memory usage was: 89.58MB'),
 (149, 1489886782.449692, 1, 'info', 'Scheduled Wordfence scan starting at Sunday 19th of March 2017 09:26:22 AM'),
-(150, 1489886784.145990, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(151, 1489886784.156522, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(152, 1489886786.161798, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(153, 1489886788.193257, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(154, 1489886790.273752, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(155, 1489886792.346100, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(156, 1489886794.860168, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(157, 1489886794.898769, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(158, 1489886794.931400, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
 (159, 1489886795.060916, 1, 'info', 'Contacting Wordfence to initiate scan'),
 (160, 1489886798.001209, 2, 'info', 'Getting plugin list from WordPress'),
 (161, 1489886798.073888, 2, 'info', 'Found 16 plugins'),
 (162, 1489886798.080146, 2, 'info', 'Getting theme list from WordPress'),
 (163, 1489886798.152784, 2, 'info', 'Found 4 themes'),
-(164, 1489886798.172854, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(165, 1489886815.127822, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(166, 1489886815.133388, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(167, 1489886840.547350, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(168, 1489886840.554342, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository'),
-(169, 1489886840.554813, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(170, 1489886840.555245, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(171, 1489886840.557712, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(172, 1489886840.560725, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
 (173, 1489886841.859877, 2, 'info', '500 files indexed'),
 (174, 1489886842.101359, 2, 'info', '1000 files indexed'),
 (175, 1489886842.301949, 2, 'info', '1500 files indexed'),
@@ -10200,13 +10444,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (212, 1489886888.666929, 2, 'info', 'Analyzed 3300 files containing 52.84 MB of data so far'),
 (213, 1489886890.898551, 2, 'info', 'Analyzed 3400 files containing 55.63 MB of data so far'),
 (214, 1489886891.296809, 2, 'info', 'Analyzed 3479 files containing 56.87 MB of data.'),
-(215, 1489886891.297475, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
-(216, 1489886891.300748, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
-(217, 1489886891.303798, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
-(218, 1489886891.326926, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
-(219, 1489886891.327843, 10, 'info', 'SUM_ENDOK:Check for publicly accessible configuration files, backup files and logs'),
-(220, 1489886891.334245, 10, 'info', 'SUM_START:Scanning file contents for infections and vulnerabilities'),
-(221, 1489886891.336888, 10, 'info', 'SUM_START:Scanning files for URLs in Google\'s Safe Browsing List'),
 (222, 1489886908.563740, 2, 'info', 'Starting scan of file contents'),
 (223, 1489886910.474539, 2, 'info', 'Scanned contents of 29 additional files at 28.57 per second'),
 (224, 1489886911.493098, 2, 'info', 'Scanned contents of 65 additional files at 31.96 per second'),
@@ -10222,63 +10459,26 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (234, 1489886920.228696, 2, 'info', 'Checking 9 URLs from 5 sources.'),
 (235, 1489886922.274691, 2, 'info', 'Done URL check.'),
 (236, 1489886922.280707, 2, 'info', 'Done file contents scan'),
-(237, 1489886922.284102, 10, 'info', 'SUM_ENDOK:Scanning file contents for infections and vulnerabilities'),
-(238, 1489886922.287196, 10, 'info', 'SUM_ENDOK:Scanning files for URLs in Google\'s Safe Browsing List'),
-(239, 1489886922.293201, 10, 'info', 'SUM_START:Scanning for publicly accessible quarantined files'),
-(240, 1489886922.293684, 10, 'info', 'SUM_ENDOK:Scanning for publicly accessible quarantined files'),
-(241, 1489886922.299164, 10, 'info', 'SUM_START:Scanning posts for URLs in Google\'s Safe Browsing List'),
 (242, 1489886922.344653, 2, 'info', 'Examining URLs found in posts we scanned for dangerous websites'),
 (243, 1489886922.345791, 2, 'info', 'Checking 34 host keys against Wordfence scanning servers.'),
 (244, 1489886925.037573, 2, 'info', 'Done host key check.'),
 (245, 1489886925.039406, 2, 'info', 'Done examining URLs'),
-(246, 1489886925.042575, 10, 'info', 'SUM_ENDOK:Scanning posts for URLs in Google\'s Safe Browsing List'),
-(247, 1489886925.872750, 10, 'info', 'SUM_START:Scanning comments for URLs in Google\'s Safe Browsing List'),
 (248, 1489886925.879868, 2, 'info', 'Checking 1 host keys against Wordfence scanning servers.'),
 (249, 1489886930.364276, 2, 'info', 'Done host key check.'),
-(250, 1489886930.368481, 10, 'info', 'SUM_ENDOK:Scanning comments for URLs in Google\'s Safe Browsing List'),
-(251, 1489886930.374741, 10, 'info', 'SUM_START:Scanning for weak passwords'),
 (252, 1489886930.375795, 2, 'info', 'Starting password strength check on 1 users.'),
-(253, 1489886930.657450, 10, 'info', 'SUM_ENDOK:Scanning for weak passwords'),
-(254, 1489886930.665031, 10, 'info', 'SUM_START:Scanning DNS for unauthorized changes'),
 (255, 1489886930.665581, 2, 'info', 'Starting DNS scan for merrier.com'),
 (256, 1489886931.079449, 2, 'info', 'Scanning DNS A record for merrier.com'),
-(257, 1489886931.440778, 10, 'info', 'SUM_ENDOK:Scanning DNS for unauthorized changes'),
-(258, 1489886931.447015, 10, 'info', 'SUM_START:Scanning to check available disk space'),
 (259, 1489886931.447529, 2, 'info', 'Total disk space: 232.6406GB -- Free disk space: 94.5752GB'),
 (260, 1489886931.447987, 2, 'info', 'The disk has 96844.99 MB space available'),
-(261, 1489886931.448431, 10, 'info', 'SUM_ENDOK:Scanning to check available disk space'),
-(262, 1489886931.454125, 10, 'info', 'SUM_START:Scanning for old themes, plugins and core files'),
-(263, 1489886933.808078, 10, 'info', 'SUM_ENDOK:Scanning for old themes, plugins and core files'),
-(264, 1489886933.814644, 10, 'info', 'SUM_START:Scanning for admin users not created through WordPress'),
-(265, 1489886933.816857, 10, 'info', 'SUM_ENDOK:Scanning for admin users not created through WordPress'),
 (266, 1489886933.845730, 1, 'info', '-------------------'),
 (267, 1489886933.846185, 1, 'info', 'Scan Complete. Scanned 3479 files, 16 plugins, 4 themes, 34 pages, 2 comments and 9118 records in 2 minutes 29 seconds.'),
-(268, 1489886933.846609, 10, 'info', 'SUM_FINAL:Scan complete. You have 3 new issues to fix. See below.'),
 (269, 1489886936.806334, 2, 'info', 'Wordfence used 29.18MB of memory for scan. Server peak memory usage was: 77.95MB'),
 (270, 1489929223.823517, 1, 'info', 'Scheduled Wordfence scan starting at Sunday 19th of March 2017 09:13:43 PM'),
-(271, 1489929224.639557, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(272, 1489929224.650114, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(273, 1489929226.709256, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(274, 1489929228.761439, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(275, 1489929230.839118, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(276, 1489929232.913544, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(277, 1489929235.344009, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(278, 1489929235.351533, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(279, 1489929235.353687, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
 (280, 1489929235.357044, 1, 'info', 'Contacting Wordfence to initiate scan'),
 (281, 1489929238.291128, 2, 'info', 'Getting plugin list from WordPress'),
 (282, 1489929238.351854, 2, 'info', 'Found 17 plugins'),
 (283, 1489929238.354742, 2, 'info', 'Getting theme list from WordPress'),
 (284, 1489929238.396393, 2, 'info', 'Found 4 themes'),
-(285, 1489929238.410377, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(286, 1489929266.605507, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(287, 1489929266.613875, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(288, 1489929290.447307, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(289, 1489929290.454866, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository'),
-(290, 1489929290.455328, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(291, 1489929290.455727, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(292, 1489929290.458382, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(293, 1489929290.461175, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
 (294, 1489929291.700481, 2, 'info', '500 files indexed'),
 (295, 1489929291.923492, 2, 'info', '1000 files indexed'),
 (296, 1489929292.117351, 2, 'info', '1500 files indexed'),
@@ -10323,13 +10523,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (335, 1489929337.060624, 2, 'info', 'Analyzed 3400 files containing 56.03 MB of data so far'),
 (336, 1489929337.511103, 2, 'info', 'Analyzed 3500 files containing 58.11 MB of data so far'),
 (337, 1489929337.592851, 2, 'info', 'Analyzed 3509 files containing 58.21 MB of data.'),
-(338, 1489929337.593329, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
-(339, 1489929337.596245, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
-(340, 1489929337.599387, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
-(341, 1489929337.621027, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
-(342, 1489929337.622076, 10, 'info', 'SUM_ENDOK:Check for publicly accessible configuration files, backup files and logs'),
-(343, 1489929337.628728, 10, 'info', 'SUM_START:Scanning file contents for infections and vulnerabilities'),
-(344, 1489929337.631335, 10, 'info', 'SUM_START:Scanning files for URLs in Google\'s Safe Browsing List'),
 (345, 1489929342.563314, 2, 'info', 'Starting scan of file contents'),
 (346, 1489929344.516634, 2, 'info', 'Scanned contents of 31 additional files at 30.58 per second'),
 (347, 1489929347.129915, 2, 'info', 'Scanned contents of 51 additional files at 14.06 per second'),
@@ -10345,72 +10538,28 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (357, 1489929358.203331, 2, 'info', 'Checking 9 URLs from 5 sources.'),
 (358, 1489929359.808066, 2, 'info', 'Done URL check.'),
 (359, 1489929360.843028, 2, 'info', 'Done file contents scan'),
-(360, 1489929360.845498, 10, 'info', 'SUM_ENDOK:Scanning file contents for infections and vulnerabilities'),
-(361, 1489929360.849114, 10, 'info', 'SUM_ENDOK:Scanning files for URLs in Google\'s Safe Browsing List'),
-(362, 1489929360.856061, 10, 'info', 'SUM_START:Scanning for publicly accessible quarantined files'),
-(363, 1489929360.856720, 10, 'info', 'SUM_ENDOK:Scanning for publicly accessible quarantined files'),
-(364, 1489929360.864453, 10, 'info', 'SUM_START:Scanning posts for URLs in Google\'s Safe Browsing List'),
 (365, 1489929360.918759, 2, 'info', 'Examining URLs found in posts we scanned for dangerous websites'),
 (366, 1489929360.920411, 2, 'info', 'Checking 34 host keys against Wordfence scanning servers.'),
 (367, 1489929362.497854, 2, 'info', 'Done host key check.'),
 (368, 1489929362.499549, 2, 'info', 'Done examining URLs'),
-(369, 1489929362.502846, 10, 'info', 'SUM_ENDOK:Scanning posts for URLs in Google\'s Safe Browsing List'),
-(370, 1489929362.509458, 10, 'info', 'SUM_START:Scanning comments for URLs in Google\'s Safe Browsing List'),
 (371, 1489929362.516073, 2, 'info', 'Checking 1 host keys against Wordfence scanning servers.'),
 (372, 1489929365.157711, 2, 'info', 'Done host key check.'),
-(373, 1489929365.162175, 10, 'info', 'SUM_ENDOK:Scanning comments for URLs in Google\'s Safe Browsing List'),
-(374, 1489929365.168613, 10, 'info', 'SUM_START:Scanning for weak passwords'),
 (375, 1489929365.169547, 2, 'info', 'Starting password strength check on 3 users.'),
-(376, 1489929365.548726, 10, 'info', 'SUM_ENDOK:Scanning for weak passwords'),
-(377, 1489929365.563866, 10, 'info', 'SUM_START:Scanning DNS for unauthorized changes'),
 (378, 1489929365.565187, 2, 'info', 'Starting DNS scan for merrier.com'),
 (379, 1489929365.981412, 2, 'info', 'Scanning DNS A record for merrier.com'),
-(380, 1489929366.386919, 10, 'info', 'SUM_ENDOK:Scanning DNS for unauthorized changes'),
-(381, 1489929366.395660, 10, 'info', 'SUM_START:Scanning to check available disk space'),
 (382, 1489929366.396168, 2, 'info', 'Total disk space: 232.6406GB -- Free disk space: 93.3412GB'),
 (383, 1489929366.396594, 2, 'info', 'The disk has 95581.40 MB space available'),
-(384, 1489929366.397003, 10, 'info', 'SUM_ENDOK:Scanning to check available disk space'),
-(385, 1489929366.404149, 10, 'info', 'SUM_START:Scanning for old themes, plugins and core files'),
-(386, 1489929368.081782, 10, 'info', 'SUM_ENDOK:Scanning for old themes, plugins and core files'),
-(387, 1489929368.091979, 10, 'info', 'SUM_START:Scanning for admin users not created through WordPress'),
-(388, 1489929368.095954, 10, 'info', 'SUM_ENDOK:Scanning for admin users not created through WordPress'),
 (389, 1489929368.165037, 1, 'info', '-------------------'),
 (390, 1489929368.167094, 1, 'info', 'Scan Complete. Scanned 3509 files, 17 plugins, 4 themes, 35 pages, 2 comments and 9441 records in 2 minutes 24 seconds.'),
-(391, 1489929368.168658, 10, 'info', 'SUM_FINAL:Scan complete. You have 4 new issues to fix. See below.'),
 (392, 1489929369.560981, 2, 'info', 'Wordfence used 29.22MB of memory for scan. Server peak memory usage was: 78.00MB'),
 (393, 1489973402.815921, 1, 'info', 'Scheduled Wordfence scan starting at Monday 20th of March 2017 09:30:02 AM'),
-(394, 1489973403.778747, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(395, 1489973403.790000, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(396, 1489973405.793222, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(397, 1489973407.864727, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(398, 1489973409.867883, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(399, 1489973411.949599, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
 (400, 1489973424.576760, 2, 'error', 'Scan terminated with error: There was an error connecting to the the Wordfence scanning servers: cURL error 28: Connection timed out after 10072 milliseconds'),
-(401, 1489973424.577288, 10, 'info', 'SUM_KILLED:Previous scan terminated with an error. See below.'),
 (402, 1490064545.172369, 1, 'info', 'Scheduled Wordfence scan starting at Tuesday 21st of March 2017 10:49:05 AM'),
-(403, 1490064546.550675, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(404, 1490064546.561143, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(405, 1490064548.611565, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(406, 1490064550.689939, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(407, 1490064552.730996, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(408, 1490064554.804777, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(409, 1490064557.482674, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(410, 1490064557.490401, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(411, 1490064557.492377, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
 (412, 1490064557.496129, 1, 'info', 'Contacting Wordfence to initiate scan'),
 (413, 1490064559.150589, 2, 'info', 'Getting plugin list from WordPress'),
 (414, 1490064559.172818, 2, 'info', 'Found 17 plugins'),
 (415, 1490064559.175772, 2, 'info', 'Getting theme list from WordPress'),
 (416, 1490064559.179699, 2, 'info', 'Found 4 themes'),
-(417, 1490064559.198422, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(418, 1490064580.671869, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(419, 1490064580.678037, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(420, 1490064608.746834, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(421, 1490064608.754069, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository'),
-(422, 1490064608.754474, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(423, 1490064608.754897, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(424, 1490064608.757502, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(425, 1490064608.761296, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
 (426, 1490064610.179451, 2, 'info', '500 files indexed'),
 (427, 1490064610.397731, 2, 'info', '1000 files indexed'),
 (428, 1490064610.580581, 2, 'info', '1500 files indexed'),
@@ -10455,13 +10604,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (467, 1490064652.756980, 2, 'info', 'Analyzed 3400 files containing 56.11 MB of data so far'),
 (468, 1490064653.163132, 2, 'info', 'Analyzed 3500 files containing 58.13 MB of data so far'),
 (469, 1490064653.252850, 2, 'info', 'Analyzed 3511 files containing 58.32 MB of data.'),
-(470, 1490064653.253335, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
-(471, 1490064653.256993, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
-(472, 1490064653.259605, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
-(473, 1490064653.280784, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
-(474, 1490064653.282063, 10, 'info', 'SUM_ENDOK:Check for publicly accessible configuration files, backup files and logs'),
-(475, 1490064653.288015, 10, 'info', 'SUM_START:Scanning file contents for infections and vulnerabilities'),
-(476, 1490064653.290627, 10, 'info', 'SUM_START:Scanning files for URLs in Google\'s Safe Browsing List'),
 (477, 1490064656.969157, 2, 'info', 'Starting scan of file contents'),
 (478, 1490064658.055125, 2, 'info', 'Scanned contents of 4 additional files at 3.69 per second'),
 (479, 1490064659.122960, 2, 'info', 'Scanned contents of 37 additional files at 17.19 per second'),
@@ -10479,66 +10621,28 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (491, 1490064671.451731, 2, 'info', 'Checking 10 URLs from 6 sources.'),
 (492, 1490064673.396902, 2, 'info', 'Done URL check.'),
 (493, 1490064674.288452, 2, 'info', 'Done file contents scan'),
-(494, 1490064674.291505, 10, 'info', 'SUM_ENDOK:Scanning file contents for infections and vulnerabilities'),
-(495, 1490064674.294615, 10, 'info', 'SUM_ENDOK:Scanning files for URLs in Google\'s Safe Browsing List'),
-(496, 1490064674.300367, 10, 'info', 'SUM_START:Scanning for publicly accessible quarantined files'),
-(497, 1490064674.300765, 10, 'info', 'SUM_ENDOK:Scanning for publicly accessible quarantined files'),
-(498, 1490064674.306058, 10, 'info', 'SUM_START:Scanning posts for URLs in Google\'s Safe Browsing List'),
 (499, 1490064674.353861, 2, 'info', 'Examining URLs found in posts we scanned for dangerous websites'),
 (500, 1490064674.354718, 2, 'info', 'Checking 47 host keys against Wordfence scanning servers.'),
 (501, 1490064677.183239, 2, 'info', 'Done host key check.'),
 (502, 1490064677.185167, 2, 'info', 'Checking 1 URLs from 1 sources.'),
 (503, 1490064678.721076, 2, 'info', 'Done URL check.'),
 (504, 1490064678.722530, 2, 'info', 'Done examining URLs'),
-(505, 1490064678.725523, 10, 'info', 'SUM_ENDOK:Scanning posts for URLs in Google\'s Safe Browsing List'),
-(506, 1490064678.731874, 10, 'info', 'SUM_START:Scanning comments for URLs in Google\'s Safe Browsing List'),
 (507, 1490064678.738356, 2, 'info', 'Checking 1 host keys against Wordfence scanning servers.'),
 (508, 1490064683.022955, 2, 'info', 'Done host key check.'),
-(509, 1490064683.027884, 10, 'info', 'SUM_ENDOK:Scanning comments for URLs in Google\'s Safe Browsing List'),
-(510, 1490064683.034475, 10, 'info', 'SUM_START:Scanning for weak passwords'),
 (511, 1490064683.035534, 2, 'info', 'Starting password strength check on 3 users.'),
-(512, 1490064683.318056, 10, 'info', 'SUM_ENDOK:Scanning for weak passwords'),
-(513, 1490064683.325050, 10, 'info', 'SUM_START:Scanning DNS for unauthorized changes'),
 (514, 1490064683.325587, 2, 'info', 'Starting DNS scan for merrier.com'),
 (515, 1490064683.558493, 2, 'info', 'Scanning DNS A record for merrier.com'),
-(516, 1490064683.780596, 10, 'info', 'SUM_ENDOK:Scanning DNS for unauthorized changes'),
-(517, 1490064683.788881, 10, 'info', 'SUM_START:Scanning to check available disk space'),
 (518, 1490064683.789425, 2, 'info', 'Total disk space: 232.6406GB -- Free disk space: 90.6352GB'),
 (519, 1490064683.789864, 2, 'info', 'The disk has 92810.47 MB space available'),
-(520, 1490064683.790274, 10, 'info', 'SUM_ENDOK:Scanning to check available disk space'),
-(521, 1490064683.796447, 10, 'info', 'SUM_START:Scanning for old themes, plugins and core files'),
-(522, 1490064687.181193, 10, 'info', 'SUM_ENDOK:Scanning for old themes, plugins and core files'),
-(523, 1490064687.187634, 10, 'info', 'SUM_START:Scanning for admin users not created through WordPress'),
-(524, 1490064687.189689, 10, 'info', 'SUM_ENDOK:Scanning for admin users not created through WordPress'),
 (525, 1490064687.209670, 1, 'info', '-------------------'),
 (526, 1490064687.210081, 1, 'info', 'Scan Complete. Scanned 3511 files, 17 plugins, 4 themes, 35 pages, 2 comments and 9609 records in 2 minutes 21 seconds.'),
-(527, 1490064687.210442, 10, 'info', 'SUM_FINAL:Scan complete. You have 4 new issues to fix. See below.'),
 (528, 1490064690.612279, 2, 'info', 'Wordfence used 29.22MB of memory for scan. Server peak memory usage was: 78.00MB'),
 (529, 1490095912.635231, 1, 'info', 'Scheduled Wordfence scan starting at Tuesday 21st of March 2017 07:31:52 PM'),
-(530, 1490095913.380583, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(531, 1490095913.391257, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(532, 1490095915.432462, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(533, 1490095917.443953, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(534, 1490095919.480816, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(535, 1490095921.487844, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(536, 1490095923.920828, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(537, 1490095923.928816, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(538, 1490095923.931005, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
 (539, 1490095923.934684, 1, 'info', 'Contacting Wordfence to initiate scan'),
 (540, 1490095926.367074, 2, 'info', 'Getting plugin list from WordPress'),
 (541, 1490095926.412041, 2, 'info', 'Found 17 plugins'),
 (542, 1490095926.415042, 2, 'info', 'Getting theme list from WordPress'),
 (543, 1490095926.434616, 2, 'info', 'Found 4 themes'),
-(544, 1490095926.450665, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(545, 1490095956.543296, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(546, 1490095956.549731, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(547, 1490095987.335675, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(548, 1490095987.341199, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository');
-INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
-(549, 1490095987.341658, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(550, 1490095987.342099, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(551, 1490095987.345043, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(552, 1490095987.347853, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
 (553, 1490095988.460143, 2, 'info', '500 files indexed'),
 (554, 1490095988.688096, 2, 'info', '1000 files indexed'),
 (555, 1490095988.875797, 2, 'info', '1500 files indexed'),
@@ -10583,13 +10687,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (594, 1490096044.985536, 2, 'info', 'Analyzed 3400 files containing 56.11 MB of data so far'),
 (595, 1490096045.411958, 2, 'info', 'Analyzed 3500 files containing 58.13 MB of data so far'),
 (596, 1490096045.497706, 2, 'info', 'Analyzed 3511 files containing 58.32 MB of data.'),
-(597, 1490096045.498223, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
-(598, 1490096045.501128, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
-(599, 1490096045.503902, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
-(600, 1490096045.523985, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
-(601, 1490096045.524893, 10, 'info', 'SUM_ENDOK:Check for publicly accessible configuration files, backup files and logs'),
-(602, 1490096045.530347, 10, 'info', 'SUM_START:Scanning file contents for infections and vulnerabilities'),
-(603, 1490096045.532894, 10, 'info', 'SUM_START:Scanning files for URLs in Google\'s Safe Browsing List'),
 (604, 1490096060.761572, 2, 'info', 'Starting scan of file contents'),
 (605, 1490096062.580152, 2, 'info', 'Scanned contents of 33 additional files at 32.80 per second'),
 (606, 1490096065.068642, 2, 'info', 'Scanned contents of 51 additional files at 14.59 per second'),
@@ -10606,65 +10703,28 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (617, 1490096075.783121, 2, 'info', 'Checking 10 URLs from 6 sources.'),
 (618, 1490096078.028837, 2, 'info', 'Done URL check.'),
 (619, 1490096078.837136, 2, 'info', 'Done file contents scan'),
-(620, 1490096078.840079, 10, 'info', 'SUM_ENDOK:Scanning file contents for infections and vulnerabilities'),
-(621, 1490096078.843077, 10, 'info', 'SUM_ENDOK:Scanning files for URLs in Google\'s Safe Browsing List'),
-(622, 1490096078.848666, 10, 'info', 'SUM_START:Scanning for publicly accessible quarantined files'),
-(623, 1490096078.849111, 10, 'info', 'SUM_ENDOK:Scanning for publicly accessible quarantined files'),
-(624, 1490096078.855048, 10, 'info', 'SUM_START:Scanning posts for URLs in Google\'s Safe Browsing List'),
 (625, 1490096078.902097, 2, 'info', 'Examining URLs found in posts we scanned for dangerous websites'),
 (626, 1490096078.902919, 2, 'info', 'Checking 47 host keys against Wordfence scanning servers.'),
 (627, 1490096081.298504, 2, 'info', 'Done host key check.'),
 (628, 1490096081.300579, 2, 'info', 'Checking 1 URLs from 1 sources.'),
 (629, 1490096084.685469, 2, 'info', 'Done URL check.'),
 (630, 1490096084.686948, 2, 'info', 'Done examining URLs'),
-(631, 1490096084.689958, 10, 'info', 'SUM_ENDOK:Scanning posts for URLs in Google\'s Safe Browsing List'),
-(632, 1490096084.696301, 10, 'info', 'SUM_START:Scanning comments for URLs in Google\'s Safe Browsing List'),
 (633, 1490096084.702759, 2, 'info', 'Checking 1 host keys against Wordfence scanning servers.'),
 (634, 1490096087.243824, 2, 'info', 'Done host key check.'),
-(635, 1490096087.248668, 10, 'info', 'SUM_ENDOK:Scanning comments for URLs in Google\'s Safe Browsing List'),
-(636, 1490096087.254755, 10, 'info', 'SUM_START:Scanning for weak passwords'),
 (637, 1490096087.255467, 2, 'info', 'Starting password strength check on 3 users.'),
-(638, 1490096087.535540, 10, 'info', 'SUM_ENDOK:Scanning for weak passwords'),
-(639, 1490096087.542180, 10, 'info', 'SUM_START:Scanning DNS for unauthorized changes'),
 (640, 1490096087.542661, 2, 'info', 'Starting DNS scan for merrier.com'),
 (641, 1490096087.724126, 2, 'info', 'Scanning DNS A record for merrier.com'),
-(642, 1490096087.904605, 10, 'info', 'SUM_ENDOK:Scanning DNS for unauthorized changes'),
-(643, 1490096087.912702, 10, 'info', 'SUM_START:Scanning to check available disk space'),
 (644, 1490096087.913227, 2, 'info', 'Total disk space: 232.6406GB -- Free disk space: 90.6194GB'),
 (645, 1490096087.913668, 2, 'info', 'The disk has 92794.31 MB space available'),
-(646, 1490096087.914088, 10, 'info', 'SUM_ENDOK:Scanning to check available disk space'),
-(647, 1490096087.919698, 10, 'info', 'SUM_START:Scanning for old themes, plugins and core files'),
-(648, 1490096090.380041, 10, 'info', 'SUM_ENDOK:Scanning for old themes, plugins and core files'),
-(649, 1490096090.387235, 10, 'info', 'SUM_START:Scanning for admin users not created through WordPress'),
-(650, 1490096090.389386, 10, 'info', 'SUM_ENDOK:Scanning for admin users not created through WordPress'),
 (651, 1490096090.409351, 1, 'info', '-------------------'),
 (652, 1490096090.409729, 1, 'info', 'Scan Complete. Scanned 3511 files, 17 plugins, 4 themes, 35 pages, 2 comments and 9744 records in 2 minutes 57 seconds.'),
-(653, 1490096090.410086, 10, 'info', 'SUM_FINAL:Scan complete. You have 4 new issues to fix. See below.'),
 (654, 1490096094.935783, 2, 'info', 'Wordfence used 29.18MB of memory for scan. Server peak memory usage was: 77.96MB'),
 (655, 1490148126.082077, 1, 'info', 'Scheduled Wordfence scan starting at Wednesday 22nd of March 2017 10:02:06 AM'),
-(656, 1490148126.946067, 10, 'info', 'SUM_PREP:Preparing a new scan.'),
-(657, 1490148126.955120, 10, 'info', 'SUM_PAIDONLY:Remote scan of public facing site only available to paid members'),
-(658, 1490148129.016594, 10, 'info', 'SUM_PAIDONLY:Check if your site is being Spamvertized is for paid members only'),
-(659, 1490148131.079465, 10, 'info', 'SUM_PAIDONLY:Checking if your IP is generating spam is for paid members only'),
-(660, 1490148133.139050, 10, 'info', 'SUM_PAIDONLY:Checking if your site is on the Google Safe Browsing list is for paid members only'),
-(661, 1490148135.211115, 10, 'info', 'SUM_START:Scanning your site for the HeartBleed vulnerability'),
-(662, 1490148141.846173, 10, 'info', 'SUM_ENDOK:Scanning your site for the HeartBleed vulnerability'),
-(663, 1490148141.856405, 10, 'info', 'SUM_START:Checking for the most secure way to get IPs'),
-(664, 1490148141.860104, 10, 'info', 'SUM_ENDSKIPPED:Checking for the most secure way to get IPs'),
 (665, 1490148141.864245, 1, 'info', 'Contacting Wordfence to initiate scan'),
 (666, 1490148144.492040, 2, 'info', 'Getting plugin list from WordPress'),
 (667, 1490148144.519054, 2, 'info', 'Found 17 plugins'),
 (668, 1490148144.522009, 2, 'info', 'Getting theme list from WordPress'),
 (669, 1490148144.555793, 2, 'info', 'Found 4 themes'),
-(670, 1490148144.576995, 10, 'info', 'SUM_START:Fetching core, theme and plugin file signatures from Wordfence'),
-(671, 1490148153.003806, 10, 'info', 'SUM_ENDSUCCESS:Fetching core, theme and plugin file signatures from Wordfence'),
-(672, 1490148153.010204, 10, 'info', 'SUM_START:Fetching list of known malware files from Wordfence'),
-(673, 1490148159.712833, 10, 'info', 'SUM_ENDSUCCESS:Fetching list of known malware files from Wordfence'),
-(674, 1490148159.719737, 10, 'info', 'SUM_START:Comparing core WordPress files against originals in repository'),
-(675, 1490148159.720484, 10, 'info', 'SUM_DISABLED:Skipping theme scan'),
-(676, 1490148159.721019, 10, 'info', 'SUM_DISABLED:Skipping plugin scan'),
-(677, 1490148159.723859, 10, 'info', 'SUM_START:Scanning for known malware files'),
-(678, 1490148159.726727, 10, 'info', 'SUM_START:Scanning for unknown files in wp-admin and wp-includes'),
 (679, 1490148161.080355, 2, 'info', '500 files indexed'),
 (680, 1490148161.347444, 2, 'info', '1000 files indexed'),
 (681, 1490148161.743534, 2, 'info', '1500 files indexed'),
@@ -10709,7 +10769,6 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (720, 1490148213.480551, 2, 'info', 'Analyzed 3400 files containing 56.11 MB of data so far'),
 (721, 1490148213.942024, 2, 'info', 'Analyzed 3500 files containing 58.13 MB of data so far'),
 (722, 1490148214.049540, 2, 'info', 'Analyzed 3511 files containing 58.32 MB of data.'),
-(723, 1490148214.050117, 10, 'info', 'SUM_ENDBAD:Comparing core WordPress files against originals in repository'),
 (724, 1490148214.053657, 10, 'info', 'SUM_ENDOK:Scanning for unknown files in wp-admin and wp-includes'),
 (725, 1490148214.056642, 10, 'info', 'SUM_ENDOK:Scanning for known malware files'),
 (726, 1490148214.090202, 10, 'info', 'SUM_START:Check for publicly accessible configuration files, backup files and logs'),
@@ -10814,7 +10873,8 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (825, 1490226025.180088, 2, 'info', 'Analyzed 800 files containing 11.43 MB of data so far'),
 (826, 1490226027.219310, 2, 'info', 'Analyzed 900 files containing 12.39 MB of data so far'),
 (827, 1490226027.839857, 2, 'info', 'Analyzed 1000 files containing 12.48 MB of data so far'),
-(828, 1490226028.470858, 2, 'info', 'Analyzed 1100 files containing 12.6 MB of data so far'),
+(828, 1490226028.470858, 2, 'info', 'Analyzed 1100 files containing 12.6 MB of data so far');
+INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (829, 1490226029.245471, 2, 'info', 'Analyzed 1200 files containing 13.32 MB of data so far'),
 (830, 1490226030.408563, 2, 'info', 'Analyzed 1300 files containing 14.44 MB of data so far'),
 (831, 1490226031.447863, 2, 'info', 'Analyzed 1400 files containing 22.01 MB of data so far'),
@@ -10999,25 +11059,626 @@ INSERT INTO `wp_wfStatus` (`id`, `ctime`, `level`, `type`, `msg`) VALUES
 (1010, 1490288549.358499, 10, 'info', 'SUM_FINAL:Scan complete. You have 4 new issues to fix. See below.'),
 (1011, 1490288551.950355, 2, 'info', 'Wordfence used 29.37MB of memory for scan. Server peak memory usage was: 78.15MB');
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfThrottleLog`
+--
+
 DROP TABLE IF EXISTS `wp_wfThrottleLog`;
-CREATE TABLE IF NOT EXISTS `wp_wfThrottleLog` (
+CREATE TABLE `wp_wfThrottleLog` (
   `IP` binary(16) NOT NULL,
   `startTime` int(10) UNSIGNED NOT NULL,
   `endTime` int(10) UNSIGNED NOT NULL,
   `timesThrottled` int(10) UNSIGNED NOT NULL,
-  `lastReason` varchar(255) NOT NULL,
-  PRIMARY KEY (`IP`),
-  KEY `k2` (`endTime`)
+  `lastReason` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
+--
+-- 表的结构 `wp_wfVulnScanners`
+--
+
 DROP TABLE IF EXISTS `wp_wfVulnScanners`;
-CREATE TABLE IF NOT EXISTS `wp_wfVulnScanners` (
+CREATE TABLE `wp_wfVulnScanners` (
   `IP` binary(16) NOT NULL,
   `ctime` int(10) UNSIGNED NOT NULL,
-  `hits` int(10) UNSIGNED NOT NULL,
-  PRIMARY KEY (`IP`)
+  `hits` int(10) UNSIGNED NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `wp_cjtoolbox_authors`
+--
+ALTER TABLE `wp_cjtoolbox_authors`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `guid` (`guid`),
+  ADD KEY `name` (`name`);
+
+--
+-- Indexes for table `wp_cjtoolbox_backups`
+--
+ALTER TABLE `wp_cjtoolbox_backups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`);
+
+--
+-- Indexes for table `wp_cjtoolbox_blocks`
+--
+ALTER TABLE `wp_cjtoolbox_blocks`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`,`backupId`),
+  ADD KEY `pinPoint` (`pinPoint`,`state`,`location`,`type`,`parent`);
+
+--
+-- Indexes for table `wp_cjtoolbox_block_files`
+--
+ALTER TABLE `wp_cjtoolbox_block_files`
+  ADD PRIMARY KEY (`id`,`blockId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_block_pins`
+--
+ALTER TABLE `wp_cjtoolbox_block_pins`
+  ADD PRIMARY KEY (`blockId`,`pin`,`value`);
+
+--
+-- Indexes for table `wp_cjtoolbox_block_templates`
+--
+ALTER TABLE `wp_cjtoolbox_block_templates`
+  ADD PRIMARY KEY (`blockId`,`templateId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_forms`
+--
+ALTER TABLE `wp_cjtoolbox_forms`
+  ADD PRIMARY KEY (`blockId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_form_groups`
+--
+ALTER TABLE `wp_cjtoolbox_form_groups`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `Index 3` (`formId`,`name`),
+  ADD KEY `formId` (`formId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_form_group_parameters`
+--
+ALTER TABLE `wp_cjtoolbox_form_group_parameters`
+  ADD PRIMARY KEY (`parameterId`),
+  ADD KEY `Index 2` (`groupId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_form_group_xfields`
+--
+ALTER TABLE `wp_cjtoolbox_form_group_xfields`
+  ADD UNIQUE KEY `groupId` (`groupId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_packages`
+--
+ALTER TABLE `wp_cjtoolbox_packages`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wp_cjtoolbox_package_objects`
+--
+ALTER TABLE `wp_cjtoolbox_package_objects`
+  ADD PRIMARY KEY (`packageId`,`objectId`,`objectType`);
+
+--
+-- Indexes for table `wp_cjtoolbox_parameters`
+--
+ALTER TABLE `wp_cjtoolbox_parameters`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`,`parent`,`blockId`),
+  ADD KEY `parent` (`parent`),
+  ADD KEY `blockId` (`blockId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_parameter_typedef`
+--
+ALTER TABLE `wp_cjtoolbox_parameter_typedef`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parameterId` (`parameterId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_parameter_typeparams`
+--
+ALTER TABLE `wp_cjtoolbox_parameter_typeparams`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `parameterId` (`parameterId`);
+
+--
+-- Indexes for table `wp_cjtoolbox_templates`
+--
+ALTER TABLE `wp_cjtoolbox_templates`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `name` (`name`,`type`),
+  ADD UNIQUE KEY `guid` (`guid`),
+  ADD KEY `keywords` (`keywords`),
+  ADD KEY `owner` (`ownerId`),
+  ADD KEY `author` (`authorId`),
+  ADD KEY `type` (`type`),
+  ADD KEY `attributes` (`attributes`);
+
+--
+-- Indexes for table `wp_cjtoolbox_template_revisions`
+--
+ALTER TABLE `wp_cjtoolbox_template_revisions`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `templateid-revisionNo` (`revisionNo`,`templateId`);
+
+--
+-- Indexes for table `wp_commentmeta`
+--
+ALTER TABLE `wp_commentmeta`
+  ADD PRIMARY KEY (`meta_id`),
+  ADD KEY `comment_id` (`comment_id`),
+  ADD KEY `meta_key` (`meta_key`(191));
+
+--
+-- Indexes for table `wp_comments`
+--
+ALTER TABLE `wp_comments`
+  ADD PRIMARY KEY (`comment_ID`),
+  ADD KEY `comment_post_ID` (`comment_post_ID`),
+  ADD KEY `comment_approved_date_gmt` (`comment_approved`,`comment_date_gmt`),
+  ADD KEY `comment_date_gmt` (`comment_date_gmt`),
+  ADD KEY `comment_parent` (`comment_parent`),
+  ADD KEY `comment_author_email` (`comment_author_email`(10));
+
+--
+-- Indexes for table `wp_ewwwio_images`
+--
+ALTER TABLE `wp_ewwwio_images`
+  ADD UNIQUE KEY `id` (`id`),
+  ADD KEY `path_image_size` (`path`(191),`image_size`),
+  ADD KEY `attachment_info` (`gallery`(3),`attachment_id`);
+
+--
+-- Indexes for table `wp_links`
+--
+ALTER TABLE `wp_links`
+  ADD PRIMARY KEY (`link_id`),
+  ADD KEY `link_visible` (`link_visible`);
+
+--
+-- Indexes for table `wp_options`
+--
+ALTER TABLE `wp_options`
+  ADD PRIMARY KEY (`option_id`),
+  ADD UNIQUE KEY `option_name` (`option_name`);
+
+--
+-- Indexes for table `wp_postmeta`
+--
+ALTER TABLE `wp_postmeta`
+  ADD PRIMARY KEY (`meta_id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `meta_key` (`meta_key`(191));
+
+--
+-- Indexes for table `wp_posts`
+--
+ALTER TABLE `wp_posts`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `post_name` (`post_name`(191)),
+  ADD KEY `type_status_date` (`post_type`,`post_status`,`post_date`,`ID`),
+  ADD KEY `post_parent` (`post_parent`),
+  ADD KEY `post_author` (`post_author`);
+
+--
+-- Indexes for table `wp_termmeta`
+--
+ALTER TABLE `wp_termmeta`
+  ADD PRIMARY KEY (`meta_id`),
+  ADD KEY `term_id` (`term_id`),
+  ADD KEY `meta_key` (`meta_key`(191));
+
+--
+-- Indexes for table `wp_terms`
+--
+ALTER TABLE `wp_terms`
+  ADD PRIMARY KEY (`term_id`),
+  ADD KEY `slug` (`slug`(191)),
+  ADD KEY `name` (`name`(191));
+
+--
+-- Indexes for table `wp_term_relationships`
+--
+ALTER TABLE `wp_term_relationships`
+  ADD PRIMARY KEY (`object_id`,`term_taxonomy_id`),
+  ADD KEY `term_taxonomy_id` (`term_taxonomy_id`);
+
+--
+-- Indexes for table `wp_term_taxonomy`
+--
+ALTER TABLE `wp_term_taxonomy`
+  ADD PRIMARY KEY (`term_taxonomy_id`),
+  ADD UNIQUE KEY `term_id_taxonomy` (`term_id`,`taxonomy`),
+  ADD KEY `taxonomy` (`taxonomy`);
+
+--
+-- Indexes for table `wp_usermeta`
+--
+ALTER TABLE `wp_usermeta`
+  ADD PRIMARY KEY (`umeta_id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `meta_key` (`meta_key`(191));
+
+--
+-- Indexes for table `wp_users`
+--
+ALTER TABLE `wp_users`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `user_login_key` (`user_login`),
+  ADD KEY `user_nicename` (`user_nicename`),
+  ADD KEY `user_email` (`user_email`);
+
+--
+-- Indexes for table `wp_wc_comments_subscription`
+--
+ALTER TABLE `wp_wc_comments_subscription`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `subscribe_unique_index` (`subscribtion_id`,`email`),
+  ADD KEY `subscribtion_id` (`subscribtion_id`),
+  ADD KEY `post_id` (`post_id`),
+  ADD KEY `confirm` (`confirm`);
+
+--
+-- Indexes for table `wp_wc_phrases`
+--
+ALTER TABLE `wp_wc_phrases`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `phrase_key` (`phrase_key`);
+
+--
+-- Indexes for table `wp_wc_users_voted`
+--
+ALTER TABLE `wp_wc_users_voted`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `comment_id` (`comment_id`),
+  ADD KEY `vote_type` (`vote_type`),
+  ADD KEY `is_guest` (`is_guest`);
+
+--
+-- Indexes for table `wp_wfBadLeechers`
+--
+ALTER TABLE `wp_wfBadLeechers`
+  ADD PRIMARY KEY (`eMin`,`IP`);
+
+--
+-- Indexes for table `wp_wfBlockedIPLog`
+--
+ALTER TABLE `wp_wfBlockedIPLog`
+  ADD PRIMARY KEY (`IP`,`unixday`);
+
+--
+-- Indexes for table `wp_wfBlocks`
+--
+ALTER TABLE `wp_wfBlocks`
+  ADD PRIMARY KEY (`IP`),
+  ADD KEY `k1` (`wfsn`);
+
+--
+-- Indexes for table `wp_wfBlocksAdv`
+--
+ALTER TABLE `wp_wfBlocksAdv`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wp_wfConfig`
+--
+ALTER TABLE `wp_wfConfig`
+  ADD PRIMARY KEY (`name`);
+
+--
+-- Indexes for table `wp_wfCrawlers`
+--
+ALTER TABLE `wp_wfCrawlers`
+  ADD PRIMARY KEY (`IP`,`patternSig`);
+
+--
+-- Indexes for table `wp_wfFileMods`
+--
+ALTER TABLE `wp_wfFileMods`
+  ADD PRIMARY KEY (`filenameMD5`);
+
+--
+-- Indexes for table `wp_wfHits`
+--
+ALTER TABLE `wp_wfHits`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `k1` (`ctime`),
+  ADD KEY `k2` (`IP`,`ctime`),
+  ADD KEY `attackLogTime` (`attackLogTime`);
+
+--
+-- Indexes for table `wp_wfHoover`
+--
+ALTER TABLE `wp_wfHoover`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `k2` (`hostKey`);
+
+--
+-- Indexes for table `wp_wfIssues`
+--
+ALTER TABLE `wp_wfIssues`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wp_wfKnownFileList`
+--
+ALTER TABLE `wp_wfKnownFileList`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wp_wfLeechers`
+--
+ALTER TABLE `wp_wfLeechers`
+  ADD PRIMARY KEY (`eMin`,`IP`);
+
+--
+-- Indexes for table `wp_wfLockedOut`
+--
+ALTER TABLE `wp_wfLockedOut`
+  ADD PRIMARY KEY (`IP`);
+
+--
+-- Indexes for table `wp_wfLocs`
+--
+ALTER TABLE `wp_wfLocs`
+  ADD PRIMARY KEY (`IP`);
+
+--
+-- Indexes for table `wp_wfLogins`
+--
+ALTER TABLE `wp_wfLogins`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `k1` (`IP`,`fail`),
+  ADD KEY `hitID` (`hitID`);
+
+--
+-- Indexes for table `wp_wfNet404s`
+--
+ALTER TABLE `wp_wfNet404s`
+  ADD PRIMARY KEY (`sig`),
+  ADD KEY `k1` (`ctime`);
+
+--
+-- Indexes for table `wp_wfNotifications`
+--
+ALTER TABLE `wp_wfNotifications`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `wp_wfReverseCache`
+--
+ALTER TABLE `wp_wfReverseCache`
+  ADD PRIMARY KEY (`IP`);
+
+--
+-- Indexes for table `wp_wfScanners`
+--
+ALTER TABLE `wp_wfScanners`
+  ADD PRIMARY KEY (`eMin`,`IP`);
+
+--
+-- Indexes for table `wp_wfSNIPCache`
+--
+ALTER TABLE `wp_wfSNIPCache`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `expiration` (`expiration`),
+  ADD KEY `IP` (`IP`),
+  ADD KEY `type` (`type`);
+
+--
+-- Indexes for table `wp_wfStatus`
+--
+ALTER TABLE `wp_wfStatus`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `k1` (`ctime`),
+  ADD KEY `k2` (`type`);
+
+--
+-- Indexes for table `wp_wfThrottleLog`
+--
+ALTER TABLE `wp_wfThrottleLog`
+  ADD PRIMARY KEY (`IP`),
+  ADD KEY `k2` (`endTime`);
+
+--
+-- Indexes for table `wp_wfVulnScanners`
+--
+ALTER TABLE `wp_wfVulnScanners`
+  ADD PRIMARY KEY (`IP`);
+
+--
+-- 在导出的表使用AUTO_INCREMENT
+--
+
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_authors`
+--
+ALTER TABLE `wp_cjtoolbox_authors`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_backups`
+--
+ALTER TABLE `wp_cjtoolbox_backups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_blocks`
+--
+ALTER TABLE `wp_cjtoolbox_blocks`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_block_files`
+--
+ALTER TABLE `wp_cjtoolbox_block_files`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_form_groups`
+--
+ALTER TABLE `wp_cjtoolbox_form_groups`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_form_group_parameters`
+--
+ALTER TABLE `wp_cjtoolbox_form_group_parameters`
+  MODIFY `groupId` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_packages`
+--
+ALTER TABLE `wp_cjtoolbox_packages`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_parameters`
+--
+ALTER TABLE `wp_cjtoolbox_parameters`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT COMMENT 'paramter unique identifier';
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_parameter_typedef`
+--
+ALTER TABLE `wp_cjtoolbox_parameter_typedef`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_parameter_typeparams`
+--
+ALTER TABLE `wp_cjtoolbox_parameter_typeparams`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_templates`
+--
+ALTER TABLE `wp_cjtoolbox_templates`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+--
+-- 使用表AUTO_INCREMENT `wp_cjtoolbox_template_revisions`
+--
+ALTER TABLE `wp_cjtoolbox_template_revisions`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=213;
+--
+-- 使用表AUTO_INCREMENT `wp_commentmeta`
+--
+ALTER TABLE `wp_commentmeta`
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+--
+-- 使用表AUTO_INCREMENT `wp_comments`
+--
+ALTER TABLE `wp_comments`
+  MODIFY `comment_ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- 使用表AUTO_INCREMENT `wp_ewwwio_images`
+--
+ALTER TABLE `wp_ewwwio_images`
+  MODIFY `id` int(14) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=96;
+--
+-- 使用表AUTO_INCREMENT `wp_links`
+--
+ALTER TABLE `wp_links`
+  MODIFY `link_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+--
+-- 使用表AUTO_INCREMENT `wp_options`
+--
+ALTER TABLE `wp_options`
+  MODIFY `option_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1622;
+--
+-- 使用表AUTO_INCREMENT `wp_postmeta`
+--
+ALTER TABLE `wp_postmeta`
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=791;
+--
+-- 使用表AUTO_INCREMENT `wp_posts`
+--
+ALTER TABLE `wp_posts`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=305;
+--
+-- 使用表AUTO_INCREMENT `wp_termmeta`
+--
+ALTER TABLE `wp_termmeta`
+  MODIFY `meta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_terms`
+--
+ALTER TABLE `wp_terms`
+  MODIFY `term_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+--
+-- 使用表AUTO_INCREMENT `wp_term_taxonomy`
+--
+ALTER TABLE `wp_term_taxonomy`
+  MODIFY `term_taxonomy_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
+--
+-- 使用表AUTO_INCREMENT `wp_usermeta`
+--
+ALTER TABLE `wp_usermeta`
+  MODIFY `umeta_id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=61;
+--
+-- 使用表AUTO_INCREMENT `wp_users`
+--
+ALTER TABLE `wp_users`
+  MODIFY `ID` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- 使用表AUTO_INCREMENT `wp_wc_comments_subscription`
+--
+ALTER TABLE `wp_wc_comments_subscription`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+--
+-- 使用表AUTO_INCREMENT `wp_wc_phrases`
+--
+ALTER TABLE `wp_wc_phrases`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_wc_users_voted`
+--
+ALTER TABLE `wp_wc_users_voted`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_wfBlocksAdv`
+--
+ALTER TABLE `wp_wfBlocksAdv`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_wfHits`
+--
+ALTER TABLE `wp_wfHits`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=100;
+--
+-- 使用表AUTO_INCREMENT `wp_wfHoover`
+--
+ALTER TABLE `wp_wfHoover`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_wfIssues`
+--
+ALTER TABLE `wp_wfIssues`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+--
+-- 使用表AUTO_INCREMENT `wp_wfKnownFileList`
+--
+ALTER TABLE `wp_wfKnownFileList`
+  MODIFY `id` int(11) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3527;
+--
+-- 使用表AUTO_INCREMENT `wp_wfLogins`
+--
+ALTER TABLE `wp_wfLogins`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
+--
+-- 使用表AUTO_INCREMENT `wp_wfSNIPCache`
+--
+ALTER TABLE `wp_wfSNIPCache`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+--
+-- 使用表AUTO_INCREMENT `wp_wfStatus`
+--
+ALTER TABLE `wp_wfStatus`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1012;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
