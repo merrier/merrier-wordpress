@@ -179,7 +179,8 @@ class WP {
 			list( $pathinfo ) = explode( '?', $pathinfo );
 			$pathinfo = str_replace( "%", "%25", $pathinfo );
 
-			list( $req_uri ) = explode( '?', $_SERVER['REQUEST_URI'] );
+			list( $req_uri ) = explode( '?',$_SERVER['REQUEST_URI']);
+                        //$req_uri = mb_convert_encoding($req_uri,'utf-8','GBK');
 			$self = $_SERVER['PHP_SELF'];
 			$home_path = trim( parse_url( home_url(), PHP_URL_PATH ), '/' );
 			$home_path_regex = sprintf( '|^%s|i', preg_quote( $home_path, '|' ) );

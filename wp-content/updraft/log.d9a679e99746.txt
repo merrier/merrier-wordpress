@@ -1,0 +1,610 @@
+0000.000 (0) Opened log file at time: Wed, 10 May 2017 09:38:48 +0000 on http://merrier.wang
+0000.003 (0) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 60.5M | 61M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+0000.006 (0) Free space on disk containing Updraft's temporary directory: 32539.3 MB
+0000.009 (0) Tasks: Backup files: 1 (schedule: manual) Backup DB: 1 (schedule: manual)
+0000.012 (0) Semaphore (fd, wp_options) being initialised
+0000.020 (0) Requesting semaphore lock (fd) (apparently not via scheduler)
+0000.114 (0) Set semaphore last lock (fd) time to 2017-05-10 09:38:48
+0000.121 (0) Semaphore lock (fd) complete
+0000.135 (0) Backup run: resumption=0, nonce=d9a679e99746, begun at=1494409128 (0s ago), job type=backup
+0000.140 (0) Scheduling a resumption (1) after 300 seconds (1494409428) in case this run gets aborted
+0000.156 (0) Checking if we have a zip executable available
+0000.159 (0) Testing: /usr/bin/zip
+0000.170 (0) Output: zip warning: binziptest/test.zip not found or empty
+0000.173 (0) Output: adding: binziptest/subdir1/	(in=0) (out=0) (stored 0%)
+0000.176 (0) Output: adding: binziptest/subdir1/subdir2/	(in=0) (out=0) (stored 0%)
+0000.178 (0) Output: adding: binziptest/subdir1/subdir2/test.html	(in=131) (out=107) (deflated 18%)
+0000.180 (0) Output: total bytes=131, compressed=107 -> 18% savings
+0000.192 (0) Output: adding: binziptest/subdir1/subdir2/test2.html	(in=138) (out=113) (deflated 18%)
+0000.196 (0) Output: total bytes=269, compressed=220 -> 18% savings
+0000.205 (0) Working binary zip found: /usr/bin/zip
+0000.210 (0) Zip engine: found/will use a binary zip: /usr/bin/zip
+0000.213 (0) Creation of backups of directories: beginning
+0000.221 (0) Beginning creation of dump of plugins (split every: 400 MB)
+0000.323 (0) Total entities for the zip file: 570 directories, 3628 files (0 skipped as non-modified), 45.9 MB
+0000.331 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 100 files added (on-disk size: 0 KB)
+0000.339 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 200 files added (on-disk size: 0 KB)
+0000.352 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 300 files added (on-disk size: 0 KB)
+0000.357 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 400 files added (on-disk size: 0 KB)
+0000.363 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 500 files added (on-disk size: 0 KB)
+0000.365 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (3.7 MB, 3628 files batched, 501 (501) added so far); re-opening (prior size: 0 KB)
+0000.638 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: size is now: 1.90 MB
+0000.655 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 600 files added (on-disk size: 1905.9 KB)
+0000.662 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 700 files added (on-disk size: 1905.9 KB)
+0000.669 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 800 files added (on-disk size: 1905.9 KB)
+0000.675 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 900 files added (on-disk size: 1905.9 KB)
+0000.682 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1000 files added (on-disk size: 1905.9 KB)
+0000.685 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (11.6 MB, 3628 files batched, 501 (1002) added so far); re-opening (prior size: 1905.9 KB)
+0001.627 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: size is now: 5.90 MB
+0001.808 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1100 files added (on-disk size: 5994 KB)
+0001.814 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1200 files added (on-disk size: 5994 KB)
+0001.821 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1300 files added (on-disk size: 5994 KB)
+0001.827 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1400 files added (on-disk size: 5994 KB)
+0001.833 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1500 files added (on-disk size: 5994 KB)
+0001.836 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (10.6 MB, 3628 files batched, 501 (1503) added so far); re-opening (prior size: 5994 KB)
+0002.500 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: size is now: 9.00 MB
+0002.750 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1600 files added (on-disk size: 9180.1 KB)
+0002.756 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1700 files added (on-disk size: 9180.1 KB)
+0002.762 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1800 files added (on-disk size: 9180.1 KB)
+0002.768 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 1900 files added (on-disk size: 9180.1 KB)
+0002.777 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2000 files added (on-disk size: 9180.1 KB)
+0002.779 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (2.9 MB, 3628 files batched, 501 (2004) added so far); re-opening (prior size: 9180.1 KB)
+0003.037 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2100 files added (on-disk size: 10180.2 KB)
+0003.043 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2200 files added (on-disk size: 10180.2 KB)
+0003.050 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2300 files added (on-disk size: 10180.2 KB)
+0003.056 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2400 files added (on-disk size: 10180.2 KB)
+0003.062 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2500 files added (on-disk size: 10180.2 KB)
+0003.064 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (3.9 MB, 3628 files batched, 501 (2505) added so far); re-opening (prior size: 10180.2 KB)
+0003.304 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2600 files added (on-disk size: 12207.4 KB)
+0003.310 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2700 files added (on-disk size: 12207.4 KB)
+0003.316 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2800 files added (on-disk size: 12207.4 KB)
+0003.323 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 2900 files added (on-disk size: 12207.4 KB)
+0003.328 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3000 files added (on-disk size: 12207.4 KB)
+0003.331 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (4.5 MB, 3628 files batched, 501 (3006) added so far); re-opening (prior size: 12207.4 KB)
+0004.017 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3100 files added (on-disk size: 13862.6 KB)
+0004.026 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3200 files added (on-disk size: 13862.6 KB)
+0004.033 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3300 files added (on-disk size: 13862.6 KB)
+0004.041 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3400 files added (on-disk size: 13862.6 KB)
+0004.048 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3500 files added (on-disk size: 13862.6 KB)
+0004.051 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (7.8 MB, 3628 files batched, 501 (3507) added so far); re-opening (prior size: 13862.6 KB)
+0005.507 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip.tmp: 3600 files added (on-disk size: 16506.8 KB)
+0006.436 (0) Created plugins zip (0) - 16830.4 KB in 6.2 s (2709.3 KB/s) (sha1: d17af40c7b9aad611d6e7c6998c689c2c15f7003, sha256: 1adc2e190a8e56f05143e54f33df2f648af1f27512aeb6fa396a27aa49242df0)
+0006.454 (0) Beginning creation of dump of themes (split every: 400 MB)
+0006.486 (0) Total entities for the zip file: 41 directories, 272 files (0 skipped as non-modified), 4.4 MB
+0006.493 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip.tmp: 100 files added (on-disk size: 0 KB)
+0006.501 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip.tmp: 200 files added (on-disk size: 0 KB)
+0006.768 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip.tmp: size is now: 2.80 MB
+0006.857 (0) Created themes zip (0) - 2859.8 KB in 0.4 s (7507.4 KB/s) (sha1: 097875244a5d93d29443bc913c09a67c0f8b849a, sha256: 98cb98c6d97459b40c5c6189f94495becd34835797f1d72449d63935417571d1)
+0006.862 (0) Exclusion option setting (uploads): backup*,*backups,backwpup*,wp-clone,snapshots
+0006.865 (0) Looking for candidates to back up in: /var/www/html/merrier/wp-content/uploads
+0006.867 (0) finding files: sass: adding to list (1)
+0006.869 (0) finding files: crayon-syntax-highlighter: adding to list (2)
+0006.871 (0) finding files: 2017: adding to list (3)
+0006.873 (0) Beginning creation of dump of uploads (split every: 400 MB)
+0006.917 (0) Total entities for the zip file: 9 directories, 1183 files (0 skipped as non-modified), 82.6 MB
+0006.927 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 100 files added (on-disk size: 0 KB)
+0006.939 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 200 files added (on-disk size: 0 KB)
+0006.949 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 300 files added (on-disk size: 0 KB)
+0006.952 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 25 MB added on this batch (25 MB, 1183 files batched, 316 (316) added so far); re-opening (prior size: 0 KB)
+0009.137 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: size is now: 25.10 MB
+0009.885 (0) A useful amount of data was added after this amount of zip processing: 3.5 s (normalised: 3.5 s, rate: 7220 KB/s)
+0009.889 (0) Performance is good - will increase the amount of data we attempt to batch (time=3.5469830036163, normalised_time=3.5456857520276, max_time=-1, data points known=0, old_max_bytes=26214400, new_max_bytes=44359937)
+0009.898 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 400 files added (on-disk size: 25674.6 KB)
+0009.905 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 500 files added (on-disk size: 25674.6 KB)
+0009.911 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 600 files added (on-disk size: 25674.6 KB)
+0009.917 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 700 files added (on-disk size: 25674.6 KB)
+0009.923 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 800 files added (on-disk size: 25674.6 KB)
+0009.926 (0) Adding batch to zip file (UpdraftPlus_BinZip): over 500 files added on this batch (38.6 MB, 1183 files batched, 501 (817) added so far); re-opening (prior size: 25674.6 KB)
+0013.833 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: size is now: 63.80 MB
+0014.339 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 900 files added (on-disk size: 65313.8 KB)
+0014.353 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 1000 files added (on-disk size: 65313.8 KB)
+0014.365 (0) Zip: backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: 1100 files added (on-disk size: 65313.8 KB)
+0016.710 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip.tmp: size is now: 82.80 MB
+0020.018 (0) Created uploads zip (0) - 84802.3 KB in 13.1 s (6452.6 KB/s) (sha1: f93b0447502b521a6356cd55b7d3db0cbbf9778d, sha256: 58e65b5091fcc9bb9b686260058c0e1fb2f3083d6b9dfcab5cc74b1ebba93c2c)
+0020.024 (0) Beginning backup of other directories found in the content directory (index: 0)
+0020.027 (0) Exclusion option setting (others): upgrade,cache,updraft,backup*,*backups,mysql.sql,debug.log
+0020.034 (0) Looking for candidates to back up in: /var/www/html/merrier/wp-content
+0020.037 (0) finding files: themes: skipping: this is the themes directory
+0020.040 (0) finding files: upgrade: skipping: excluded by options
+0020.045 (0) finding files: plugins: skipping: this is the plugins directory
+0020.047 (0) finding files: .DS_Store: adding to list (1)
+0020.049 (0) finding files: updraft: skipping: this is the updraft directory
+0020.051 (0) finding files: uploads: skipping: this is the uploads directory
+0020.053 (0) finding files: languages: adding to list (2)
+0020.055 (0) finding files: index.php: adding to list (3)
+0020.063 (0) Total entities for the zip file: 3 directories, 29 files (0 skipped as non-modified), 2.3 MB
+0020.306 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip.tmp: size is now: 0.70 MB
+0020.328 (0) Created others zip (0) - 718.4 KB in 0.3 s (2679.9 KB/s) (sha1: 32a1855a17daf91908765250268dd3d03f99e462, sha256: dcfaf3db9638d52bb5ec97e0bd224f9196c293282c3adc6d48df3624100d3660)
+0020.371 (0) Saving backup status to database (elements: 8)
+0020.378 (0) Beginning creation of database dump (WordPress DB)
+0020.414 (0) Testing: /usr/bin/mysqldump
+0020.997 (0) Output: /*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;\n/*!40103 SET TIME_ZONE='+00:00' */;\n/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;\n/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;\n/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;\n/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;\nDROP TABLE IF EXISTS `wp_options`;\n/*!40101 SET @saved_cs_client     = @@character_set_client */;\n/*!40101 SET character_set_client = utf8 */;\nCRE (truncated - 1077 bytes total)
+0021.010 (0) Working binary mysqldump found: /usr/bin/mysqldump
+0021.147 (0) Table wp_options: Total expected rows (approximate): 605
+0021.173 (0) Table wp_options: Total rows added: 461 in 0.02 seconds
+0021.179 (0) Table wp_options: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_options.table.gz - 59.1 KB)
+0021.195 (0) Table wp_users: Total expected rows (approximate): 7
+0021.199 (0) Table wp_users: Total rows added: 7 in 0.00 seconds
+0021.201 (0) Table wp_users: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_users.table.gz - 1 KB)
+0021.210 (0) Table wp_usermeta: Total expected rows (approximate): 111
+0021.216 (0) Table wp_usermeta: Total rows added: 111 in 0.00 seconds
+0021.219 (0) Table wp_usermeta: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_usermeta.table.gz - 2.1 KB)
+0021.227 (0) Table wp_commentmeta: Total expected rows (approximate): 18
+0021.231 (0) Table wp_commentmeta: Total rows added: 18 in 0.00 seconds
+0021.234 (0) Table wp_commentmeta: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_commentmeta.table.gz - 1.1 KB)
+0021.243 (0) Table wp_comments: Total expected rows (approximate): 7
+0021.249 (0) Table wp_comments: Total rows added: 7 in 0.00 seconds
+0021.254 (0) Table wp_comments: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_comments.table.gz - 1.4 KB)
+0021.264 (0) Table wp_links: Total expected rows (approximate): 72
+0021.272 (0) Table wp_links: Total rows added: 72 in 0.01 seconds
+0021.274 (0) Table wp_links: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_links.table.gz - 6 KB)
+0021.287 (0) Table wp_postmeta: Total expected rows (approximate): 1001
+0021.317 (0) Table wp_postmeta: Total rows added: 996 in 0.03 seconds
+0021.321 (0) Table wp_postmeta: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_postmeta.table.gz - 28.8 KB)
+0021.333 (0) Table wp_posts: Total expected rows (approximate): 836
+0021.714 (0) Table wp_posts: Total rows added: 721 in 0.38 seconds
+0021.758 (0) Table wp_posts: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_posts.table.gz - 1013.5 KB)
+0021.771 (0) Table wp_term_relationships: Total expected rows (approximate): 308
+0021.783 (0) Table wp_term_relationships: Total rows added: 308 in 0.01 seconds
+0021.787 (0) Table wp_term_relationships: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_term_relationships.table.gz - 1.2 KB)
+0021.797 (0) Table wp_term_taxonomy: Total expected rows (approximate): 72
+0021.803 (0) Table wp_term_taxonomy: Total rows added: 72 in 0.00 seconds
+0021.806 (0) Table wp_term_taxonomy: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_term_taxonomy.table.gz - 0.9 KB)
+0021.848 (0) Table wp_termmeta: Total expected rows (approximate): 0
+0021.854 (0) Table wp_termmeta: Total rows added: 0 in 0.00 seconds
+0021.857 (0) Table wp_termmeta: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_termmeta.table.gz - 0.3 KB)
+0021.871 (0) Table wp_terms: Total expected rows (approximate): 72
+0021.884 (0) Table wp_terms: Total rows added: 72 in 0.00 seconds
+0021.887 (0) Table wp_terms: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_terms.table.gz - 1.5 KB)
+0021.898 (0) Skipping table (lacks our prefix (wp_)): m_commentmeta
+0021.901 (0) Skipping table (lacks our prefix (wp_)): m_comments
+0021.905 (0) Skipping table (lacks our prefix (wp_)): m_links
+0021.911 (0) Skipping table (lacks our prefix (wp_)): m_options
+0021.920 (0) Skipping table (lacks our prefix (wp_)): m_postmeta
+0021.923 (0) Skipping table (lacks our prefix (wp_)): m_posts
+0021.930 (0) Skipping table (lacks our prefix (wp_)): m_term_relationships
+0021.934 (0) Skipping table (lacks our prefix (wp_)): m_term_taxonomy
+0021.938 (0) Skipping table (lacks our prefix (wp_)): m_termmeta
+0021.947 (0) Skipping table (lacks our prefix (wp_)): m_terms
+0021.950 (0) Skipping table (lacks our prefix (wp_)): m_usermeta
+0021.954 (0) Skipping table (lacks our prefix (wp_)): m_users
+0021.971 (0) Table wp_cjtoolbox_authors: Total expected rows (approximate): 1
+0021.975 (0) Table wp_cjtoolbox_authors: Total rows added: 1 in 0.00 seconds
+0021.978 (0) Table wp_cjtoolbox_authors: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_authors.table.gz - 0.4 KB)
+0022.000 (0) Table wp_cjtoolbox_backups: Total expected rows (approximate): 0
+0022.009 (0) Table wp_cjtoolbox_backups: Total rows added: 0 in 0.00 seconds
+0022.013 (0) Table wp_cjtoolbox_backups: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_backups.table.gz - 0.3 KB)
+0022.033 (0) Table wp_cjtoolbox_block_files: Total expected rows (approximate): 0
+0022.038 (0) Table wp_cjtoolbox_block_files: Total rows added: 0 in 0.00 seconds
+0022.045 (0) Table wp_cjtoolbox_block_files: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_files.table.gz - 0.4 KB)
+0022.074 (0) Table wp_cjtoolbox_block_pins: Total expected rows (approximate): 0
+0022.079 (0) Table wp_cjtoolbox_block_pins: Total rows added: 0 in 0.00 seconds
+0022.085 (0) Table wp_cjtoolbox_block_pins: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_pins.table.gz - 0.3 KB)
+0022.102 (0) Table wp_cjtoolbox_block_templates: Total expected rows (approximate): 0
+0022.107 (0) Table wp_cjtoolbox_block_templates: Total rows added: 0 in 0.00 seconds
+0022.111 (0) Table wp_cjtoolbox_block_templates: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_templates.table.gz - 0.3 KB)
+0022.131 (0) Table wp_cjtoolbox_blocks: Total expected rows (approximate): 0
+0022.143 (0) Table wp_cjtoolbox_blocks: Total rows added: 0 in 0.00 seconds
+0022.147 (0) Table wp_cjtoolbox_blocks: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_blocks.table.gz - 0.5 KB)
+0022.163 (0) Table wp_cjtoolbox_form_group_parameters: Total expected rows (approximate): 0
+0022.167 (0) Table wp_cjtoolbox_form_group_parameters: Total rows added: 0 in 0.00 seconds
+0022.169 (0) Table wp_cjtoolbox_form_group_parameters: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_group_parameters.table.gz - 0.4 KB)
+0022.180 (0) Table wp_cjtoolbox_form_group_xfields: Total expected rows (approximate): 0
+0022.183 (0) Table wp_cjtoolbox_form_group_xfields: Total rows added: 0 in 0.00 seconds
+0022.186 (0) Table wp_cjtoolbox_form_group_xfields: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_group_xfields.table.gz - 0.3 KB)
+0022.197 (0) Table wp_cjtoolbox_form_groups: Total expected rows (approximate): 0
+0022.201 (0) Table wp_cjtoolbox_form_groups: Total rows added: 0 in 0.00 seconds
+0022.205 (0) Table wp_cjtoolbox_form_groups: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_groups.table.gz - 0.4 KB)
+0022.216 (0) Table wp_cjtoolbox_forms: Total expected rows (approximate): 0
+0022.219 (0) Table wp_cjtoolbox_forms: Total rows added: 0 in 0.00 seconds
+0022.223 (0) Table wp_cjtoolbox_forms: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_forms.table.gz - 0.3 KB)
+0022.234 (0) Table wp_cjtoolbox_package_objects: Total expected rows (approximate): 0
+0022.237 (0) Table wp_cjtoolbox_package_objects: Total rows added: 0 in 0.00 seconds
+0022.240 (0) Table wp_cjtoolbox_package_objects: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_package_objects.table.gz - 0.3 KB)
+0022.252 (0) Table wp_cjtoolbox_packages: Total expected rows (approximate): 0
+0022.255 (0) Table wp_cjtoolbox_packages: Total rows added: 0 in 0.00 seconds
+0022.258 (0) Table wp_cjtoolbox_packages: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_packages.table.gz - 0.3 KB)
+0022.269 (0) Table wp_cjtoolbox_parameter_typedef: Total expected rows (approximate): 0
+0022.274 (0) Table wp_cjtoolbox_parameter_typedef: Total rows added: 0 in 0.00 seconds
+0022.282 (0) Table wp_cjtoolbox_parameter_typedef: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameter_typedef.table.gz - 0.3 KB)
+0022.291 (0) Table wp_cjtoolbox_parameter_typeparams: Total expected rows (approximate): 0
+0022.294 (0) Table wp_cjtoolbox_parameter_typeparams: Total rows added: 0 in 0.00 seconds
+0022.296 (0) Table wp_cjtoolbox_parameter_typeparams: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameter_typeparams.table.gz - 0.3 KB)
+0022.305 (0) Table wp_cjtoolbox_parameters: Total expected rows (approximate): 0
+0022.308 (0) Table wp_cjtoolbox_parameters: Total rows added: 0 in 0.00 seconds
+0022.310 (0) Table wp_cjtoolbox_parameters: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameters.table.gz - 0.4 KB)
+0022.320 (0) Table wp_cjtoolbox_template_revisions: Total expected rows (approximate): 10
+0022.340 (0) Table wp_cjtoolbox_template_revisions: Total rows added: 212 in 0.02 seconds
+0022.355 (0) Table wp_cjtoolbox_template_revisions: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_template_revisions.table.gz - 3.5 KB)
+0022.372 (0) Table wp_cjtoolbox_templates: Total expected rows (approximate): 207
+0022.393 (0) Table wp_cjtoolbox_templates: Total rows added: 212 in 0.02 seconds
+0022.396 (0) Table wp_cjtoolbox_templates: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_templates.table.gz - 3.3 KB)
+0022.417 (0) Table wp_ewwwio_images: Total expected rows (approximate): 81
+0022.432 (0) Table wp_ewwwio_images: Total rows added: 95 in 0.01 seconds
+0022.435 (0) Table wp_ewwwio_images: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_ewwwio_images.table.gz - 3.4 KB)
+0022.445 (0) Table wp_wc_comments_subscription: Total expected rows (approximate): 3
+0022.451 (0) Table wp_wc_comments_subscription: Total rows added: 3 in 0.00 seconds
+0022.455 (0) Table wp_wc_comments_subscription: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_comments_subscription.table.gz - 0.6 KB)
+0022.464 (0) Table wp_wc_phrases: Total expected rows (approximate): 0
+0022.467 (0) Table wp_wc_phrases: Total rows added: 0 in 0.00 seconds
+0022.469 (0) Table wp_wc_phrases: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_phrases.table.gz - 0.3 KB)
+0022.484 (0) Table wp_wc_users_voted: Total expected rows (approximate): 0
+0022.487 (0) Table wp_wc_users_voted: Total rows added: 0 in 0.00 seconds
+0022.490 (0) Table wp_wc_users_voted: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_users_voted.table.gz - 0.3 KB)
+0022.501 (0) Table wp_wfBadLeechers: Total expected rows (approximate): 0
+0022.505 (0) Table wp_wfBadLeechers: Total rows added: 0 in 0.00 seconds
+0022.507 (0) Table wp_wfBadLeechers: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBadLeechers.table.gz - 0.3 KB)
+0022.518 (0) Table wp_wfBlockedIPLog: Total expected rows (approximate): 0
+0022.521 (0) Table wp_wfBlockedIPLog: Total rows added: 0 in 0.00 seconds
+0022.523 (0) Table wp_wfBlockedIPLog: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlockedIPLog.table.gz - 0.3 KB)
+0022.535 (0) Table wp_wfBlocks: Total expected rows (approximate): 0
+0022.538 (0) Table wp_wfBlocks: Total rows added: 0 in 0.00 seconds
+0022.540 (0) Table wp_wfBlocks: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlocks.table.gz - 0.3 KB)
+0022.548 (0) Table wp_wfBlocksAdv: Total expected rows (approximate): 0
+0022.552 (0) Table wp_wfBlocksAdv: Total rows added: 0 in 0.00 seconds
+0022.555 (0) Table wp_wfBlocksAdv: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlocksAdv.table.gz - 0.3 KB)
+0022.568 (0) Table wp_wfConfig: Total expected rows (approximate): 161
+0022.578 (0) Table wp_wfConfig: Total rows added: 161 in 0.01 seconds
+0022.580 (0) Table wp_wfConfig: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfConfig.table.gz - 3.7 KB)
+0022.601 (0) Table wp_wfCrawlers: Total expected rows (approximate): 0
+0022.606 (0) Table wp_wfCrawlers: Total rows added: 0 in 0.00 seconds
+0022.610 (0) Table wp_wfCrawlers: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfCrawlers.table.gz - 0.3 KB)
+0022.638 (0) Table wp_wfFileMods: Total expected rows (approximate): 3669
+0022.923 (0) Table wp_wfFileMods: Total rows added: 3526 in 0.28 seconds
+0022.928 (0) Table wp_wfFileMods: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfFileMods.table.gz - 167.6 KB)
+0022.938 (0) Table wp_wfHits: Total expected rows (approximate): 34
+0022.958 (0) Table wp_wfHits: Total rows added: 99 in 0.02 seconds
+0022.962 (0) Table wp_wfHits: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfHits.table.gz - 3.8 KB)
+0022.974 (0) Table wp_wfHoover: Total expected rows (approximate): 0
+0022.978 (0) Table wp_wfHoover: Total rows added: 0 in 0.00 seconds
+0022.981 (0) Table wp_wfHoover: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfHoover.table.gz - 0.3 KB)
+0022.990 (0) Table wp_wfIssues: Total expected rows (approximate): 4
+0022.995 (0) Table wp_wfIssues: Total rows added: 4 in 0.00 seconds
+0022.998 (0) Table wp_wfIssues: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfIssues.table.gz - 0.9 KB)
+0023.010 (0) Table wp_wfKnownFileList: Total expected rows (approximate): 3794
+0023.079 (0) Table wp_wfKnownFileList: Total rows added: 3526 in 0.06 seconds
+0023.082 (0) Table wp_wfKnownFileList: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfKnownFileList.table.gz - 31.8 KB)
+0023.092 (0) Table wp_wfLeechers: Total expected rows (approximate): 0
+0023.095 (0) Table wp_wfLeechers: Total rows added: 0 in 0.00 seconds
+0023.098 (0) Table wp_wfLeechers: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLeechers.table.gz - 0.3 KB)
+0023.107 (0) Table wp_wfLockedOut: Total expected rows (approximate): 0
+0023.111 (0) Table wp_wfLockedOut: Total rows added: 0 in 0.00 seconds
+0023.113 (0) Table wp_wfLockedOut: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLockedOut.table.gz - 0.3 KB)
+0023.130 (0) Table wp_wfLocs: Total expected rows (approximate): 0
+0023.133 (0) Table wp_wfLocs: Total rows added: 0 in 0.00 seconds
+0023.136 (0) Table wp_wfLocs: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLocs.table.gz - 0.3 KB)
+0023.146 (0) Table wp_wfLogins: Total expected rows (approximate): 37
+0023.152 (0) Table wp_wfLogins: Total rows added: 37 in 0.00 seconds
+0023.162 (0) Table wp_wfLogins: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLogins.table.gz - 1.1 KB)
+0023.172 (0) Table wp_wfNet404s: Total expected rows (approximate): 0
+0023.176 (0) Table wp_wfNet404s: Total rows added: 0 in 0.00 seconds
+0023.179 (0) Table wp_wfNet404s: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfNet404s.table.gz - 0.3 KB)
+0023.190 (0) Table wp_wfNotifications: Total expected rows (approximate): 2
+0023.195 (0) Table wp_wfNotifications: Total rows added: 2 in 0.00 seconds
+0023.197 (0) Table wp_wfNotifications: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfNotifications.table.gz - 0.5 KB)
+0023.208 (0) Table wp_wfReverseCache: Total expected rows (approximate): 0
+0023.210 (0) Table wp_wfReverseCache: Total rows added: 0 in 0.00 seconds
+0023.213 (0) Table wp_wfReverseCache: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfReverseCache.table.gz - 0.3 KB)
+0023.228 (0) Table wp_wfSNIPCache: Total expected rows (approximate): 0
+0023.231 (0) Table wp_wfSNIPCache: Total rows added: 0 in 0.00 seconds
+0023.233 (0) Table wp_wfSNIPCache: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfSNIPCache.table.gz - 0.4 KB)
+0023.245 (0) Table wp_wfScanners: Total expected rows (approximate): 0
+0023.247 (0) Table wp_wfScanners: Total rows added: 0 in 0.00 seconds
+0023.261 (0) Table wp_wfScanners: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfScanners.table.gz - 0.3 KB)
+0023.271 (0) Table wp_wfStatus: Total expected rows (approximate): 1051
+0023.310 (0) Table wp_wfStatus: Total rows added: 754 in 0.04 seconds
+0023.314 (0) Table wp_wfStatus: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfStatus.table.gz - 12.8 KB)
+0023.327 (0) Table wp_wfThrottleLog: Total expected rows (approximate): 0
+0023.330 (0) Table wp_wfThrottleLog: Total rows added: 0 in 0.00 seconds
+0023.333 (0) Table wp_wfThrottleLog: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfThrottleLog.table.gz - 0.3 KB)
+0023.361 (0) Table wp_wfVulnScanners: Total expected rows (approximate): 0
+0023.365 (0) Table wp_wfVulnScanners: Total rows added: 0 in 0.00 seconds
+0023.367 (0) Table wp_wfVulnScanners: finishing file (backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfVulnScanners.table.gz - 0.3 KB)
+0023.378 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_options.table.gz (1/68): adding to final database dump
+0023.395 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_users.table.gz (2/68): adding to final database dump
+0023.398 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_usermeta.table.gz (3/68): adding to final database dump
+0023.402 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_commentmeta.table.gz (4/68): adding to final database dump
+0023.405 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_comments.table.gz (5/68): adding to final database dump
+0023.407 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_links.table.gz (6/68): adding to final database dump
+0023.410 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_postmeta.table.gz (7/68): adding to final database dump
+0023.427 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_posts.table.gz (8/68): adding to final database dump
+0023.652 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_term_relationships.table.gz (9/68): adding to final database dump
+0023.657 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_term_taxonomy.table.gz (10/68): adding to final database dump
+0023.661 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_termmeta.table.gz (11/68): adding to final database dump
+0023.664 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_terms.table.gz (12/68): adding to final database dump
+0023.667 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_authors.table.gz (13/68): adding to final database dump
+0023.670 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_backups.table.gz (14/68): adding to final database dump
+0023.672 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_files.table.gz (15/68): adding to final database dump
+0023.675 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_pins.table.gz (16/68): adding to final database dump
+0023.680 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_block_templates.table.gz (17/68): adding to final database dump
+0023.682 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_blocks.table.gz (18/68): adding to final database dump
+0023.686 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_group_parameters.table.gz (19/68): adding to final database dump
+0023.688 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_group_xfields.table.gz (20/68): adding to final database dump
+0023.691 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_form_groups.table.gz (21/68): adding to final database dump
+0023.693 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_forms.table.gz (22/68): adding to final database dump
+0023.696 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_package_objects.table.gz (23/68): adding to final database dump
+0023.699 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_packages.table.gz (24/68): adding to final database dump
+0023.702 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameter_typedef.table.gz (25/68): adding to final database dump
+0023.704 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameter_typeparams.table.gz (26/68): adding to final database dump
+0023.706 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_parameters.table.gz (27/68): adding to final database dump
+0023.709 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_template_revisions.table.gz (28/68): adding to final database dump
+0023.714 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_cjtoolbox_templates.table.gz (29/68): adding to final database dump
+0023.719 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_ewwwio_images.table.gz (30/68): adding to final database dump
+0023.724 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_comments_subscription.table.gz (31/68): adding to final database dump
+0023.727 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_phrases.table.gz (32/68): adding to final database dump
+0023.729 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wc_users_voted.table.gz (33/68): adding to final database dump
+0023.731 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBadLeechers.table.gz (34/68): adding to final database dump
+0023.734 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlockedIPLog.table.gz (35/68): adding to final database dump
+0023.736 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlocks.table.gz (36/68): adding to final database dump
+0023.739 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfBlocksAdv.table.gz (37/68): adding to final database dump
+0023.742 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfConfig.table.gz (38/68): adding to final database dump
+0023.746 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfCrawlers.table.gz (39/68): adding to final database dump
+0023.749 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfFileMods.table.gz (40/68): adding to final database dump
+0023.801 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfHits.table.gz (41/68): adding to final database dump
+0023.808 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfHoover.table.gz (42/68): adding to final database dump
+0023.813 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfIssues.table.gz (43/68): adding to final database dump
+0023.815 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfKnownFileList.table.gz (44/68): adding to final database dump
+0023.853 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLeechers.table.gz (45/68): adding to final database dump
+0023.860 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLockedOut.table.gz (46/68): adding to final database dump
+0023.864 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLocs.table.gz (47/68): adding to final database dump
+0023.867 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfLogins.table.gz (48/68): adding to final database dump
+0023.870 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfNet404s.table.gz (49/68): adding to final database dump
+0023.873 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfNotifications.table.gz (50/68): adding to final database dump
+0023.875 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfReverseCache.table.gz (51/68): adding to final database dump
+0023.877 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfSNIPCache.table.gz (52/68): adding to final database dump
+0023.880 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfScanners.table.gz (53/68): adding to final database dump
+0023.884 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfStatus.table.gz (54/68): adding to final database dump
+0023.894 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfThrottleLog.table.gz (55/68): adding to final database dump
+0023.897 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db-table-wp_wfVulnScanners.table.gz (56/68): adding to final database dump
+0023.899 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: finished writing out complete database file (1312 KB)
+0023.932 (0) Total database tables backed up: 56 (backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz, size: 1382010, sha256)
+0023.948 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0023.952 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0023.954 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0023.956 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+0023.961 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+0023.963 (0) Saving backup history. Total backup size: 104.1 MB
+0023.967 (0) Requesting upload of the files that have not yet been successfully uploaded (5)
+0023.976 (0) Cloud backup selection (1/1): email (last)
+0023.978 (0) Beginning dispatch of backup to remote (email)
+0023.981 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+0024.707 (0) PHP event: code E_USER_NOTICE: wp_mail_failedSMTP Error: Could not authenticate. (line 83, wp-content/plugins/wpjam-basic/extends/admin/wpjam-smtp.php)
+0024.755 (0) Mails were not sent successfully
+0024.758 (0) An error condition has occurred for the first time during this job
+0024.760 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+0025.017 (0) PHP event: code E_USER_NOTICE: wp_mail_failedSMTP Error: Could not authenticate. (line 83, wp-content/plugins/wpjam-basic/extends/admin/wpjam-smtp.php)
+0025.021 (0) Mails were not sent successfully
+0025.028 (0) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+0025.031 (0) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+0301.096 (1) Opened log file at time: Wed, 10 May 2017 09:43:49 +0000 on http://merrier.wang
+0301.098 (1) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+0301.107 (1) Free space on disk containing Updraft's temporary directory: 32435 MB
+0301.115 (1) Backup run: resumption=1, nonce=d9a679e99746, begun at=1494409128 (301s ago), job type=backup, previous check-in=23.4s
+0301.121 (1) Scheduling a resumption (2) after 300 seconds (1494409729) in case this run gets aborted
+0301.155 (1) Checking if we have a zip executable available
+0301.158 (1) Zip engine: found/will use a binary zip: /usr/bin/zip
+0301.160 (1) Creation of backups of directories: already finished
+0301.162 (1) Saving backup status to database (elements: 8)
+0301.169 (1) Database dump (WordPress DB): Creation was completed already
+0301.178 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0301.180 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0301.182 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0301.184 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+0301.187 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+0301.189 (1) Saving backup history. Total backup size: 104.1 MB
+0301.195 (1) Requesting upload of the files that have not yet been successfully uploaded (5)
+0301.199 (1) Cloud backup selection (1/1): email (last)
+0301.210 (1) Beginning dispatch of backup to remote (email)
+0301.212 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+0301.570 (1) Mails were not sent successfully
+0301.582 (1) An error condition has occurred for the first time during this job
+0301.585 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+0301.821 (1) Mails were not sent successfully
+0301.824 (1) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+0301.827 (1) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+0602.423 (2) Opened log file at time: Wed, 10 May 2017 09:48:51 +0000 on http://merrier.wang
+0602.425 (2) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+0602.427 (2) Free space on disk containing Updraft's temporary directory: 32435 MB
+0602.433 (2) Backup run: resumption=2, nonce=d9a679e99746, begun at=1494409128 (603s ago), job type=backup
+0602.439 (2) Scheduling a resumption (3) after 300 seconds (1494410031) in case this run gets aborted
+0602.481 (2) Checking if we have a zip executable available
+0602.485 (2) Zip engine: found/will use a binary zip: /usr/bin/zip
+0602.489 (2) Creation of backups of directories: already finished
+0602.492 (2) Saving backup status to database (elements: 8)
+0602.499 (2) Database dump (WordPress DB): Creation was completed already
+0602.511 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0602.513 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0602.522 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0602.527 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+0602.530 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+0602.532 (2) Saving backup history. Total backup size: 104.1 MB
+0602.539 (2) Requesting upload of the files that have not yet been successfully uploaded (5)
+0602.542 (2) Cloud backup selection (1/1): email (last)
+0602.556 (2) Beginning dispatch of backup to remote (email)
+0602.559 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+0603.298 (2) Mails were not sent successfully
+0603.302 (2) An error condition has occurred for the first time during this job
+0603.306 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+0603.519 (2) Mails were not sent successfully
+0603.530 (2) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+0603.533 (2) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+0903.630 (3) Opened log file at time: Wed, 10 May 2017 09:53:52 +0000 on http://merrier.wang
+0903.633 (3) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+0903.644 (3) Free space on disk containing Updraft's temporary directory: 32435 MB
+0903.651 (3) Backup run: resumption=3, nonce=d9a679e99746, begun at=1494409128 (904s ago), job type=backup
+0903.659 (3) Scheduling a resumption (4) after 300 seconds (1494410332) in case this run gets aborted
+0903.674 (3) Checking if we have a zip executable available
+0903.692 (3) Zip engine: found/will use a binary zip: /usr/bin/zip
+0903.694 (3) Creation of backups of directories: already finished
+0903.697 (3) Saving backup status to database (elements: 8)
+0903.703 (3) Database dump (WordPress DB): Creation was completed already
+0903.712 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+0903.723 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+0903.726 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+0903.729 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+0903.733 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+0903.736 (3) Saving backup history. Total backup size: 104.1 MB
+0903.744 (3) Requesting upload of the files that have not yet been successfully uploaded (5)
+0903.747 (3) Cloud backup selection (1/1): email (last)
+0903.751 (3) Beginning dispatch of backup to remote (email)
+0903.753 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+0904.080 (3) Mails were not sent successfully
+0904.083 (3) An error condition has occurred for the first time during this job
+0904.085 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+0904.300 (3) Mails were not sent successfully
+0904.303 (3) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+0904.306 (3) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+1211.709 (4) Opened log file at time: Wed, 10 May 2017 09:59:00 +0000 on http://merrier.wang
+1211.712 (4) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+1211.715 (4) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+1211.720 (4) Backup run: resumption=4, nonce=d9a679e99746, begun at=1494409128 (1212s ago), job type=backup
+1211.724 (4) Scheduling a resumption (5) after 300 seconds (1494410640) in case this run gets aborted
+1211.737 (4) Checking if we have a zip executable available
+1211.741 (4) Zip engine: found/will use a binary zip: /usr/bin/zip
+1211.743 (4) Creation of backups of directories: already finished
+1211.745 (4) Saving backup status to database (elements: 8)
+1211.750 (4) Database dump (WordPress DB): Creation was completed already
+1211.759 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+1211.761 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+1211.763 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+1211.766 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+1211.768 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+1211.770 (4) Saving backup history. Total backup size: 104.1 MB
+1211.789 (4) Requesting upload of the files that have not yet been successfully uploaded (5)
+1211.792 (4) Cloud backup selection (1/1): email (last)
+1211.797 (4) Beginning dispatch of backup to remote (email)
+1211.800 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+1212.095 (4) Mails were not sent successfully
+1212.098 (4) An error condition has occurred for the first time during this job
+1212.101 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+1212.331 (4) Mails were not sent successfully
+1212.335 (4) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+1212.337 (4) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+1512.022 (5) Opened log file at time: Wed, 10 May 2017 10:04:00 +0000 on http://merrier.wang
+1512.025 (5) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+1512.028 (5) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+1512.033 (5) Backup run: resumption=5, nonce=d9a679e99746, begun at=1494409128 (1512s ago), job type=backup
+1512.040 (5) Scheduling a resumption (6) after 300 seconds (1494410940) in case this run gets aborted
+1512.052 (5) Checking if we have a zip executable available
+1512.054 (5) Zip engine: found/will use a binary zip: /usr/bin/zip
+1512.056 (5) Creation of backups of directories: already finished
+1512.058 (5) Saving backup status to database (elements: 8)
+1512.064 (5) Database dump (WordPress DB): Creation was completed already
+1512.073 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+1512.077 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+1512.080 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+1512.084 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+1512.088 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+1512.091 (5) Saving backup history. Total backup size: 104.1 MB
+1512.099 (5) Requesting upload of the files that have not yet been successfully uploaded (5)
+1512.102 (5) Cloud backup selection (1/1): email (last)
+1512.105 (5) Beginning dispatch of backup to remote (email)
+1512.107 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+1512.403 (5) Mails were not sent successfully
+1512.415 (5) An error condition has occurred for the first time during this job
+1512.417 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+1512.736 (5) Mails were not sent successfully
+1512.740 (5) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+1512.742 (5) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+1812.065 (6) Opened log file at time: Wed, 10 May 2017 10:09:00 +0000 on http://merrier.wang
+1812.073 (6) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+1812.076 (6) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+1812.082 (6) Backup run: resumption=6, nonce=d9a679e99746, begun at=1494409128 (1812s ago), job type=backup
+1812.088 (6) Scheduling a resumption (7) after 300 seconds (1494411240) in case this run gets aborted
+1812.100 (6) Checking if we have a zip executable available
+1812.103 (6) Zip engine: found/will use a binary zip: /usr/bin/zip
+1812.105 (6) Creation of backups of directories: already finished
+1812.108 (6) Saving backup status to database (elements: 8)
+1812.119 (6) Database dump (WordPress DB): Creation was completed already
+1812.129 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+1812.132 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+1812.134 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+1812.138 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+1812.141 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+1812.144 (6) Saving backup history. Total backup size: 104.1 MB
+1812.166 (6) Requesting upload of the files that have not yet been successfully uploaded (5)
+1812.169 (6) Cloud backup selection (1/1): email (last)
+1812.177 (6) Beginning dispatch of backup to remote (email)
+1812.180 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+1812.495 (6) Mails were not sent successfully
+1812.506 (6) An error condition has occurred for the first time during this job
+1812.509 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+1812.711 (6) Mails were not sent successfully
+1812.718 (6) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+1812.720 (6) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+2111.743 (7) Opened log file at time: Wed, 10 May 2017 10:14:00 +0000 on http://merrier.wang
+2111.746 (7) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+2111.752 (7) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+2111.759 (7) Backup run: resumption=7, nonce=d9a679e99746, begun at=1494409128 (2112s ago), job type=backup
+2111.768 (7) Scheduling a resumption (8) after 300 seconds (1494411540) in case this run gets aborted
+2111.781 (7) Checking if we have a zip executable available
+2111.790 (7) Zip engine: found/will use a binary zip: /usr/bin/zip
+2111.793 (7) Creation of backups of directories: already finished
+2111.795 (7) Saving backup status to database (elements: 8)
+2111.800 (7) Database dump (WordPress DB): Creation was completed already
+2111.811 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+2111.813 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+2111.815 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+2111.817 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+2111.819 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+2111.822 (7) Saving backup history. Total backup size: 104.1 MB
+2111.829 (7) Requesting upload of the files that have not yet been successfully uploaded (5)
+2111.831 (7) Cloud backup selection (1/1): email (last)
+2111.834 (7) Beginning dispatch of backup to remote (email)
+2111.836 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+2112.198 (7) Mails were not sent successfully
+2112.201 (7) An error condition has occurred for the first time during this job
+2112.204 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+2112.361 (7) Mails were not sent successfully
+2112.374 (7) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+2112.377 (7) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+2411.787 (8) Opened log file at time: Wed, 10 May 2017 10:19:00 +0000 on http://merrier.wang
+2411.789 (8) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+2411.792 (8) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+2411.799 (8) Backup run: resumption=8, nonce=d9a679e99746, begun at=1494409128 (2412s ago), job type=backup
+2411.804 (8) Scheduling a resumption (9) after 300 seconds (1494411840) in case this run gets aborted
+2411.819 (8) Checking if we have a zip executable available
+2411.828 (8) Zip engine: found/will use a binary zip: /usr/bin/zip
+2411.831 (8) Creation of backups of directories: already finished
+2411.833 (8) Saving backup status to database (elements: 8)
+2411.838 (8) Database dump (WordPress DB): Creation was completed already
+2411.847 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+2411.849 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+2411.851 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+2411.853 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+2411.855 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+2411.857 (8) Saving backup history. Total backup size: 104.1 MB
+2411.863 (8) Requesting upload of the files that have not yet been successfully uploaded (5)
+2411.886 (8) Cloud backup selection (1/1): email (last)
+2411.895 (8) Beginning dispatch of backup to remote (email)
+2411.898 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+2412.189 (8) Mails were not sent successfully
+2412.192 (8) An error condition has occurred for the first time during this job
+2412.194 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+2412.394 (8) Mails were not sent successfully
+2412.404 (8) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+2412.407 (8) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...
+2711.757 (9) Opened log file at time: Wed, 10 May 2017 10:24:00 +0000 on http://merrier.wang
+2711.761 (9) UpdraftPlus WordPress backup plugin (https://updraftplus.com): 1.13.1 WP: 4.7.3 PHP: 5.3.3 (apache2handler, Linux iZwz93c6x27qcy26sl5l72Z 2.6.32-642.13.1.el6.x86_64 #1 SMP Wed Jan 11 20:56:24 UTC 2017 x86_64) MySQL: 5.1.73 WPLANG: zh_CN Server: Apache/2.2.15 (CentOS) safe_mode: 0 max_execution_time: 900 memory_limit: 256M (used: 45.2M | 46.3M) multisite: N openssl: OpenSSL 1.0.1e-fips 11 Feb 2013 mcrypt: Y LANG: C ZipArchive::addFile: Y
+2711.768 (9) Free space on disk containing Updraft's temporary directory: 32434.9 MB
+2711.774 (9) Backup run: resumption=9, nonce=d9a679e99746, begun at=1494409128 (2712s ago), job type=backup
+2711.783 (9) The current run is resumption number 9, and there was nothing useful done on the last run (last useful run: 0) - will not schedule a further attempt until we see something useful happening this time
+2711.792 (9) Creation of backups of directories: already finished
+2711.796 (9) Saving backup status to database (elements: 8)
+2711.801 (9) Database dump (WordPress DB): Creation was completed already
+2711.819 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: plugins: This file has not yet been successfully uploaded: will queue
+2711.823 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: themes: This file has not yet been successfully uploaded: will queue
+2711.826 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: uploads: This file has not yet been successfully uploaded: will queue
+2711.833 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-others.zip: others: This file has not yet been successfully uploaded: will queue
+2711.839 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-db.gz: db: This file has not yet been successfully uploaded: will queue
+2711.841 (9) Saving backup history. Total backup size: 104.1 MB
+2711.851 (9) Requesting upload of the files that have not yet been successfully uploaded (5)
+2711.854 (9) Cloud backup selection (1/1): email (last)
+2711.857 (9) Beginning dispatch of backup to remote (email)
+2711.861 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-plugins.zip: email to: 95307...
+2712.121 (9) Mails were not sent successfully
+2712.124 (9) An error condition has occurred for the first time during this job
+2712.128 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-themes.zip: email to: 95307...
+2712.290 (9) Mails were not sent successfully
+2712.294 (9) [Warning] backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: This backup archive is 82.8 MB in size - the attempt to send this via email is likely to fail (few email servers allow attachments of this size). If so, you should switch to using a different remote storage method.
+2712.296 (9) backup_2017-05-10-1738_Merrier_d9a679e99746-uploads.zip: email to: 95307...

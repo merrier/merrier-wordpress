@@ -37,7 +37,8 @@
 		<?php  
 			$args = array(
 			    'ignore_sticky_posts' => 1,
-			    'paged' => $paged
+			    'paged' => $paged,
+			    'orderby' => modified
 			);
 
 			if( _hui('notinhome') ){
