@@ -21,3 +21,15 @@ function reset_password_message( $message, $key ) {
     return $msg;
 }
 add_filter('retrieve_password_message', reset_password_message, null, 2);
+
+if ( function_exists('add_theme_support') )add_theme_support('post-thumbnails');
+
+add_filter('script_loader_src', 'agnostic_script_loader_src', 20,2);
+function agnostic_script_loader_src($src, $handle) {
+    return preg_replace('/^(http|https):/', '', $src);
+}
+
+add_filter('style_loader_src', 'agnostic_style_loader_src', 20,2);
+function agnostic_style_loader_src($src, $handle) {
+    return preg_replace('/^(http|https):/', '', $src);
+}

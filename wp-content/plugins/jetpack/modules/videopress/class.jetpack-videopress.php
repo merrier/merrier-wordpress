@@ -52,7 +52,7 @@ class Jetpack_VideoPress {
 
 		add_filter( 'wp_mime_type_icon', array( $this, 'wp_mime_type_icon' ), 10, 3 );
 
-		$this->add_media_new_notice();
+		add_filter( 'wp_video_extensions', array( $this, 'add_videopress_extenstion' ) );
 
 		VideoPress_Scheduler::init();
 		VideoPress_XMLRPC::init();
@@ -112,22 +112,6 @@ class Jetpack_VideoPress {
 	}
 
 	/**
-	 * Add a notice to the top of the media-new.php to let the user know how to upload a video.
-	 */
-	public function add_media_new_notice() {
-		global $pagenow;
-
-		if ( $pagenow != 'media-new.php' ) {
-			return;
-		}
-
-		$jitm = Jetpack_JITM::init();
-
-		add_action( 'admin_enqueue_scripts', array( $jitm, 'jitm_enqueue_files' ) );
-		add_action( 'admin_notices', array( $jitm, 'videopress_media_upload_warning_msg' ) );
-	}
-
-	/**
 	 * Register and enqueue VideoPress admin styles.
 	 */
 	public function enqueue_admin_styles() {
@@ -146,7 +130,10 @@ class Jetpack_VideoPress {
 		if ( $this->should_override_media_uploader() ) {
 			wp_enqueue_script(
 				'videopress-plupload',
-				plugins_url( 'js/videopress-plupload.js', __FILE__ ),
+				Jetpack::get_file_url_for_environment(
+					'_inc/build/videopress/js/videopress-plupload.min.js',
+					'modules/videopress/js/videopress-plupload.js'
+				),
 				array(
 					'jquery',
 					'wp-plupload'
@@ -156,11 +143,25 @@ class Jetpack_VideoPress {
 
 			wp_enqueue_script(
 				'videopress-uploader',
-				plugins_url( 'js/videopress-uploader.js', __FILE__ ),
+				Jetpack::get_file_url_for_environment(
+					'_inc/build/videopress/js/videopress-uploader.min.js',
+					'modules/videopress/js/videopress-uploader.js'
+				),
 				array(
 					'videopress-plupload'
 				),
 				$this->version
+			);
+
+			wp_enqueue_script(
+				'media-video-widget-extensions',
+				Jetpack::get_file_url_for_environment(
+					'_inc/build/videopress/js/media-video-widget-extensions.min.js',
+					'modules/videopress/js/media-video-widget-extensions.js'
+				),
+				array(),
+				$this->version,
+				true
 			);
 		}
 
@@ -173,26 +174,18 @@ class Jetpack_VideoPress {
 	}
 
 	/**
-	 * An override for the attachment url, which returns back the WPCOM videopress original url,
-	 * if it is set to the the objects metadata. this allows us to show the original uploaded
-	 * file on the WPCOM architecture, instead of the locally uplodaded file,
-	 * which doeasn't exist.
+	 * An override for the attachment url, which returns back the WPCOM VideoPress processed url.
 	 *
-	 * TODO: Fix this so that it will return a VideoPress process url, to ensure that it is in MP4 format.
+	 * This is an action proxy to the videopress_get_attachment_url() utility function.
 	 *
 	 * @param string $url
 	 * @param int $post_id
 	 *
-	 * @return mixed
+	 * @return string
 	 */
 	public function update_attachment_url_for_videopress( $url, $post_id ) {
-
-		if ( get_post_mime_type( $post_id ) === 'video/videopress' ) {
-			$meta = wp_get_attachment_metadata( $post_id );
-
-			if ( isset( $meta['original']['url'] ) ) {
-				$url = $meta['original']['url'];
-			}
+		if ( $videopress_url = videopress_get_attachment_url( $post_id ) ) {
+			return $videopress_url;
 		}
 
 		return $url;
@@ -282,15 +275,6 @@ class Jetpack_VideoPress {
 	}
 
 	/**
-	 * Changes the add new menu location, so that VideoPress will be enabled
-	 * when a user clicks that button.
-	 */
-	public function change_add_new_menu_location() {
-		$page = remove_submenu_page( 'upload.php', 'media-new.php' );
-		add_submenu_page( 'upload.php', $page[0], $page[0], 'upload_files', 'upload.php?action=add-new');
-	}
-
-	/**
 	 * Makes sure that all video mimes are added in, as multi site installs can remove them.
 	 *
 	 * @param array $existing_mimes
@@ -303,6 +287,9 @@ class Jetpack_VideoPress {
 		foreach ( $video_types as $key => $value ) {
 			$existing_mimes[ $key ] = $value;
 		}
+
+		// Make sure that videopress mimes are considered videos.
+		$existing_mimes['videopress'] = 'video/videopress';
 
 		return $existing_mimes;
 	}
@@ -337,6 +324,17 @@ class Jetpack_VideoPress {
 		}
 
 		return 'https://wordpress.com/wp-content/mu-plugins/videopress/images/media-video-processing-icon.png';
+	}
+
+	/**
+	 * @param array $extensions
+	 *
+	 * @return array
+	 */
+	public function add_videopress_extenstion( $extensions ) {
+		$extensions[] = 'videopress';
+
+		return $extensions;
 	}
 }
 

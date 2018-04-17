@@ -22,13 +22,47 @@ function sharing_email_send_post( $data ) {
 	/** This filter is documented in core/src/wp-includes/pluggable.php */
 	$from_email = apply_filters( 'wp_mail_from', 'wordpress@' . $sitename );
 
+	if ( ! empty( $data['name'] ) ) {
+		$s_name = (string) $data['name'];
+		$name_needs_encoding_regex =
+			'/[' .
+				// SpamAssasin's list of characters which "need MIME" encoding
+				'\x00-\x08\x0b\x0c\x0e-\x1f\x7f-\xff' .
+				// Our list of "unsafe" characters
+				'<\r\n' .
+			']/';
+
+		$needs_encoding =
+			// If it contains any blacklisted chars,
+			preg_match( $name_needs_encoding_regex, $s_name ) ||
+			// Or if we can't use `mb_convert_encoding`
+			! function_exists( 'mb_convert_encoding' ) ||
+			// Or if it's not already ASCII
+			mb_convert_encoding( $data['name'], 'ASCII' ) !== $s_name;
+
+		if ( $needs_encoding ) {
+			$data['name'] = sprintf( '=?UTF-8?B?%s?=', base64_encode( $data['name'] ) );
+		}
+	}
+
 	$headers[] = sprintf( 'From: %1$s <%2$s>', $data['name'], $from_email );
 	$headers[] = sprintf( 'Reply-To: %1$s <%2$s>', $data['name'], $data['source'] );
 
 	// Make sure to pass the title through the normal sharing filters.
 	$title = $data['sharing_source']->get_share_title( $data['post']->ID );
 
-	wp_mail( $data['target'], '[' . __( 'Shared Post', 'jetpack' ) . '] ' . $title, $content, $headers );
+	/**
+	 * Filter the Sharing Email Send Post Subject.
+	 *
+	 * @module sharedaddy
+	 *
+	 * @since 5.8.0
+	 *
+	 * @param string $var Sharing Email Send Post Subject. Default is "Shared Post".
+	 */
+	$subject = apply_filters( 'wp_sharing_email_send_post_subject', '[' . __( 'Shared Post', 'jetpack' ) . '] ' . $title );
+
+	wp_mail( $data['target'], $subject, $content, $headers );
 }
 
 
@@ -36,7 +70,7 @@ function sharing_email_send_post( $data ) {
 /* Return $data as it if email about to be send out is not spam. */
 function sharing_email_check_for_spam_via_akismet( $data ) {
 
-	if ( ! function_exists( 'akismet_http_post' ) && ! method_exists( 'Akismet', 'http_post' ) )
+	if ( ! Jetpack::is_akismet_active() )
 		return $data;
 
 	// Prepare the body_request for akismet
@@ -109,7 +143,7 @@ function sharing_add_meta_box() {
 	$title = apply_filters( 'sharing_meta_box_title', __( 'Sharing', 'jetpack' ) );
 	if ( $post->ID !== get_option( 'page_for_posts' ) ) {
 		foreach( $post_types as $post_type ) {
-			add_meta_box( 'sharing_meta', $title, 'sharing_meta_box_content', $post_type, 'advanced', 'high' );
+			add_meta_box( 'sharing_meta', $title, 'sharing_meta_box_content', $post_type, 'side', 'default' );
 		}
 	}
 }
@@ -194,15 +228,6 @@ function sharing_add_plugin_settings($links, $file) {
 	return $links;
 }
 
-function sharing_restrict_to_single( $services ) {
-	// This removes Press This from non-multisite blogs - doesn't make much sense
-	if ( is_multisite() === false ) {
-		unset( $services['press-this'] );
-	}
-
-	return $services;
-}
-
 function sharing_init() {
 	if ( Jetpack_Options::get_option_and_ensure_autoload( 'sharedaddy_disable_resources', '0' ) ) {
 		add_filter( 'sharing_js', 'sharing_disable_js' );
@@ -254,7 +279,6 @@ add_action( 'sharing_email_send_post', 'sharing_email_send_post' );
 add_filter( 'sharing_email_can_send', 'sharing_email_check_for_spam_via_akismet' );
 add_action( 'sharing_global_options', 'sharing_global_resources', 30 );
 add_action( 'sharing_admin_update', 'sharing_global_resources_save' );
-add_filter( 'sharing_services', 'sharing_restrict_to_single' );
 add_action( 'plugin_action_links_'.basename( dirname( __FILE__ ) ).'/'.basename( __FILE__ ), 'sharing_plugin_settings', 10, 4 );
 add_filter( 'plugin_row_meta', 'sharing_add_plugin_settings', 10, 2 );
 
